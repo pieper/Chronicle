@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 """
-Upload a directory containing dicom objects into
+Record a directory containing dicom objects in
 the chronicle couch database.
 
 Use --help to see options.
+
+TODO:
+* this should work equally on all dicom object instances,
+so the image specific things should be factored out.
+* consider making binary VRs into attachments (but maybe not,
+since full object is available already as attachment)
+
 """
 
 import os
@@ -23,10 +30,10 @@ except ImportError:
 import numpy
 
 
-# {{{ ChronicleUpload
+# {{{ ChronicleRecord
 
-class ChronicleUpload():
-    """Performs the upload of DICOM objects
+class ChronicleRecord():
+    """Performs the recording of DICOM objects
     """
 
     def __init__(self, couchDB_URL='http://localhost:5984', databaseName='chronicle'):
@@ -153,14 +160,14 @@ class ChronicleUpload():
                 images[size] = image.resize(newSize,Image.ANTIALIAS)
         return images
 
-    def uploadDirectory(self,directoryPath):
-        """Perform the upload"""
+    def recordDirectory(self,directoryPath):
+        """Perform the record"""
         for root, dirs, files in os.walk(directoryPath):
             for fileName in files:
                 fileNamePath = os.path.join(root,fileName)
-                self.uploadFile(fileNamePath)
+                self.recordFile(fileNamePath)
 
-    def uploadFile(self,fileNamePath):
+    def recordFile(self,fileNamePath):
         print("Considering file: %s" % fileNamePath)
 
         # create dataset, skip non-dicom
@@ -207,14 +214,14 @@ class ChronicleUpload():
         self.db.put_attachment(doc, fp, "object.dcm")
         fp.close()
 
-        print ("...uploaded")
+        print ("...recorded")
 
 # }}}
 
 # {{{ main, test, and arg parse
 
 def usage():
-    print ("upload [directoryPath] <CouchDB_URL> <DatabaseName>")
+    print ("record [directoryPath] <CouchDB_URL> <DatabaseName>")
     print (" CouchDB_URL default http://localhost:5984")
     print (" DatabaseName default 'chronicle'")
 
@@ -224,14 +231,14 @@ def main ():
         return
     print(sys.argv)
     directoryPath = sys.argv[1]
-    global uploader # for ipython debugging
-    uploader = ChronicleUpload()
+    global recorder # for ipython debugging
+    recorder = ChronicleRecord()
     if len(sys.argv) > 2:
-        uploader.couchDB_URL = sys.argv[2]
+        recorder.couchDB_URL = sys.argv[2]
     if len(sys.argv) > 3:
-        uploader.databaseName = sys.argv[3]
+        recorder.databaseName = sys.argv[3]
 
-    uploader.uploadDirectory(directoryPath)
+    recorder.recordDirectory(directoryPath)
 
 if __name__ == '__main__':
     try:
