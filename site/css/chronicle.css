@@ -86,3 +86,18 @@
   margin: 1em 0 0 1em;
   font-size: 60%;
 }
+
+.patient {
+  color: #555;
+  margin: .5em 0 0 0;
+}
+
+.study {
+  color: #333;
+  margin: 0 0 0 .25em;
+}
+
+.series {
+  color: #111;
+  margin: 0 0 0 .25em;
+}

@@ -10,32 +10,30 @@
 
 
 $(function() {
-  $.widget( "chronicle.root", {
+  $.widget( "chronicle.series", {
     // default options
     options: {
-      red: 255,
-      green: 0,
-      blue: 0,
+      // the chronicle key to the instance that starts the series
+      key: null,
 
       // state variables
       pendingUpdateRequest : null,
 
       // callbacks
       change: null,
-      random: null
     },
 
     // the constructor
     _create: function() {
       this.element
         // add a class for theming
-        .addClass( "chronicle-root" )
+        .addClass( "chronicle-series" )
         // prevent double click to select text
         .disableSelection();
 
       this.refresh = $( "<button>", {
         text: "Refresh",
-        "class": "chronicle-root-refresh"
+        "class": "chronicle-series-refresh"
       })
       .appendTo( this.element )
       .button();
@@ -69,15 +67,13 @@ $(function() {
       // abort pending requests
       if (this.options.pendingUpdateRequest) { this.options.pendingUpdateRequest.abort(); }
 
-      // update the root view
+      // update the series view
       pendingUpdateRequest = $.couch.db("chronicle").view("instances/context", {
         success: function(data) {
           // add entries for each hit
           $.each(data.rows, function(index,value) {
-            $('#rootView')  // TODO: change this to something with 'this'
-            .append($("<p class='patient'>" + value.key[0] + "</p>"))
-            .append($("<p class='study'>" + value.key[1][0] + "</p>"))
-            .append($("<p class='series'>" + value.key[2][0] + " " + value.key[2][1] + "</p>"))
+            $('#series')
+              .append($("<p class='citation'>" + value.key + "<p>"))
           });
         },
         error: function(status) {
@@ -101,7 +97,7 @@ $(function() {
       this._clearResults();
 
       this.element
-        .removeClass( "chronicle-root" )
+        .removeClass( "chronicle-series" )
         .enableSelection();
     },
 
