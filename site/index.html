@@ -6,12 +6,14 @@
 
 	<title>Chronicle Overview</title>
 
-  <script src="./js/json2.js"></script>
-  <script src="./js/sha1.js"></script>
-  <script src="./js/jquery.js"></script>
-  <script src="./js/jquery.couch.js"></script>
-  <script src="./js/jquery.dialog.js"></script>
+  <script src="./jslib/json2.js"></script>
+  <script src="./jslib/sha1.js"></script>
+  <script src="./jslib/jquery.js"></script>
+  <script src="./jslib/jquery.couch.js"></script>
+  <script src="./jslib/jquery.dialog.js"></script>
   <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+  <script src="./js/chronicle.root.js"></script>
 
   <link href="./css/docbook.css" rel="stylesheet" type="text/css" />
   <link href="./css/chronicle.css" rel="stylesheet" type="text/css" />
@@ -20,35 +22,11 @@
 
 $(function() {
 
-  var pendingUpdateRequest;
+  var root = $('#rootView').root({
+    'change' : function() {console.log('hoot');},
+    'random' : function() {console.log('ba random');}
+  });
 
-  // clear the root display and update with the 
-  // latest information from the database.
-  var updateRootView = function() {
-
-    // clear previous results
-    $('#rootView p').remove();
-
-    // abort pending requests
-    if (pendingUpdateRequest) { pendingUpdateRequest.abort(); }
-
-    // update the root view
-    pendingUpdateRequest = $.couch.db("chronicle").view("instances/context", {
-      success: function(data) {
-        // add entries for each hit
-        $.each(data.rows, function(index,value) {
-          $('#rootView')
-            .append($("<p class='citation'>" + value + "<p>"))
-        });
-      },
-      error: function(status) {
-        console.log(status);
-      },
-      reduce : true,
-      group_level : 3,
-    });
-  };
-  updateRootView();
 });
 
 	</script>
@@ -56,7 +34,7 @@ $(function() {
 
 <body>
 	<div class="header">
-			<h1>Chronicle - a factual account of events.</h1>
+			<h1>Chronicle: a factual account of events.</h1>
   </div>
 
   <div class="main">
@@ -66,7 +44,7 @@ $(function() {
       </div>
     </div>
     <div class="right">
-      <div id="rootView" class="chronicleView">
+      <div id="rootView">
         <p>Placeholder for root view</p>
       </div>
     </div>
