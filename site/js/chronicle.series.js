@@ -14,7 +14,7 @@ $(function() {
     // default options
     options: {
       // the chronicle key to the instance that starts the series
-      key: null,
+      seriesUID: null,
 
       // state variables
       pendingUpdateRequest : null,
@@ -25,6 +25,7 @@ $(function() {
 
     // the constructor
     _create: function() {
+
       this.element
         // add a class for theming
         .addClass( "chronicle-series" )
@@ -68,19 +69,20 @@ $(function() {
       if (this.options.pendingUpdateRequest) { this.options.pendingUpdateRequest.abort(); }
 
       // update the series view
-      pendingUpdateRequest = $.couch.db("chronicle").view("instances/context", {
+      pendingUpdateRequest = $.couch.db("chronicle").view("instances/seriesInstances", {
         success: function(data) {
           // add entries for each hit
           $.each(data.rows, function(index,value) {
-            $('#series')
-              .append($("<p class='citation'>" + value.key + "<p>"))
+            var jqSeriesUID = chronicleUtil.jqID(value.key);
+            $(jqSeriesUID)
+              .append($("<img src='../" + value.value + "/image128.png' />"))
+              .append($("<p class='instanceCaption'> key: " + value.key + " value: " + value.value + "<p>"));
           });
         },
         error: function(status) {
           console.log(status);
         },
-        reduce : true,
-        group_level : 3,
+        reduce : false,
       });
 
       // trigger a callback/event

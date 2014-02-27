@@ -13,6 +13,7 @@
   <script src="./jslib/jquery.dialog.js"></script>
   <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
+  <script src="./js/chronicle.util.js"></script>
   <script src="./js/chronicle.root.js"></script>
   <script src="./js/chronicle.series.js"></script>
 
@@ -27,6 +28,17 @@ $(function() {
     'change' : function() {console.log('hoot');},
     'random' : function() {console.log('ba random');}
   });
+
+  var seriesUID = chronicleUtil.getURLParameter("seriesUID");
+  if (seriesUID) {
+    var jqSeriesUID = chronicleUtil.jqID(seriesUID);
+    $('#applicationPanel').append("<div class='seriesView' id='" + seriesUID + "'></div>");
+    $(jqSeriesUID).series({
+      'seriesUID' : seriesUID,
+    });
+    $('#applicationPanel').append("<p> "+seriesUID+"</p>");
+
+  }
 
 });
 
@@ -54,7 +66,8 @@ $(function() {
 
   <div class="footer">
     <p class="copyright">
-    Chronicle is &#169; <a href="http://www.isomics.com">Isomics, Inc.</a> 2014 and is released under the terms of the <a href="http://www.slicer.org/pages/LicenseText">3D Slicer Contribution and Software License Agreement</a><br>
+      Chronicle is &#169; <a href="http://www.isomics.com">Isomics, Inc.</a> 2014 and is released under the terms of the
+      <a href="http://www.slicer.org/pages/LicenseText">3D Slicer Contribution and Software License Agreement</a><br>
     </p>
     <p>
     Related projects include:
@@ -63,6 +76,7 @@ $(function() {
     <a href="http://nac.spl.harvard.edu">NAC</a>
     <a href="http://ncigt.org">NCIGT</a>
     <a href="http://commontk.org">CTK</a>
+    <a href="http://qiicr.org">QIICR</a>
     </p>
   </div>
 </div>
