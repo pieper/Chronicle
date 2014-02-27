@@ -179,7 +179,7 @@ class ChronicleRecord():
 
         # check if instance is already in database
         if self.db.get(dataset.SOPInstanceUID):
-            print("...already in database")
+            print("... %s already in database" % dataset.SOPInstanceUID)
             return
 
         # make a couchdb document that contains the dataset in json
@@ -192,6 +192,7 @@ class ChronicleRecord():
 
         # save the document
         try:
+            print('...saving...')
             doc_id, doc_rev = self.db.save(document)
         except:
             print('...failed to save!!!')
@@ -201,6 +202,7 @@ class ChronicleRecord():
         doc = self.db.get(doc_id)
         images = self.imagesFromDataset(dataset)
         for imageSize in images.keys():
+            print('...thumbnail %d...' % imageSize)
             imageName = "image%d.png" % imageSize
             imagePath = "/tmp/" + imageName
             images[imageSize].save(imagePath) # TODO: generalize
@@ -210,11 +212,12 @@ class ChronicleRecord():
             os.remove(imagePath)
 
         # attach the original file
+        print('...attaching dicom object...')
         fp = open(fileNamePath,'rb')
         self.db.put_attachment(doc, fp, "object.dcm")
         fp.close()
 
-        print ("...recorded")
+        print ("...recorded %s" % dataset.SOPInstanceUID)
 
 # }}}
 
