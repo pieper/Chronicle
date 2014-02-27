@@ -31,10 +31,6 @@ views = { "instances" : {
                       key[name] = doc.dataset[t].Value || fallback;
                     }
                   }
-                  if (false) {
-                    var value = {'key': key};
-                    emit(value, 1);
-                  }
                   emit([
                       [key.institution,key.patientID],
                       [key.studyDescription,key.studyUID],
@@ -43,6 +39,32 @@ views = { "instances" : {
                     ],
                     1
                   );
+                }
+              }
+            ''',
+            "reduce" : "_count()",
+        },
+        "seriesInstances" : {
+            "map" : '''
+              function(doc) {
+                var tags = [
+                  ['seriesUID', '0020000E', 'UnspecifiedSeriesUID'],
+                  ['instanceUID', '00080018', 'UnspecifiedInstanceUID'],
+                ];
+                var key = {};
+                if (doc.dataset) {
+                  var i;
+                  for (i = 0; i < tags.length; i++) {
+                    tag = tags[i];
+                    var name     = tag[0];
+                    var t        = tag[1];
+                    var fallback = tag[2];
+                    key[name] = fallback;
+                    if (doc.dataset[t] && doc.dataset[t].Value) {
+                      key[name] = doc.dataset[t].Value || fallback;
+                    }
+                  }
+                  emit( key.seriesUID, key.instanceUID );
                 }
               }
             ''',
