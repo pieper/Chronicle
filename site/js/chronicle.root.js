@@ -82,11 +82,12 @@ $(function() {
             .append($("<div class='seriesDiv'>"
                        + "<p class='patient'>" + value.key[0] + "</p>"
                        + "<p class='study'>" + value.key[1][0] + "</p>"
-                       + "<p class='series'>" + value.key[2][0] 
+                       + "<p class='series'>" + value.key[2][0]
                          + " " + value.key[2][1] + "</p>"
-                       + "</div>"))
-            .data({'seriesUID':value.key[2][2]}) 
-            .click(function(){ chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))});
+                       + "</div>")
+                           .data({'seriesUID':value.key[2][2]})
+                           // TODO: this could use the _trigger idea rather than changing the page directly
+                           .click(function(){ chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))}));
           });
         },
         error: function(status) {
