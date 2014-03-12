@@ -70,14 +70,23 @@ $(function() {
       if (this.options.pendingUpdateRequest) { this.options.pendingUpdateRequest.abort(); }
 
       // update the root view
+      // Expecting tuples like this:
+      // [["Brigham and Womens Hosp 221 15", "0001-01001"], ["novartis thighs and left arm", "1.3.6.1.4.1.35511635217625025614132.1"], ["MR", "Band 0 (without tumors)", "1.3.6.1.4.1.35511635217625025614132.1.4.0"], "1.3.6.1.4.1.35511635217625025614132.1.4.0.3.0"]
+      // which is [[inst,patid],[studydes,studid],[modality,serdesc,serid],instid]
+
       pendingUpdateRequest = $.couch.db("chronicle").view("instances/context", {
         success: function(data) {
           // add entries for each hit
           $.each(data.rows, function(index,value) {
             $('#rootView')  // TODO: change this to something with 'this'
-            .append($("<p class='patient'>" + value.key[0] + "</p>"))
-            .append($("<p class='study'>" + value.key[1][0] + "</p>"))
-            .append($("<p class='series'>" + value.key[2][0] + " " + value.key[2][1] + "</p>"))
+            .append($("<div class='seriesDiv'>"
+                       + "<p class='patient'>" + value.key[0] + "</p>"
+                       + "<p class='study'>" + value.key[1][0] + "</p>"
+                       + "<p class='series'>" + value.key[2][0] 
+                         + " " + value.key[2][1] + "</p>"
+                       + "</div>"))
+            .data({'seriesUID':value.key[2][2]}) 
+            .click(function(){ chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))});
           });
         },
         error: function(status) {
