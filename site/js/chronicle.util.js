@@ -28,7 +28,7 @@ chronicleUtil = {
   },
 
   // parses the url arguments and updates value or adds it
-  // e.g. http://hoot.ba?test=1
+  // e.g. http://hoot.ba?test=1 or http://hoot.ba
   // setURLParameter('test',2) becomes
   // http://hoot.ba?test=2
   "setURLParameter" : function(parameter,value) {

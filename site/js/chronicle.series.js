@@ -33,11 +33,23 @@ $(function() {
         .disableSelection();
 
       this.refresh = $( "<button>", {
-        text: "Refresh",
-        "class": "chronicle-series-refresh"
+        text : "Refresh",
+        "class" : "chronicle-series-refresh"
       })
       .appendTo( this.element )
       .button();
+
+      this.sliceSlider = $( "<div>", {
+         "class": "chronicle-series-sliceSlider",
+         "id": "sliceSlider",
+      }).appendTo( this.element )
+      .slider( {max : 10, value : 5} );
+
+      this.sliceView = $( "<img>", {
+         "class" : "chronicle-series-sliceView",
+         "id" : "sliceView",
+         "src" : "../"
+      }).appendTo( this.element );
 
       // bind click events on the refresh button to update view
       this._on( this.refresh, {
@@ -46,6 +58,7 @@ $(function() {
       });
 
       this._refresh();
+      console.log(this);
     },
 
     random : function() {
@@ -68,20 +81,30 @@ $(function() {
       // abort pending requests
       if (this.options.pendingUpdateRequest) { this.options.pendingUpdateRequest.abort(); }
 
-      // update the series view
+      var slider = this;
+
+      // create a slider with the max set to the number of instances
       pendingUpdateRequest = $.couch.db("chronicle").view("instances/seriesInstances", {
         success: function(data) {
-          // add entries for each hit
-          $.each(data.rows, function(index,value) {
-            var jqSeriesUID = chronicleUtil.jqID(value.key);
-            $(jqSeriesUID)
-              .append($("<img src='../" + value.value + "/image128.png' />"))
-              .append($("<p class='instanceCaption'> key: " + value.key + " value: " + value.value + "<p>"));
-          });
+          console.log("data");
+          console.log(data);
+          this.instanceIDs = data.rows;
+          var instanceCount = this.instanceIDs.length;
+          console.log(instanceCount);
+          $('#sliceSlider').slider({ 
+                max : instanceCount-1,
+                value : Math.round(instanceCount/2),
+              })
+            .on("slidechange", function(event,ui) {
+                  console.log(slider);
+                  slider._instance(ui.value);
+            });
         },
         error: function(status) {
           console.log(status);
+          alert(status);
         },
+        key : this.options.seriesUID,
         reduce : false,
       });
 
@@ -90,13 +113,23 @@ $(function() {
       console.log('changed');
     },
 
+    // called when created, and later when changing options
+    _instance: function(index) {
+
+      console.log('index' + index);
+    },
+
 
     // events bound via _on are removed automatically
     // revert other modifications here
     _destroy: function() {
       // remove generated elements
+      this.sliceSlider.remove();
+      this.sliceView.remove();
       this.refresh.remove();
+
       this._clearResults();
+
 
       this.element
         .removeClass( "chronicle-series" )
