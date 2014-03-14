@@ -46,6 +46,15 @@ $(function() {
         click: "_refresh"
       });
 
+      this.list = $( "<ul>", {
+        "id": "listview",
+        "data-role": "listview",
+        "data-inset": "true",
+        "data-autodividers": "true",
+        "data-filter": "true",
+      })
+      .appendTo( this.element )
+
       this._refresh();
     },
 
@@ -83,16 +92,15 @@ $(function() {
         success: function(data) {
           // add entries for each hit
           $.each(data.rows, function(index,value) {
-            $('#rootView')  // TODO: change this to something with 'this'
-            .append($("<div class='seriesDiv'>"
+            $('#listview').append($(''
+		+ '<li>'
                        + "<p class='patient'>" + value.key[0] + "</p>"
                        + "<p class='study'>" + value.key[1][0] + "</p>"
                        + "<p class='series'>" + value.key[2][0]
                          + " " + value.key[2][1] + "</p>"
-                       + "</div>")
-                           .data({'seriesUID':value.key[2][2]})
-                           // TODO: this could use the _trigger idea rather than changing the page directly
-                           .click(function(){ chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))}));
+	        + '</li>')
+	     .click(function(){ chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))}));
+
           });
         },
         error: function(status) {
