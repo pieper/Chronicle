@@ -33,27 +33,15 @@ $(function() {
         // prevent double click to select text
         .disableSelection();
 
-      this.refresh = $( "<button>", {
-        text: "Refresh",
-        "class": "chronicle-root-refresh"
-      })
-      .appendTo( this.element )
-      .button();
-
-      // bind click events on the refresh button to update view
-      this._on( this.refresh, {
-        // _on won't call refresh when widget is disabled
-        click: "_refresh"
-      });
-
       this.list = $( "<ul>", {
         "id": "listview",
         "data-role": "listview",
         "data-inset": "true",
         "data-autodividers": "true",
-        "data-filter": "true",
+        "data-filter": "true"
       })
       .appendTo( this.element )
+      $('#listview').listview();
 
       this._refresh();
     },
@@ -64,7 +52,7 @@ $(function() {
     },
 
     _clearResults: function() {
-      $('p',this.element[0]).remove();
+      $('li',this.element[0]).remove();
     },
 
     // called when created, and later when changing options
@@ -101,19 +89,8 @@ $(function() {
 	        + '</li>')
              .data({'seriesUID':value.key[2][2]})
 	     .click(function(){ chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))}));
-            $('#rootView')  // TODO: change this to something with 'this'
-            .append($("<div class='seriesDiv'>"
-                       + "<p class='patient'>" + value.key[0] + "</p>"
-                       + "<p class='study'>" + value.key[1][0] + "</p>"
-                       + "<p class='series'>" + value.key[2][0]
-                         + " " + value.key[2][1] + "</p>"
-                       + "</div>")
-                           .data({'seriesUID':value.key[2][2]})
-                           // TODO: this could use the _trigger idea rather than changing the page directly
-                           .click(function(){ chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))}));
-
-
           });
+          $('#listview').listview('refresh');
         },
         error: function(status) {
           console.log(status);

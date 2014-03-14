@@ -19,6 +19,9 @@ $(function() {
       // the list of instance UIDs associated with this seriesUID
       instanceUID : [],
 
+      // the image source to fetch from by default
+      imgSrc : "",
+
       // state variables
       pendingUpdateRequest : null,
 
@@ -35,12 +38,6 @@ $(function() {
         // prevent double click to select text
         .disableSelection();
 
-      this.refresh = $( "<button>", {
-        text : "Refresh",
-        "class" : "chronicle-series-refresh"
-      })
-      .appendTo( this.element )
-      .button();
 
       this.sliceSlider = $( "<input>", {
          "class": "chronicle-series-sliceSlider",
@@ -51,25 +48,24 @@ $(function() {
 
       $( "<br>" ).appendTo( this.element );
 
+      this.sliceGraphics = $( "<div>", {
+         "class" : "chronicle-series-sliceGraphics",
+         "id" : "sliceGraphics",
+         "width" : "512dpx",
+         "height" : "512dpx",
+      }).appendTo( this.element );
+
+      $('#sliceGraphics').svg({onLoad: this._drawGraphics});
+
+      $( "<br>" ).appendTo( this.element );
+
       this.sliceView = $( "<img>", {
          "class" : "chronicle-series-sliceView",
          "id" : "sliceView",
          "src" : "../"
       }).appendTo( this.element );
 
-      // bind click events on the refresh button to update view
-      this._on( this.refresh, {
-        // _on won't call refresh when widget is disabled
-        click: "_refresh"
-      });
-
       this._refresh();
-      console.log(this);
-    },
-
-    random : function() {
-      console.log('trigger random');
-      this._trigger('random');
     },
 
     _clearResults: function() {
@@ -78,8 +74,6 @@ $(function() {
 
     // called when created, and later when changing options
     _refresh: function() {
-
-      this._trigger('random');
 
       // clear previous results
       this._clearResults();
@@ -92,7 +86,6 @@ $(function() {
       // create a slider with the max set to the number of instances
       pendingUpdateRequest = $.couch.db("chronicle").view("instances/seriesInstances", {
         success: function(data) {
-          console.log(data);
           series.instanceIDs = $.map(data.rows, function(r) {return (r.value);})
           var instanceCount = series.instanceIDs.length;
           $('#sliceSlider').attr( 'max', instanceCount-1 );
@@ -113,15 +106,57 @@ $(function() {
 
       // trigger a callback/event
       this._trigger( "change" );
-      console.log('changed');
     },
 
     // called when created, and later when changing options
     _instanceIndex: function(index) {
-      imgSrc = '../' + this.instanceIDs[index] + '/image512.png';
-      this.sliceView.attr('src', imgSrc);
+      this.imgSrc = '../' + this.instanceIDs[index] + '/image512.png';
+      this._drawGraphics();
     },
 
+    _drawGraphics: function() {
+      console.log('draw graphics');
+
+      svg = $('#sliceGraphics').svg('get');
+      svg.clear();
+      svg.image(null, 0, 0, 512, 512, this.imgSrc);
+      svg.circle(70, 220, 50, {fill: 'red', 
+                               opacity: 0.5, 
+                               stroke: 'blue', 
+                               strokeWidth: 5});
+      $('circle')
+        .draggable()
+        .bind('mousedown', function(event, ui){
+          // bring target to front
+          $(event.target.parentElement).append( event.target );
+        })
+        .bind('drag', function(event, ui){
+          // update coordinates manually, since top/left style props don't work on SVG
+          event.target.setAttribute('cx', ui.position.left);
+          event.target.setAttribute('cy', ui.position.top);
+    console.log(ui.position);
+        });
+
+svg.rect(20,10,100,50, 10, 10, {fill:'#666'});
+svg.rect(40,20,100,50, 10, 10, {fill:'#999'});
+svg.rect(60,30,100,50, 10, 10, {fill:'#ccc'});
+
+$('rect')
+  .draggable()
+  .bind('mousedown', function(event, ui){
+    // bring target to front
+    $(event.target.parentElement).append( event.target );
+  })
+  .bind('drag', function(event, ui){
+    // update coordinates manually, since top/left style props don't work on SVG
+    event.target.setAttribute('x', ui.position.left);
+    event.target.setAttribute('y', ui.position.top);
+  });
+
+
+    },
+
+    
 
     // events bound via _on are removed automatically
     // revert other modifications here
@@ -129,10 +164,9 @@ $(function() {
       // remove generated elements
       this.sliceSlider.remove();
       this.sliceView.remove();
-      this.refresh.remove();
+      this.sliceGraphics.remove();
 
       this._clearResults();
-
 
       this.element
         .removeClass( "chronicle-series" )
