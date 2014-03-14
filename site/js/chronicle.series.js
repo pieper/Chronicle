@@ -95,7 +95,7 @@ $(function() {
                 max : instanceCount-1,
                 value : Math.round(instanceCount/2),
               })
-            .on("slidechange", function(event,ui) {
+            .on("slide", function(event,ui) {
                   console.log(slider);
                   slider._instance(ui.value);
             });
