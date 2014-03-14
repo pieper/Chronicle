@@ -71,7 +71,12 @@ $(function() {
 
       // update the root view
       // Expecting tuples like this:
-      // [["Brigham and Womens Hosp 221 15", "0001-01001"], ["novartis thighs and left arm", "1.3.6.1.4.1.35511635217625025614132.1"], ["MR", "Band 0 (without tumors)", "1.3.6.1.4.1.35511635217625025614132.1.4.0"], "1.3.6.1.4.1.35511635217625025614132.1.4.0.3.0"]
+      // [
+      //  ["Brigham and Womens Hosp 221 15", "0001-01001"],
+      //  ["novartis thighs and left arm", "1.3.6.1.4.1.35511635217625025614132.1"],
+      //  ["MR", "Band 0 (without tumors)", "1.3.6.1.4.1.35511635217625025614132.1.4.0"],
+      //  "1.3.6.1.4.1.35511635217625025614132.1.4.0.3.0"
+      // ]
       // which is [[inst,patid],[studydes,studid],[modality,serdesc,serid],instid]
 
       pendingUpdateRequest = $.couch.db("chronicle").view("instances/context", {

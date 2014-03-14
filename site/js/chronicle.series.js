@@ -13,8 +13,11 @@ $(function() {
   $.widget( "chronicle.series", {
     // default options
     options: {
-      // the chronicle key to the instance that starts the series
+      // the chronicle key to the series
       seriesUID: null,
+
+      // the list of instance UIDs associated with this seriesUID
+      instanceUID : [],
 
       // state variables
       pendingUpdateRequest : null,
@@ -81,23 +84,23 @@ $(function() {
       // abort pending requests
       if (this.options.pendingUpdateRequest) { this.options.pendingUpdateRequest.abort(); }
 
-      var slider = this;
+      var series = this;
 
       // create a slider with the max set to the number of instances
       pendingUpdateRequest = $.couch.db("chronicle").view("instances/seriesInstances", {
         success: function(data) {
-          console.log("data");
           console.log(data);
-          this.instanceIDs = data.rows;
-          var instanceCount = this.instanceIDs.length;
-          console.log(instanceCount);
-          $('#sliceSlider').slider({ 
+          series.instanceIDs = $.map(data.rows, function(r) {return (r.value);})
+          var instanceCount = series.instanceIDs.length;
+          $('#sliceSlider').slider({
                 max : instanceCount-1,
                 value : Math.round(instanceCount/2),
               })
             .on("slide", function(event,ui) {
-                  console.log(slider);
-                  slider._instance(ui.value);
+                  console.log(series);
+                  series._instance(ui.value);
+                  imgSrc = '../' + series.instanceIDs[ui.value] + '/image512.png';
+                  series.sliceView.attr('src', imgSrc);
             });
         },
         error: function(status) {
