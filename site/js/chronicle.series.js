@@ -42,11 +42,14 @@ $(function() {
       .appendTo( this.element )
       .button();
 
-      this.sliceSlider = $( "<div>", {
+      this.sliceSlider = $( "<input>", {
          "class": "chronicle-series-sliceSlider",
          "id": "sliceSlider",
-      }).appendTo( this.element )
-      .slider( {max : 10, value : 5} );
+         "type" : "range",
+         "data-role" : "slider"
+      }).appendTo( this.element );
+
+      $( "<br>" ).appendTo( this.element );
 
       this.sliceView = $( "<img>", {
          "class" : "chronicle-series-sliceView",
@@ -92,15 +95,12 @@ $(function() {
           console.log(data);
           series.instanceIDs = $.map(data.rows, function(r) {return (r.value);})
           var instanceCount = series.instanceIDs.length;
-          $('#sliceSlider').slider({
-                max : instanceCount-1,
-                value : Math.round(instanceCount/2),
-              })
-            .on("slide", function(event,ui) {
-                  console.log(series);
-                  series._instance(ui.value);
-                  imgSrc = '../' + series.instanceIDs[ui.value] + '/image512.png';
-                  series.sliceView.attr('src', imgSrc);
+          $('#sliceSlider').attr( 'max', instanceCount-1 );
+          $('#sliceSlider').val( Math.round(instanceCount/2) );
+          series._instanceIndex( Math.round(instanceCount/2) );
+          $('#sliceSlider').bind("change", function(event,ui) {
+                  var value = $('#sliceSlider').val();
+                  series._instanceIndex(value);
             });
         },
         error: function(status) {
@@ -117,9 +117,9 @@ $(function() {
     },
 
     // called when created, and later when changing options
-    _instance: function(index) {
-
-      console.log('index' + index);
+    _instanceIndex: function(index) {
+      imgSrc = '../' + this.instanceIDs[index] + '/image512.png';
+      this.sliceView.attr('src', imgSrc);
     },
 
 
