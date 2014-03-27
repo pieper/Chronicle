@@ -22,7 +22,7 @@ views = { "instances" : {
                 if (doc.dataset) {
                   var i;
                   for (i = 0; i < tags.length; i++) {
-                    tag = tags[i];
+                    var tag = tags[i];
                     var name     = tag[0];
                     var t        = tag[1];
                     var fallback = tag[2];
@@ -55,7 +55,7 @@ views = { "instances" : {
                 if (doc.dataset) {
                   var i;
                   for (i = 0; i < tags.length; i++) {
-                    tag = tags[i];
+                    var tag = tags[i];
                     var name     = tag[0];
                     var t        = tag[1];
                     var fallback = tag[2];
