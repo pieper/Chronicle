@@ -11,10 +11,11 @@
   <script src="./jslib/jquery.js"></script>
   <script src="./jslib/jquery.couch.js"></script>
   <script src="./jslib/jquery.dialog.js"></script>
-  <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script src="./jslib/jquery-ui-1.10.3.js"></script>
+  <script src="./jslib/jquery.ui.touch-punch.min.js"></script>
   <script src="./jslib/jquery.mobile-1.4.2.min.js"></script>
   <script src="./jslib/jquery.svg.min.js"></script>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+
   <link href="./css/jquery.mobile-1.4.2.min.css" rel="stylesheet" type="text/css" />
   <link href="./css/jquery.svg.css" rel="stylesheet" type="text/css" />
 
@@ -29,10 +30,7 @@
 
 $(function() {
 
-  var root = $('#rootView').root({
-    'change' : function() {console.log('hoot');},
-    'random' : function() {console.log('ba random');}
-  });
+  var root = $('#rootView').root({});
 
   var seriesUID = chronicleUtil.getURLParameter("seriesUID");
   if (seriesUID) {

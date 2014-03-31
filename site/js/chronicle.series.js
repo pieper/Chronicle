@@ -124,6 +124,7 @@ $(function() {
                                opacity: 0.5, 
                                stroke: 'blue', 
                                strokeWidth: 5});
+      // http://stackoverflow.com/questions/1108480/svg-draggable-using-jquery-and-jquery-svg
       $('circle')
         .draggable()
         .bind('mousedown', function(event, ui){
