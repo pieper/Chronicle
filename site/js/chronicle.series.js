@@ -134,26 +134,7 @@ $(function() {
           // update coordinates manually, since top/left style props don't work on SVG
           event.target.setAttribute('cx', ui.position.left);
           event.target.setAttribute('cy', ui.position.top);
-    console.log(ui.position);
         });
-
-svg.rect(20,10,100,50, 10, 10, {fill:'#666'});
-svg.rect(40,20,100,50, 10, 10, {fill:'#999'});
-svg.rect(60,30,100,50, 10, 10, {fill:'#ccc'});
-
-$('rect')
-  .draggable()
-  .bind('mousedown', function(event, ui){
-    // bring target to front
-    $(event.target.parentElement).append( event.target );
-  })
-  .bind('drag', function(event, ui){
-    // update coordinates manually, since top/left style props don't work on SVG
-    event.target.setAttribute('x', ui.position.left);
-    event.target.setAttribute('y', ui.position.top);
-  });
-
-
     },
 
     

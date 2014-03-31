@@ -46,11 +46,6 @@ $(function() {
       this._refresh();
     },
 
-    random : function() {
-      console.log('trigger random');
-      this._trigger('random');
-    },
-
     _clearResults: function() {
       $('li',this.element[0]).remove();
     },
@@ -101,7 +96,6 @@ $(function() {
 
       // trigger a callback/event
       this._trigger( "change" );
-      console.log('changed');
     },
 
 
