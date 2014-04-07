@@ -32,6 +32,8 @@ Prerequisites
 * For the browser
 ** HTML5 compliant browser
 
+Use https://github.com/pieper/couchSite to upload design documents and site (html/css/javascript)
+
 Status
 ======
 
