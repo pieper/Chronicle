@@ -16,14 +16,8 @@ $(function() {
       // the chronicle key to the series
       seriesUID: null,
 
-      // the list of instance UIDs associated with this seriesUID
-      instanceUID : [],
-
-      // the image source to fetch from by default
-      imgSrc : "",
-
-      // state variables
-      pendingUpdateRequest : null,
+      // the currently selected instanceUID to display
+      instanceUID : null,
 
       // callbacks
       change: null,
@@ -32,6 +26,21 @@ $(function() {
     // the constructor
     _create: function() {
 
+      // state variables
+      this.pendingSeriesRequest = null;
+      this.pendingReferencesRequest = null;
+
+      // the list of instance UIDs associated with this seriesUID
+      instanceUIDs = [];
+
+      // the image source to fetch from
+      imgSrc = "";
+
+      // the control point lists for the current instance
+      //  - will be a list of lists of points
+      controlPoints = [];
+
+      // Set the class and disable click
       this.element
         // add a class for theming
         .addClass( "chronicle-series" )
@@ -39,6 +48,7 @@ $(function() {
         .disableSelection();
 
 
+      // Add the slice slider
       this.sliceSlider = $( "<input>", {
          "class": "chronicle-series-sliceSlider",
          "id": "sliceSlider",
@@ -48,6 +58,7 @@ $(function() {
 
       $( "<br>" ).appendTo( this.element );
 
+      // Add the svg container for the slice (instance)
       this.sliceGraphics = $( "<div>", {
          "class" : "chronicle-series-sliceGraphics",
          "id" : "sliceGraphics",
@@ -79,66 +90,112 @@ $(function() {
       this._clearResults();
 
       // abort pending requests
-      if (this.options.pendingUpdateRequest) { this.options.pendingUpdateRequest.abort(); }
-
-      var series = this;
+      if (this.pendingSeriesRequest) {
+        this.pendingSeriesRequest.abort();
+      }
 
       // create a slider with the max set to the number of instances
-      pendingUpdateRequest = $.couch.db("chronicle").view("instances/seriesInstances", {
-        success: function(data) {
-          series.instanceIDs = $.map(data.rows, function(r) {return (r.value);})
-          var instanceCount = series.instanceIDs.length;
-          $('#sliceSlider').attr( 'max', instanceCount-1 );
-          $('#sliceSlider').val( Math.round(instanceCount/2) );
-          series._instanceIndex( Math.round(instanceCount/2) );
-          $('#sliceSlider').bind("change", function(event,ui) {
-                  var value = $('#sliceSlider').val();
-                  series._instanceIndex(value);
+      // - when it is manipulated, trigger an update to the instance value
+      //   and thus redraw the graphics
+      var series = this;
+      this.pendingSeriesRequest =
+        $.couch.db("chronicle").view("instances/seriesInstances", {
+          key : this.options.seriesUID,
+          reduce : false,
+          success: function(data) {
+            series.instanceUIDs = $.map(data.rows, function(r) {return (r.value);})
+            var instanceCount = series.instanceUIDs.length;
+            $('#sliceSlider').attr( 'max', instanceCount-1 );
+            $('#sliceSlider').val( Math.round(instanceCount/2) );
+            series._instanceIndex( Math.round(instanceCount/2) );
+            $('#sliceSlider').bind("change", function(event,ui) {
+                    var value = $('#sliceSlider').val();
+                    series._instanceIndex(value);
             });
-        },
-        error: function(status) {
-          console.log(status);
-          alert(status);
-        },
-        key : this.options.seriesUID,
-        reduce : false,
-      });
+          },
+          error: function(status) {
+            console.log(status);
+            alert(status);
+          },
+        });
 
       // trigger a callback/event
       this._trigger( "change" );
     },
 
     // called when created, and later when changing options
+    // This draws the current image and then sets up a request
+    // for all the objects that reference this instance
+    // TODO: currently hard-coded for control points and curves
     _instanceIndex: function(index) {
-      this.imgSrc = '../' + this.instanceIDs[index] + '/image512.png';
+
+      // draw with the image first, overlays will come later
+      this.controlPoints = [];
+      this.options.instanceUID = this.instanceUIDs[index];
+      this.imgSrc = '../' + this.options.instanceUID + '/image512.png';
+      // TODO
+      this.options.instanceUID = "1.3.6.1.4.1.35511635209895445060349.1.4.0.3.16";
       this._drawGraphics();
-    },
 
-    _drawGraphics: function() {
-      console.log('draw graphics');
+      // abort pending requests
+      if (this.pendingReferencesRequest) {
+        this.pendingReferencesRequest.abort();
+      }
 
-      svg = $('#sliceGraphics').svg('get');
-      svg.clear();
-      svg.image(null, 0, 0, 512, 512, this.imgSrc);
-      svg.circle(70, 220, 50, {fill: 'red', 
-                               opacity: 0.5, 
-                               stroke: 'blue', 
-                               strokeWidth: 5});
-      // http://stackoverflow.com/questions/1108480/svg-draggable-using-jquery-and-jquery-svg
-      $('circle')
-        .draggable()
-        .bind('mousedown', function(event, ui){
-          // bring target to front
-          $(event.target.parentElement).append( event.target );
-        })
-        .bind('drag', function(event, ui){
-          // update coordinates manually, since top/left style props don't work on SVG
-          event.target.setAttribute('cx', ui.position.left);
-          event.target.setAttribute('cy', ui.position.top);
+      // request curve lists associated with this instance
+      var series = this;
+      this.pendingReferencesRequest =
+        $.couch.db("chronicle").view("instances/instanceReferences", {
+          key : series.options.instanceUID,
+          include_docs : true,
+          reduce : false,
+          success: function(data) {
+            $.each(data.rows, function(index,value) {
+              instancePoints = value.doc.instancePoints;
+              series.controlPoints.push(instancePoints[series.options.instanceUID]);
+            });
+            series._drawGraphics();
+          },
+          error: function(status) {
+            console.log(status);
+            alert(status);
+          },
         });
     },
 
-    
+    _drawGraphics: function() {
+
+      if (this.imgSrc) {
+        svg = $('#sliceGraphics').svg('get');
+        svg.clear();
+        svg.image(null, 0, 0, 512, 512, this.imgSrc);
+
+        $.each(this.controlPoints, function(index, points) {
+          $.each(points, function(index, point) {
+            svg.circle(point[0], point[1], 5, {fill: 'red',
+                                     opacity: 0.5,
+                                     stroke: 'blue',
+                                     strokeWidth: 5});
+
+          });
+        });
+      // http://stackoverflow.com/questions/1108480/svg-draggable-using-jquery-and-jquery-svg
+      // TODO: move out of loops
+      $('circle')
+      .draggable()
+      .bind('mousedown', function(event, ui){
+	// bring target to front
+	$(event.target.parentElement).append( event.target );
+      })
+      .bind('drag', function(event, ui){
+	// update coordinates manually, since top/left style props don't work on SVG
+	event.target.setAttribute('cx', ui.position.left);
+	event.target.setAttribute('cy', ui.position.top);
+      });
+      }
+    },
+
+
 
     // events bound via _on are removed automatically
     // revert other modifications here
