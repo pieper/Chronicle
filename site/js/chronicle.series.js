@@ -165,20 +165,26 @@ $(function() {
 
     _drawGraphics: function() {
 
+
       if (this.imgSrc) {
         svg = $('#sliceGraphics').svg('get');
         svg.clear();
         svg.image(null, 0, 0, 512, 512, this.imgSrc);
 
+        // add lines
+        $.each(this.controlPoints, function(index, points) {
+          svg.polyline(points,
+                       {fill: 'none', stroke: 'yellow', strokeWidth: 1, opacity: 0.5});
+        });
+
+        // add control points
         $.each(this.controlPoints, function(index, points) {
           $.each(points, function(index, point) {
-            svg.circle(point[0], point[1], 5, {fill: 'red',
-                                     opacity: 0.5,
-                                     stroke: 'blue',
-                                     strokeWidth: 5});
-
+            svg.circle(point[0], point[1], 5,
+                        {fill: 'red', stroke: 'blue', strokeWidth: 1, opacity: 0.5});
           });
         });
+
       // http://stackoverflow.com/questions/1108480/svg-draggable-using-jquery-and-jquery-svg
       // TODO: move out of loops
       $('circle')
