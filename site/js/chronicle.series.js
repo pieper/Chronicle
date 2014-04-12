@@ -163,41 +163,69 @@ $(function() {
         });
     },
 
-    _drawGraphics: function() {
+    _updateLines: function() {
+      svg = $('#sliceGraphics').svg('get');
+      $('polyline').remove();
+      // add lines
+      $.each(this.controlPoints, function(index, points) {
+        points.push(points[0]); // close the line
+        svg.polyline(points,
+                     {fill: 'none', stroke: 'yellow', strokeWidth: 1, opacity: 0.5});
+      });
+    },
 
+    _drawGraphics: function() {
 
       if (this.imgSrc) {
         svg = $('#sliceGraphics').svg('get');
         svg.clear();
         svg.image(null, 0, 0, 512, 512, this.imgSrc);
 
-        // add lines
-        $.each(this.controlPoints, function(index, points) {
-          svg.polyline(points,
-                       {fill: 'none', stroke: 'yellow', strokeWidth: 1, opacity: 0.5});
-        });
+	this._updateLines();
 
         // add control points
-        $.each(this.controlPoints, function(index, points) {
-          $.each(points, function(index, point) {
-            svg.circle(point[0], point[1], 5,
-                        {fill: 'red', stroke: 'blue', strokeWidth: 1, opacity: 0.5});
+        $.each(this.controlPoints, function(curveIndex, points) {
+          $.each(points, function(pointIndex, point) {
+            circle = svg.circle(point[0], point[1], 5,
+                        {fill: 'red', stroke: 'blue', strokeWidth: 1, opacity: 0.5,
+                         curveIndex: curveIndex, pointIndex: pointIndex
+                        })
           });
         });
 
-      // http://stackoverflow.com/questions/1108480/svg-draggable-using-jquery-and-jquery-svg
-      // TODO: move out of loops
-      $('circle')
-      .draggable()
-      .bind('mousedown', function(event, ui){
-	// bring target to front
-	$(event.target.parentElement).append( event.target );
-      })
-      .bind('drag', function(event, ui){
-	// update coordinates manually, since top/left style props don't work on SVG
-	event.target.setAttribute('cx', ui.position.left);
-	event.target.setAttribute('cy', ui.position.top);
-      });
+        var series = this;
+        $('circle')
+        .draggable()
+        .bind('mouseenter', function(event){
+          // bring target to front
+          $(event.target.parentElement).append( event.target );
+          event.target.setAttribute('opacity', 1.0);
+          event.target.setAttribute('stroke', 'green');
+        })
+        .bind('mouseleave', function(event){
+          event.target.setAttribute('opacity', 0.5);
+          event.target.setAttribute('stroke', 'blue');
+        })
+        .bind('mousedown', function(event){
+          // record start position offset from center of point
+          var dx = event.target.getAttribute('cx') - event.offsetX;
+          var dy = event.target.getAttribute('cy') - event.offsetY;
+          event.target.setAttribute('dx', dx);
+          event.target.setAttribute('dy', dy);
+        })
+        .bind('drag', function(event, ui){
+          // update circle coordinates
+          var cx = event.offsetX - event.target.getAttribute('dx');
+          var cy = event.offsetY - event.target.getAttribute('dy');
+          event.target.setAttribute('cx', cx);
+          event.target.setAttribute('cy', cy);
+          // update curve in series object
+          var curveIndex = event.target.getAttribute('curveIndex');
+          var pointIndex = event.target.getAttribute('pointIndex');
+          series.controlPoints[curveIndex][pointIndex] = [cx, cy];
+          // redraw the lines with new values
+          series._updateLines();
+        });
       }
     },
 
