@@ -10,35 +10,53 @@
 
 
 $(function() {
+
   $.widget( "chronicle.series", {
     // default options
     options: {
       // the chronicle key to the series
       seriesUID: null,
 
-      // the currently selected instanceUID to display
-      instanceUID : null,
+      // the currently selected imageInstanceUID to display
+      imageInstanceUID : null,
 
       // callbacks
       change: null,
     },
 
+
     // the constructor
     _create: function() {
+
+      // dicom classes associated with images we can display
+      this.imageClasses = [
+                "1.2.840.10008.5.1.4.1.1.1", // CR Image
+                "1.2.840.10008.5.1.4.1.1.2", // CT Image
+                "1.2.840.10008.5.1.4.1.1.4", // MR Image
+                "1.2.840.10008.5.1.4.1.1.6", // US Image
+                "1.2.840.10008.5.1.4.1.1.7", // SC Image
+                "1.2.840.10008.5.1.4.1.1.7.1", // SC Image - bit
+                "1.2.840.10008.5.1.4.1.1.7.2", // SC Image - byte
+                "1.2.840.10008.5.1.4.1.1.7.3", // SC Image - word
+                "1.2.840.10008.5.1.4.1.1.7.4", // SC Image - true color
+      ];
 
       // state variables
       this.pendingSeriesRequest = null;
       this.pendingReferencesRequest = null;
 
-      // the list of instance UIDs associated with this seriesUID
-      instanceUIDs = [];
+      // the list of image class instance UIDs associated with this seriesUID
+      this.imageInstanceUIDs = [];
+
+      // the list of control point class instance UIDs associated with this seriesUID
+      this.controlPointInstanceUIDs = [];
 
       // the image source to fetch from
-      imgSrc = "";
+      this.imgSrc = "";
 
       // the control point lists for the current instance
       //  - will be a list of lists of points
-      controlPoints = [];
+      this.controlPoints = [];
 
       // Set the class and disable click
       this.element
@@ -47,13 +65,13 @@ $(function() {
         // prevent double click to select text
         .disableSelection();
 
-
       // Add the slice slider
       this.sliceSlider = $( "<input>", {
          "class": "chronicle-series-sliceSlider",
          "id": "sliceSlider",
          "type" : "range",
-         "data-role" : "slider"
+         "data-role" : "slider",
+         "width" : "512px"
       }).appendTo( this.element );
 
       $( "<br>" ).appendTo( this.element );
@@ -62,22 +80,36 @@ $(function() {
       this.sliceGraphics = $( "<div>", {
          "class" : "chronicle-series-sliceGraphics",
          "id" : "sliceGraphics",
-         "width" : "512dpx",
-         "height" : "512dpx",
+         "width" : "512px",
+         "height" : "512px",
       }).appendTo( this.element );
 
-      $('#sliceGraphics').svg({onLoad: this._drawGraphics});
+      $('#sliceGraphics').svg({
+        onLoad: this._drawGraphics,
+        width: 512,
+        height: 512
+      });
 
       $( "<br>" ).appendTo( this.element );
 
-      this.sliceView = $( "<img>", {
-         "class" : "chronicle-series-sliceView",
-         "id" : "sliceView",
-         "src" : "../"
-      }).appendTo( this.element );
-
       this._refresh();
     },
+
+
+    // events bound via _on are removed automatically
+    // revert other modifications here
+    _destroy: function() {
+      // remove generated elements
+      this.sliceSlider.remove();
+      this.sliceGraphics.remove();
+
+      this._clearResults();
+
+      this.element
+        .removeClass( "chronicle-series" )
+        .enableSelection();
+    },
+
 
     _clearResults: function() {
       $('p',this.element[0]).remove();
@@ -92,6 +124,11 @@ $(function() {
       // abort pending requests
       if (this.pendingSeriesRequest) {
         this.pendingSeriesRequest.abort();
+        this.pendingSeriesRequest = null;
+      }
+      if (this.pendingReferencesRequest) {
+        this.pendingReferencesRequest.abort();
+        this.pendingReferencesRequest = null;
       }
 
       // create a slider with the max set to the number of instances
@@ -103,14 +140,31 @@ $(function() {
           key : this.options.seriesUID,
           reduce : false,
           success: function(data) {
-            series.instanceUIDs = $.map(data.rows, function(r) {return (r.value);})
-            var instanceCount = series.instanceUIDs.length;
+            series.imageInstanceUIDs = [];
+            series.controlPointInstanceUIDs = [];
+            $.each(data.rows, function(index,row) {
+              var classUID = row.value[0];
+              var instanceUID = row.value[1];
+              if (series.imageClasses.indexOf(classUID) != -1) {
+                series.imageInstanceUIDs.push(instanceUID);
+              } else {
+                // TODO: once we have a classUID for control points we can do better
+                // For now, assume any non-image is a control point list
+                series.controlPointInstanceUIDs.push(instanceUID);
+              }
+            });
+            var imageInstanceIndex = series.imageInstanceUIDs.indexOf(
+                                               series.options.imageInstanceUID);
+            var instanceCount = series.imageInstanceUIDs.length;
             $('#sliceSlider').attr( 'max', instanceCount-1 );
-            $('#sliceSlider').val( Math.round(instanceCount/2) );
-            series._instanceIndex( Math.round(instanceCount/2) );
+            if (imageInstanceIndex == -1) {
+              imageInstanceIndex = Math.round(instanceCount/2);
+            }
+            $('#sliceSlider').val( imageInstanceIndex );
+            series._imageInstanceIndex( imageInstanceIndex );
             $('#sliceSlider').bind("change", function(event,ui) {
                     var value = $('#sliceSlider').val();
-                    series._instanceIndex(value);
+                    series._imageInstanceIndex(value);
             });
           },
           error: function(status) {
@@ -127,15 +181,15 @@ $(function() {
     // This draws the current image and then sets up a request
     // for all the objects that reference this instance
     // TODO: currently hard-coded for control points and curves
-    _instanceIndex: function(index) {
+    _imageInstanceIndex: function(index) {
 
       // draw with the image first, overlays will come later
       this.controlPoints = [];
-      this.options.instanceUID = this.instanceUIDs[index];
-      this.imgSrc = '../' + this.options.instanceUID + '/image512.png';
+      this.options.imageInstanceUID = this.imageInstanceUIDs[index];
+      this.imgSrc = '../' + this.options.imageInstanceUID + '/image512.png';
       // TODO
-      this.options.instanceUID = "1.3.6.1.4.1.35511635209895445060349.1.4.0.3.16";
-      this._drawGraphics();
+      this.options.imageInstanceUID = "1.3.6.1.4.1.35511635209895445060349.1.4.0.3.16";
+      //this._drawGraphics();
 
       // abort pending requests
       if (this.pendingReferencesRequest) {
@@ -146,13 +200,13 @@ $(function() {
       var series = this;
       this.pendingReferencesRequest =
         $.couch.db("chronicle").view("instances/instanceReferences", {
-          key : series.options.instanceUID,
+          key : series.options.imageInstanceUID,
           include_docs : true,
           reduce : false,
           success: function(data) {
             $.each(data.rows, function(index,value) {
               instancePoints = value.doc.instancePoints;
-              series.controlPoints.push(instancePoints[series.options.instanceUID]);
+              series.controlPoints.push(instancePoints[series.options.imageInstanceUID]);
             });
             series._drawGraphics();
           },
@@ -176,11 +230,17 @@ $(function() {
 
     _drawGraphics: function() {
 
-      if (this.imgSrc) {
-        svg = $('#sliceGraphics').svg('get');
-        svg.clear();
-        svg.image(null, 0, 0, 512, 512, this.imgSrc);
+      // clear the old graphics
+      svg = $('#sliceGraphics').svg('get');
+      svg.clear();
 
+      // draw the image
+      if (this.imgSrc) {
+        svg.image(null, 0, 0, 512, 512, this.imgSrc);
+      }
+
+      // draw the graphic overlay
+      if (this.controlPoints) {
 	this._updateLines();
 
         // add control points
@@ -229,22 +289,6 @@ $(function() {
       }
     },
 
-
-
-    // events bound via _on are removed automatically
-    // revert other modifications here
-    _destroy: function() {
-      // remove generated elements
-      this.sliceSlider.remove();
-      this.sliceView.remove();
-      this.sliceGraphics.remove();
-
-      this._clearResults();
-
-      this.element
-        .removeClass( "chronicle-series" )
-        .enableSelection();
-    },
 
     // _setOptions is called with a hash of all options that are changing
     // always refresh when changing options

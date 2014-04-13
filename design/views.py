@@ -49,6 +49,7 @@ views = { "instances" : {
               function(doc) {
                 var tags = [
                   ['seriesUID', '0020000E', 'UnspecifiedSeriesUID'],
+                  ['classUID', '00080016', 'UnspecifiedClassUID'],
                   ['instanceUID', '00080018', 'UnspecifiedInstanceUID'],
                 ];
                 var key = {};
@@ -64,7 +65,7 @@ views = { "instances" : {
                       key[name] = doc.dataset[t].Value || fallback;
                     }
                   }
-                  emit( key.seriesUID, key.instanceUID );
+                  emit( key.seriesUID, [key.classUID, key.instanceUID] );
                 }
               }
             ''',
