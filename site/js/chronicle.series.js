@@ -43,13 +43,15 @@ $(function() {
 
       // state variables
       this.pendingSeriesRequest = null;
-      this.pendingReferencesRequest = null;
+      this.pendingControlPointsRequest = null;
 
       // the list of image class instance UIDs associated with this seriesUID
       this.imageInstanceUIDs = [];
 
       // the list of control point class instance UIDs associated with this seriesUID
       this.controlPointInstanceUIDs = [];
+      // the list of control point documents in json
+      this.controlPointDocuments = [];
 
       // the image source to fetch from
       this.imgSrc = "";
@@ -85,7 +87,6 @@ $(function() {
       }).appendTo( this.element );
 
       $('#sliceGraphics').svg({
-        onLoad: this._drawGraphics,
         width: 512,
         height: 512
       });
@@ -126,9 +127,9 @@ $(function() {
         this.pendingSeriesRequest.abort();
         this.pendingSeriesRequest = null;
       }
-      if (this.pendingReferencesRequest) {
-        this.pendingReferencesRequest.abort();
-        this.pendingReferencesRequest = null;
+      if (this.pendingControlPointsRequest) {
+        this.pendingControlPointsRequest.abort();
+        this.pendingControlPointsRequest = null;
       }
 
       // create a slider with the max set to the number of instances
@@ -139,9 +140,11 @@ $(function() {
         $.couch.db("chronicle").view("instances/seriesInstances", {
           key : this.options.seriesUID,
           reduce : false,
+          include_docs : true,
           success: function(data) {
             series.imageInstanceUIDs = [];
             series.controlPointInstanceUIDs = [];
+            series.controlPointDocuments = [];
             $.each(data.rows, function(index,row) {
               var classUID = row.value[0];
               var instanceUID = row.value[1];
@@ -151,8 +154,10 @@ $(function() {
                 // TODO: once we have a classUID for control points we can do better
                 // For now, assume any non-image is a control point list
                 series.controlPointInstanceUIDs.push(instanceUID);
+                series.controlPointDocuments.push(row.doc);
               }
             });
+console.log(series.controlPointDocuments);
             var imageInstanceIndex = series.imageInstanceUIDs.indexOf(
                                                series.options.imageInstanceUID);
             var instanceCount = series.imageInstanceUIDs.length;
@@ -184,47 +189,31 @@ $(function() {
     _imageInstanceIndex: function(index) {
 
       // draw with the image first, overlays will come later
-      this.controlPoints = [];
       this.options.imageInstanceUID = this.imageInstanceUIDs[index];
       this.imgSrc = '../' + this.options.imageInstanceUID + '/image512.png';
       // TODO
-      this.options.imageInstanceUID = "1.3.6.1.4.1.35511635209895445060349.1.4.0.3.16";
-      //this._drawGraphics();
-
-      // abort pending requests
-      if (this.pendingReferencesRequest) {
-        this.pendingReferencesRequest.abort();
-      }
-
-      // request curve lists associated with this instance
+      this.controlPoints = [];
       var series = this;
-      this.pendingReferencesRequest =
-        $.couch.db("chronicle").view("instances/instanceReferences", {
-          key : series.options.imageInstanceUID,
-          include_docs : true,
-          reduce : false,
-          success: function(data) {
-            $.each(data.rows, function(index,value) {
-              instancePoints = value.doc.instancePoints;
-              series.controlPoints.push(instancePoints[series.options.imageInstanceUID]);
-            });
-            series._drawGraphics();
-          },
-          error: function(status) {
-            console.log(status);
-            alert(status);
-          },
-        });
+      $.each(this.controlPointDocuments, function(index, doc) {
+        var points = doc.instancePoints[series.options.imageInstanceUID];
+        if (points) {
+          series.controlPoints.push(points);
+        }
+      });
+      this._drawGraphics();
     },
 
+    // update the polyline between the control points
+    // - broken out so it can be called from the drag handler
     _updateLines: function() {
-      svg = $('#sliceGraphics').svg('get');
+
+      var svg = $('#sliceGraphics').svg('get');
       $('polyline').remove();
       // add lines
       $.each(this.controlPoints, function(index, points) {
         points.push(points[0]); // close the line
         svg.polyline(points,
-                     {fill: 'none', stroke: 'yellow', strokeWidth: 1, opacity: 0.5});
+                   {fill: 'none', stroke: 'yellow', strokeWidth: 1, opacity: 0.5});
       });
     },
 
@@ -232,61 +221,66 @@ $(function() {
 
       // clear the old graphics
       svg = $('#sliceGraphics').svg('get');
-      svg.clear();
+      //svg.clear();
+      $('circle').remove();
+      $('polyline').remove();
 
       // draw the image
       if (this.imgSrc) {
-        svg.image(null, 0, 0, 512, 512, this.imgSrc);
+        if ( $('image') ) {
+          svg.image(null, 0, 0, 512, 512, this.imgSrc);
+        } else {
+          $('image').setAttribute('ref', this.imgSrc);
+        }
       }
 
       // draw the graphic overlay
-      if (this.controlPoints) {
-	this._updateLines();
+      this._updateLines();
 
-        // add control points
-        $.each(this.controlPoints, function(curveIndex, points) {
-          $.each(points, function(pointIndex, point) {
-            circle = svg.circle(point[0], point[1], 5,
-                        {fill: 'red', stroke: 'blue', strokeWidth: 1, opacity: 0.5,
-                         curveIndex: curveIndex, pointIndex: pointIndex
-                        })
-          });
+      // add control points
+      // - pull them from the document dictionary for this instance
+      $.each(this.controlPoints, function(curveIndex, points) {
+        $.each(points, function(pointIndex, point) {
+          svg.circle(point[0], point[1], 5,
+                      {fill: 'red', stroke: 'blue', strokeWidth: 1, opacity: 0.5,
+                       curveIndex: curveIndex, pointIndex: pointIndex
+                      })
         });
+      });
 
-        var series = this;
-        $('circle')
-        .draggable()
-        .bind('mouseenter', function(event){
-          // bring target to front
-          $(event.target.parentElement).append( event.target );
-          event.target.setAttribute('opacity', 1.0);
-          event.target.setAttribute('stroke', 'green');
-        })
-        .bind('mouseleave', function(event){
-          event.target.setAttribute('opacity', 0.5);
-          event.target.setAttribute('stroke', 'blue');
-        })
-        .bind('mousedown', function(event){
-          // record start position offset from center of point
-          var dx = event.target.getAttribute('cx') - event.offsetX;
-          var dy = event.target.getAttribute('cy') - event.offsetY;
-          event.target.setAttribute('dx', dx);
-          event.target.setAttribute('dy', dy);
-        })
-        .bind('drag', function(event, ui){
-          // update circle coordinates
-          var cx = event.offsetX - event.target.getAttribute('dx');
-          var cy = event.offsetY - event.target.getAttribute('dy');
-          event.target.setAttribute('cx', cx);
-          event.target.setAttribute('cy', cy);
-          // update curve in series object
-          var curveIndex = event.target.getAttribute('curveIndex');
-          var pointIndex = event.target.getAttribute('pointIndex');
-          series.controlPoints[curveIndex][pointIndex] = [cx, cy];
-          // redraw the lines with new values
-          series._updateLines();
-        });
-      }
+      var series = this;
+      $('circle')
+      .draggable()
+      .bind('mouseenter', function(event){
+        // bring target to front
+        $(event.target.parentElement).append( event.target );
+        event.target.setAttribute('opacity', 1.0);
+        event.target.setAttribute('stroke', 'green');
+      })
+      .bind('mouseleave', function(event){
+        event.target.setAttribute('opacity', 0.5);
+        event.target.setAttribute('stroke', 'blue');
+      })
+      .bind('mousedown', function(event){
+        // record start position offset from center of point
+        var dx = event.target.getAttribute('cx') - event.offsetX;
+        var dy = event.target.getAttribute('cy') - event.offsetY;
+        event.target.setAttribute('dx', dx);
+        event.target.setAttribute('dy', dy);
+      })
+      .bind('drag', function(event, ui){
+        // update circle coordinates
+        var cx = event.offsetX - event.target.getAttribute('dx');
+        var cy = event.offsetY - event.target.getAttribute('dy');
+        event.target.setAttribute('cx', cx);
+        event.target.setAttribute('cy', cy);
+        // update curve in series object
+        var curveIndex = event.target.getAttribute('curveIndex');
+        var pointIndex = event.target.getAttribute('pointIndex');
+        series.controlPoints[curveIndex][pointIndex] = [cx, cy];
+        // redraw the lines with new values
+        series._updateLines();
+      });
     },
 
 
