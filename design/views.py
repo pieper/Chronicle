@@ -74,7 +74,7 @@ views = { "instances" : {
         "instanceReferences" : {
             "map" : '''
               // TODO: this needs to be generalized to instance->instance reference
-              // for now this is specific fo instancePoints
+              // for now this is specific to instancePoints
               function(doc) {
                 if (doc.instancePoints) {
                   instanceUIDs = Object.keys(doc.instancePoints);
