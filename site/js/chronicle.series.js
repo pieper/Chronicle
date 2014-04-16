@@ -157,7 +157,13 @@ $(function() {
                 series.controlPointDocuments.push(row.doc);
               }
             });
-console.log(series.controlPointDocuments);
+            // HACK: sort instanceUIDs by last element of UID
+            // since that is almost always slice number.
+            // This way the slider will work as expected.
+            lastUIDInt = function(uid) {return (eval(uid.split(".").pop())); };
+            cmp = function(a,b) { return (a<b ? -1 : (b<a ? 1 : 0)); };
+            sortF = function(a,b) { return (cmp(lastUIDInt(a),lastUIDInt(b))); }
+            series.imageInstanceUIDs = series.imageInstanceUIDs.sort(sortF);
             var imageInstanceIndex = series.imageInstanceUIDs.indexOf(
                                                series.options.imageInstanceUID);
             var instanceCount = series.imageInstanceUIDs.length;
