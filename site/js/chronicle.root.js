@@ -72,26 +72,29 @@ $(function() {
       // which is [[inst,patid],[studydes,studid],[modality,serdesc,serid],instid]
 
       pendingUpdateRequest = $.couch.db("chronicle").view("instances/context", {
+        reduce : true,
+        group_level : 3,
         success: function(data) {
           // add entries for each hit
           $.each(data.rows, function(index,value) {
             $('#listview').append($(''
-		+ '<li>'
+                + '<li>'
                        + "<p class='patient'>" + value.key[0] + "</p>"
                        + "<p class='study'>" + value.key[1][0] + "</p>"
                        + "<p class='series'>" + value.key[2][0]
                          + " " + value.key[2][1] + "</p>"
-	        + '</li>')
-             .data({'seriesUID':value.key[2][2]})
-	     .click(function(){ chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))}));
-          });
+                + '</li>')
+              .data({'seriesUID':value.key[2][2]})
+              .click(function() {
+                chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))
+              })
+            );
+         });
           $('#listview').listview('refresh');
         },
         error: function(status) {
           console.log(status);
         },
-        reduce : true,
-        group_level : 3,
       });
 
       // trigger a callback/event
