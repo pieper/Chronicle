@@ -23,14 +23,14 @@ Prerequisites
 =============
 
 * For the python scripts
-** pydicom
-** couchdb
-** PIL
-** numpy
+ * pydicom
+ * couchdb
+ * PIL
+ * numpy
 * For the server
-** Apache CouchDB
+ * Apache CouchDB
 * For the browser
-** HTML5 compliant browser
+ * HTML5 compliant browser
 
 Use https://github.com/pieper/couchSite to upload design documents and site (html/css/javascript)
 
