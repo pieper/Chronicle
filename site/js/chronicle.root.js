@@ -76,21 +76,47 @@ $(function() {
         group_level : 3,
         success: function(data) {
           // add entries for each hit
-          $.each(data.rows, function(index,value) {
-            $('#listview').append($(''
-                + '<li>'
-                       + "<p class='patient'>" + value.key[0] + "</p>"
-                       + "<p class='study'>" + value.key[1][0] + "</p>"
-                       + "<p class='series'>" + value.key[2][0]
-                         + " " + value.key[2][1] + "</p>"
-                + '</li>')
-              .data({'seriesUID':value.key[2][2]})
-              .click(function() {
-                chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))
-              })
-            );
+          $.each(data.rows, function(index,row) {
+            var institution = row.key[0][0];
+            var institutionElementID = institution.split(' ').join('_'); // replace all
+            var institutionQuery = '#'+institutionElementID;
+            var patientID = row.key[0][1];
+            var patientElementID = institutionElementID+"-"+patientID;
+            var patientQuery = "#"+patientElementID;
+            var studyDescription = row.key[1][0];
+            var modality = row.key[2][0];
+            var seriesDescription = row.key[2][1];
+            var seriesUID =row.key[2][2];
+            var instanceCount = row.value;
+
+            if ($(institutionQuery).length == 0) {
+              // add institution entry if needed
+              $('#listview').append($(''
+                + "<li> <p class='institution' id='"+institutionElementID+"'>" + institution + "</p></li>"
+              ));
+            }
+
+            if ($(patientQuery).length == 0) {
+              // add patient entry if needed
+              $(institutionQuery).append($(''
+                + "<li> <p class='patient' id='"+patientElementID+"'>" + patientID + "</p></li>"
+              ));
+            }
+
+            // add study/series entry
+            $(patientQuery).append($(''
+                       + "<p class='series'>" + studyDescription + ", " + modality
+                         + " " + seriesDescription
+                         + " ("+ instanceCount + ") "
+                         + "</p>"
+            ))
+            .data({'seriesUID':seriesUID})
+            .click(function() {
+              chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))
+            })
+
          });
-          $('#listview').listview('refresh');
+         $('#listview').listview('refresh');
         },
         error: function(status) {
           console.log(status);
