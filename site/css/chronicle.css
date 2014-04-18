@@ -87,8 +87,13 @@
   font-size: 60%;
 }
 
-.patient {
+.institution {
   color: #555;
+  margin: .1em 0 0 0;
+}
+
+.patient {
+  color: #222;
   margin: .5em 0 0 0;
 }
 

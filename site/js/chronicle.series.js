@@ -157,13 +157,15 @@ $(function() {
                 series.controlPointDocuments.push(row.doc);
               }
             });
-            // HACK: sort instanceUIDs by last element of UID
+            // Pseudo-HACK: sort instanceUIDs by last element of UID
             // since that is almost always slice number.
             // This way the slider will work as expected.
             lastUIDInt = function(uid) {return (eval(uid.split(".").pop())); };
             cmp = function(a,b) { return (a<b ? -1 : (b<a ? 1 : 0)); };
             sortF = function(a,b) { return (cmp(lastUIDInt(a),lastUIDInt(b))); }
             series.imageInstanceUIDs = series.imageInstanceUIDs.sort(sortF);
+
+            // determine the current instance index and update the slider and view
             var imageInstanceIndex = series.imageInstanceUIDs.indexOf(
                                                series.options.imageInstanceUID);
             var instanceCount = series.imageInstanceUIDs.length;
@@ -197,7 +199,7 @@ $(function() {
       // draw with the image first, overlays will come later
       this.options.imageInstanceUID = this.imageInstanceUIDs[index];
       this.imgSrc = '../' + this.options.imageInstanceUID + '/image512.png';
-      // TODO
+      // create a list of points for this image instance
       this.controlPoints = [];
       var series = this;
       $.each(this.controlPointDocuments, function(index, doc) {
