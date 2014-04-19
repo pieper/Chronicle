@@ -13,9 +13,11 @@ $(function() {
   $.widget( "chronicle.root", {
     // default options
     options: {
-      red: 255,
-      green: 0,
-      blue: 0,
+
+      // the chronicle key to the series
+      // - should be highlighed in list
+      seriesUID: null,
+
 
       // state variables
       pendingUpdateRequest : null,
@@ -55,6 +57,8 @@ $(function() {
 
       this._trigger('random');
 
+      this.options.seriesUID = chronicleUtil.getURLParameter("seriesUID");
+
       // clear previous results
       this._clearResults();
 
@@ -71,6 +75,7 @@ $(function() {
       // ]
       // which is [[inst,patid],[studydes,studid],[modality,serdesc,serid],instid]
 
+      var root = this;
       pendingUpdateRequest = $.couch.db("chronicle").view("instances/context", {
         reduce : true,
         group_level : 3,
@@ -103,17 +108,24 @@ $(function() {
               ));
             }
 
+            var selectedClass = "";
+            if (seriesUID == root.options.seriesUID) {
+              selectedClass = " selected";
+            }
+              
             // add study/series entry
             $(patientQuery).append($(''
-                       + "<p class='series'>" + studyDescription + ", " + modality
+                       + "<p class='series" + selectedClass + "'>" + studyDescription + ", " + modality
                          + " " + seriesDescription
                          + " ("+ instanceCount + ") "
                          + "</p>"
-            ))
-            .data({'seriesUID':seriesUID})
-            .click(function() {
-              chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))
-            })
+              )
+              .data({'seriesUID':seriesUID})
+              .click(function() {
+                chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))
+              })
+            )
+console.log(selectedClass);
 
          });
          $('#listview').listview('refresh');
