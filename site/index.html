@@ -13,10 +13,8 @@
   <script src="./jslib/jquery.dialog.js"></script>
   <script src="./jslib/jquery-ui-1.10.3.js"></script>
   <script src="./jslib/jquery.ui.touch-punch.min.js"></script>
-  <!-- <script src="./jslib/jquery.mobile-1.4.2.min.js"></script> -->
   <script src="./jslib/jquery.svg.min.js"></script>
 
-  <!-- <link href="./css/jquery.mobile-1.4.2.min.css" rel="stylesheet" type="text/css" /> -->
   <link href="./css/jquery-ui-1.8.11.custom.css" rel="stylesheet" type="text/css" />
   <link href="./css/jquery.svg.css" rel="stylesheet" type="text/css" />
 
@@ -31,7 +29,11 @@
 
 $(function() {
 
-  var root = $('#rootView').root({});
+  var root = $('#rootView').root({
+    change : function() {
+      $('#Navigation').accordion({heightStyle: "fill"});
+    }
+  });
 
   var seriesUID = chronicleUtil.getURLParameter("seriesUID");
   if (seriesUID) {
@@ -57,7 +59,12 @@ $(function() {
   <div class="main">
     <div class="left">
       <div id="Navigation">
-        <div id="rootView"> </div>
+        <h3>Structures</h3>
+        <div><div id="structureView"> </div></div>
+        <h3>Scans</h3>
+        <div><div id="rootView"> </div></div>
+        <h3>Settings</h3>
+        <div><div id="settingsView"> </div></div>
       </div>
     </div>
     <div class="right">

@@ -1,42 +1,7 @@
 
-.inputArea {
-	margin: .75em 1em;
-	line-height: 1.0;
-	color: #461b7e;
-}
-
-.hitcount {
-	margin: .75em 1em;
-	line-height: 1.0;
-	color: #333;
-}
-
-.results {
-  width: 50%;
-	margin: .75em .2em .1em .3em;
-	line-height: 1.0;
-}
-
-.highlight {
-  background-color: rgba(230,230,50,0.25);
-}
-
-.citation {
-	color: #777;
-	margin: 2em .2em .1em .3em;
-  font-size: 75%;
-}
-
-.paragraph {
-	color: #000;
-	margin: .2em .2em .1em .3em;
-  font-size: 100%;
-}
-
-
 .header {
   background: #aaa;
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 3em;
   left: 0;
@@ -62,7 +27,6 @@
   position: absolute;
   width: 30%;
   height: 100%;
-  overflow: scroll;
 }
 
 .right {
@@ -75,11 +39,11 @@
 }
 
 .footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
-	height: 5em;
-	background: #888;
+  height: 5em;
+  background: #888;
 }
 
 .footer p {

@@ -68,6 +68,8 @@ $(function() {
         .disableSelection();
 
       // Add the slice slider
+      // TODO: add ticks and labels and spinner e.g.
+      //  http://bseth99.github.io/jquery-ui-scrollable/index.html
       this.sliceSlider = $( "<input>", {
          "class": "chronicle-series-sliceSlider",
          "id": "sliceSlider",
@@ -89,7 +91,26 @@ $(function() {
       $('#sliceGraphics').svg({
         width: 512,
         height: 512
+      }).keydown( function(event) {
+        console.log(event);
       });
+
+      $( "<br>" ).appendTo( this.element );
+
+      $(''
+        + '<form>'
+          + '<div id="dragModeRadio">'
+          + '    <input type="radio" id="dragMode1" name="dragModeRadio" value="one">'
+          + '    <label for="dragMode1">Drag One</label>'
+          + '    <input type="radio" id="dragMode2" name="dragModeRadio"  value="all" checked="checked">'
+          + '    <label for="dragMode2">Drag All</label>'
+          + '    <input type="radio" id="dragMode3" name="dragModeRadio" value="rotate">'
+          + '    <label for="dragMode3">Rotate All</label>'
+          + '    <input type="radio" id="dragMode4" name="dragModeRadio" value="scale">'
+          + '    <label for="dragMode4">Scale All</label>'
+          + '</div>'
+        + '</form>'
+      ).appendTo( this.element );
 
       $( "<br>" ).appendTo( this.element );
 
@@ -186,6 +207,10 @@ $(function() {
           },
         });
 
+      $( "#dragModeRadio" ).buttonset();
+      $( "#dragModeRadio" ).buttonset('refresh');
+
+
       // trigger a callback/event
       this._trigger( "change" );
     },
@@ -225,6 +250,15 @@ $(function() {
       });
     },
 
+
+    // handle a drag event on a control point
+    //  -- take into account the current dragModeRadio state
+    _dragEvent: function() {
+        console.log($("#dragModeRadio :radio:checked + label").text());
+    },
+
+    // updates the slice graphics to reflect current state
+    // and sets up callback events
     _drawGraphics: function() {
 
       // clear the old graphics
@@ -235,10 +269,10 @@ $(function() {
 
       // draw the image
       if (this.imgSrc) {
-        if ( $('image') ) {
+        if ( $('image').length == 0 ) {
           svg.image(null, 0, 0, 512, 512, this.imgSrc);
         } else {
-          $('image').setAttribute('ref', this.imgSrc);
+          $('image')[0].setAttribute('href', this.imgSrc);
         }
       }
 
@@ -278,6 +312,7 @@ $(function() {
       })
       .bind('drag', function(event, ui){
         // update circle coordinates
+        series._dragEvent();
         var cx = event.offsetX - event.target.getAttribute('dx');
         var cy = event.offsetY - event.target.getAttribute('dy');
         event.target.setAttribute('cx', cx);
@@ -288,6 +323,11 @@ $(function() {
         series.controlPoints[curveIndex][pointIndex] = [cx, cy];
         // redraw the lines with new values
         series._updateLines();
+        console.log(event);
+      })
+      .bind('keydown', function(event){
+        // key press
+        console.log(event);
       });
     },
 

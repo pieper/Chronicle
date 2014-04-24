@@ -35,15 +35,8 @@ $(function() {
         // prevent double click to select text
         .disableSelection();
 
-      this.list = $( "<ul>", {
-        "id": "listview",
-        "data-role": "listview",
-        "data-inset": "true",
-        "data-autodividers": "true",
-        "data-filter": "true"
-      })
-      .appendTo( this.element )
-      $('#listview').listview();
+      this.seriesList = $( "<ul>", { "id": "seriesList", } )
+      .appendTo( this.element );
 
       this._refresh();
     },
@@ -75,6 +68,9 @@ $(function() {
       // ]
       // which is [[inst,patid],[studydes,studid],[modality,serdesc,serid],instid]
 
+      // TODO: make the scan list scrollable
+      //  http://bseth99.github.io/jquery-ui-scrollable/index.html
+
       var root = this;
       pendingUpdateRequest = $.couch.db("chronicle").view("instances/context", {
         reduce : true,
@@ -96,7 +92,7 @@ $(function() {
 
             if ($(institutionQuery).length == 0) {
               // add institution entry if needed
-              $('#listview').append($(''
+              $('#seriesList').append($(''
                 + "<li> <p class='institution' id='"+institutionElementID+"'>" + institution + "</p></li>"
               ));
             }
@@ -125,18 +121,14 @@ $(function() {
                 chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))
               })
             )
-console.log(selectedClass);
-
          });
-         $('#listview').listview('refresh');
+         // trigger a callback/event - updates parent
+         root._trigger( "change" );
         },
         error: function(status) {
           console.log(status);
         },
       });
-
-      // trigger a callback/event
-      this._trigger( "change" );
     },
 
 
