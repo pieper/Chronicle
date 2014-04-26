@@ -109,6 +109,7 @@ $(function() {
           var child = {};
           child.icon = '../' + uid + '/image64.png';
           child.text = String(imageInstanceUIDs.indexOf(uid));
+          child.data = uid;
           sliceIndices.push(child);
         });
         muscleEntry.children = sliceIndices;
@@ -121,13 +122,14 @@ $(function() {
       $('#structureTree').jstree(tree);
 
       $('#structureTree').on("changed.jstree", function (e, data) {
-        console.log(data);
         if ( data.node.children.length > 0 ) {
           // selected a muscle, show the slices where it is defined
           $('#structureTree').jstree('close_all');
           $('#structureTree').jstree('open_node', data.selected);
         } else {
           // selected a slice, scroll to it
+          $('body').data().imageInstanceUID = data.node.data;
+          $('body').trigger("imageInstanceUIDChange");
         }
       });
     },

@@ -114,6 +114,12 @@ $(function() {
 
       $( "<br>" ).appendTo( this.element );
 
+      // listen for changes to the image index to show
+      var series = this;
+      $('body').on('imageInstanceUIDChange', function(e) {
+        series._imageInstanceUID(series, $('body').data().imageInstanceUID);
+      });
+
       this._refresh();
     },
 
@@ -121,6 +127,8 @@ $(function() {
     // events bound via _on are removed automatically
     // revert other modifications here
     _destroy: function() {
+      // remove observer
+      $('body').on('imageInstanceUIDChange', this._imageInstanceIndex);
       // remove generated elements
       this.sliceSlider.remove();
       this.sliceGraphics.remove();
@@ -219,6 +227,14 @@ console.log('triggered change');
 
     },
 
+    // called when the body data uid is changed
+    _imageInstanceUID: function(series, uid) {
+      series.options.imageInstanceUID = uid;
+      var index = series.imageInstanceUIDs.indexOf(uid);
+      $('#sliceSlider').val( index );
+      series._imageInstanceIndex(index);
+    },
+
     // called when created, and later when changing options
     // This draws the current image and then sets up a request
     // for all the objects that reference this instance
@@ -229,6 +245,7 @@ console.log('triggered change');
       this.options.imageInstanceUID = this.imageInstanceUIDs[index];
       // copy data to DOM for shared access (see chronicle.structures.js)
       $('body').data().imageInstanceUID = this.options.imageInstanceUID;
+
       // update the background image
       this.imgSrc = '../' + this.options.imageInstanceUID + '/image512.png';
       // create a list of points for this image instance
