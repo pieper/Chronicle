@@ -13,16 +13,32 @@ $(function() {
 
   $.widget( "chronicle.structures", {
     // default options
-    options: {
+    options : {
       // the chronicle series that holds the actual data and display
       // TODO: the contents of this could be factored out to the page level
       //  probably using $('body').data() as the container object
-      series: null,
+      series : null,
 
-      seriesSelector: null,
+      seriesSelector : null,
 
       // callbacks
-      change: null,
+      change : null,
+
+      // TODO: this should come from database (or somewhere)
+      labelToName : {
+        "SM" : "Semimembranous",
+        "RF" : "Rectus Femoralis",
+        "VLI" : "Vastus Lateralis and Intermedius",
+        "TFL" : "Tensor Fasciae Latae",
+        "SAR" : "Sartorius",
+        "GRA" : "Gracilis",
+        "ST" : "Semitendinosus",
+        "BFL" : "Biceps Femoris Longus",
+        "BFB" : "Biceps Femoris Brevis",
+        "VM" : "Vastus Medialis",
+        "ADD" : "All Adductors",
+      },
+
     },
 
 
@@ -74,13 +90,19 @@ $(function() {
       }).appendTo( this.element );
 
       var series = $(this.options.seriesSelector);
+      var structure = this;
 
       var imageInstanceUIDs = $('body').data().imageInstanceUIDs;
       var controlPointDocuments = $('body').data().controlPointDocuments;
       var treeData = [];
       $.each(controlPointDocuments, function(index,controlPointDocument) {
         var muscleEntry = {};
-        muscleEntry.text = controlPointDocument.label;
+        var muscleLabel = controlPointDocument.label;
+        muscleEntry.text = muscleLabel;
+        var name = structure.options.labelToName[muscleLabel];
+        if (name) {
+          muscleEntry.text = name;
+        }
         var sliceIndices = [];
         var uids = Object.keys(controlPointDocument.instancePoints);
         $.each(uids, function(index,uid) {

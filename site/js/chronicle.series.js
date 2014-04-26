@@ -217,7 +217,6 @@ console.log('triggered change');
       $( "#dragModeRadio" ).buttonset();
       $( "#dragModeRadio" ).buttonset('refresh');
 
-
     },
 
     // called when created, and later when changing options
