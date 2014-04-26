@@ -38,9 +38,7 @@ $(function() {
 
       var structures = this;
       $(this.options.seriesSelector).bind('change', function(e) {
-console.log('refreshing');
         structures._refresh();
-console.log('refreshed');
       });
     },
 
@@ -77,19 +75,6 @@ console.log('refreshed');
 
       var series = $(this.options.seriesSelector);
 
-/*
-      var uids = $('body').data().controlPointInstanceUIDs;
-      $('#structureTree').append('<ul>');
-      $('#structureTree').append('<li>test</li>');
-      if (uids) {
-        $.each(uids, function(index,uid) {
-          $('#structureTree').append('<li>' + uid + '</li>');
-console.log("added");
-        });
-      }
-      $('#structureTree').append('</ul>');
-*/
-
       var imageInstanceUIDs = $('body').data().imageInstanceUIDs;
       var controlPointDocuments = $('body').data().controlPointDocuments;
       var treeData = [];
@@ -99,19 +84,30 @@ console.log("added");
         var sliceIndices = [];
         var uids = Object.keys(controlPointDocument.instancePoints);
         $.each(uids, function(index,uid) {
-          sliceIndices.push(String(imageInstanceUIDs.indexOf(uid)));
+          var child = {};
+          child.icon = '../' + uid + '/image64.png';
+          child.text = String(imageInstanceUIDs.indexOf(uid));
+          sliceIndices.push(child);
         });
         muscleEntry.children = sliceIndices;
         treeData.push(muscleEntry);
       });
 
-
       var tree = { 'core' : {} };
       tree.core.data = treeData;
-
-console.log(tree);
-
+      tree.plugins = [ "wholerow", "sort" ];
       $('#structureTree').jstree(tree);
+
+      $('#structureTree').on("changed.jstree", function (e, data) {
+        console.log(data);
+        if ( data.node.children.length > 0 ) {
+          // selected a muscle, show the slices where it is defined
+          $('#structureTree').jstree('close_all');
+          $('#structureTree').jstree('open_node', data.selected);
+        } else {
+          // selected a slice, scroll to it
+        }
+      });
     },
 
 

@@ -202,7 +202,7 @@ $(function() {
             });
             // copy data to DOM for shared access (see chronicle.structures.js)
             $('body').data().imageInstanceUIDs = series.imageInstanceUIDs;
-            $('body').data().controlPointDocuments = series.controlPointDocuments;
+            $('body').data().controlPointInstanceUIDs = series.controlPointInstanceUIDs;
             $('body').data().controlPointDocuments = series.controlPointDocuments;
             // trigger a callback/event
             $('#sliceView').trigger( "change" );
