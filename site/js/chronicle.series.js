@@ -200,6 +200,13 @@ $(function() {
                     var value = $('#sliceSlider').val();
                     series._imageInstanceIndex(value);
             });
+            // copy data to DOM for shared access (see chronicle.structures.js)
+            $('body').data().imageInstanceUIDs = series.imageInstanceUIDs;
+            $('body').data().controlPointDocuments = series.controlPointDocuments;
+            $('body').data().controlPointDocuments = series.controlPointDocuments;
+            // trigger a callback/event
+            $('#sliceView').trigger( "change" );
+console.log('triggered change');
           },
           error: function(status) {
             console.log(status);
@@ -211,8 +218,6 @@ $(function() {
       $( "#dragModeRadio" ).buttonset('refresh');
 
 
-      // trigger a callback/event
-      this._trigger( "change" );
     },
 
     // called when created, and later when changing options
@@ -223,6 +228,9 @@ $(function() {
 
       // draw with the image first, overlays will come later
       this.options.imageInstanceUID = this.imageInstanceUIDs[index];
+      // copy data to DOM for shared access (see chronicle.structures.js)
+      $('body').data().imageInstanceUID = this.options.imageInstanceUID;
+      // update the background image
       this.imgSrc = '../' + this.options.imageInstanceUID + '/image512.png';
       // create a list of points for this image instance
       this.controlPoints = [];

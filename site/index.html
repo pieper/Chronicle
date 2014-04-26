@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<link rel="shortcut icon" type="image/ico" href="http://couchdb.apache.org/favicon.ico">
+  <meta charset="utf-8">
+  <link rel="shortcut icon" type="image/ico" href="http://couchdb.apache.org/favicon.ico">
 
-	<title>Chronicle Overview</title>
+  <title>Chronicle Thigh Muscles</title>
 
   <script src="./jslib/json2.js"></script>
   <script src="./jslib/sha1.js"></script>
   <script src="./jslib/jquery.js"></script>
   <script src="./jslib/jquery.couch.js"></script>
   <script src="./jslib/jquery.dialog.js"></script>
+  <script src="./jslib/jstree.min.js"></script>
   <script src="./jslib/jquery-ui-1.10.3.js"></script>
   <script src="./jslib/jquery.ui.touch-punch.min.js"></script>
   <script src="./jslib/jquery.svg.min.js"></script>
 
+  <script src="./jslib/xtk.js"></script>
+
   <link href="./css/jquery-ui-1.8.11.custom.css" rel="stylesheet" type="text/css" />
   <link href="./css/jquery.svg.css" rel="stylesheet" type="text/css" />
+  <link href="./jslib/themes/default/style.min.css" rel="stylesheet" type="text/css" />
 
   <script src="./js/chronicle.util.js"></script>
   <script src="./js/chronicle.root.js"></script>
   <script src="./js/chronicle.series.js"></script>
+  <script src="./js/chronicle.structures.js"></script>
 
   <link href="./css/docbook.css" rel="stylesheet" type="text/css" />
   <link href="./css/chronicle.css" rel="stylesheet" type="text/css" />
@@ -35,14 +40,64 @@ $(function() {
     }
   });
 
+  var chronicleSeries;
   var seriesUID = chronicleUtil.getURLParameter("seriesUID");
   if (seriesUID) {
     var jqSeriesUID = chronicleUtil.jqID(seriesUID);
-    $('#applicationPanel').append("<div class='seriesView' id='" + seriesUID + "'></div>");
-    $(jqSeriesUID).series({
+    $('#sliceView').append("<div class='seriesView' id='" + seriesUID + "'></div>");
+    chronicleSeries = $(jqSeriesUID).series({
       'seriesUID' : seriesUID,
+      change : function() {
+        // TODO: if/when needed...
+      },
     });
   }
+
+  var structures = $('#structureView').structures({
+    series : chronicleSeries,
+    seriesSelector : '#sliceView',
+    change : function() {
+      $('#Navigation').accordion({heightStyle: "fill"});
+    },
+  });
+
+  // TODO: clean up!
+
+  // create and initialize a 3D renderer
+  var r = new X.renderer3D();
+  r.container = 'threeDView';
+  r.init();
+
+  // create a new X.mesh
+  var skull = new X.mesh();
+  // .. and associate the .vtk file to it
+  skull.file = 'http://x.babymri.org/?skull.vtk';
+  // .. make it transparent
+  skull.opacity = 0.7;
+
+  // .. add the mesh
+  r.add(skull);
+
+  // re-position the camera to face the skull
+  r.camera.position = [0, 400, 0];
+
+  // animate..
+  r.onRender = function() {
+
+    // rotate the skull around the Z axis
+    // since we moved the camera, it is Z not X
+    skull.transform.rotateZ(1);
+
+    // we could also rotate the camera instead which is better in case
+    // we have a lot of objects and want to rotate them all:
+    //
+    // r.camera.rotate([1,0]);
+
+  };
+
+  r.render();
+
+  
 
 });
 
@@ -50,8 +105,8 @@ $(function() {
 </head>
 
 <body>
-	<div class="header">
-			<h1>Chronicle: a factual account of events.</h1>
+   <div class="header">
+   <h1>Chronicle: a factual account of events.  MuscleTrial Prototype Edition</h1>
   </div>
 
 
@@ -68,7 +123,10 @@ $(function() {
       </div>
     </div>
     <div class="right">
-        <div id="applicationPanel"> </div>
+      <div id="views" class="views">
+        <div class="view" id="sliceView"> </div>
+        <div class="view" id="threeDView"> </div>
+      </div>
     </div>
 
   <div class="footer">
@@ -85,6 +143,7 @@ $(function() {
     <a href="http://commontk.org">CTK</a>
     <a href="http://qiicr.org">QIICR</a>
     </p>
+    <p>MuscleTrial Edition.  This site is customized for definition of thigh muscle anatomy and does not represent the final concept of the Chronicle architecture.</p>
   </div>
 </div>
 </body>

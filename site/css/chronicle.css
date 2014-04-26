@@ -38,6 +38,25 @@
   overflow: scroll;
 }
 
+.views {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.sliceView {
+  width: 512px;
+  margin: 10px;
+  float: left;
+}
+
+.threeDView {
+  width: 256px;
+  margin: 10px;
+  float: left;
+}
+
 .footer {
   position: fixed;
   bottom: 0;
