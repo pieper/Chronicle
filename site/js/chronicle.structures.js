@@ -107,7 +107,7 @@ $(function() {
         var uids = Object.keys(controlPointDocument.instancePoints);
         $.each(uids, function(index,uid) {
           var child = {};
-          child.icon = '../' + uid + '/image64.png';
+          child.icon = '../' + uid + '/image32.png';
           child.text = String(imageInstanceUIDs.indexOf(uid));
           child.data = uid;
           sliceIndices.push(child);
@@ -119,6 +119,16 @@ $(function() {
       var tree = { 'core' : {} };
       tree.core.data = treeData;
       tree.plugins = [ "wholerow", "sort" ];
+      /*
+      tree.sort = function(a,b) {
+        // TODO:
+        var nodea = $('#structureTree').jstree('get_node', a);
+        var nodeb = $('#structureTree').jstree('get_node', b);
+        var na = Number(nodea.text);
+        var nb = Number(nodeb.text);
+        return (na<nb ? -1 : (nb<na ? 1 : 0));
+      };
+      */
       $('#structureTree').jstree(tree);
 
       $('#structureTree').on("changed.jstree", function (e, data) {

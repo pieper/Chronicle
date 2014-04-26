@@ -68,60 +68,83 @@ $(function() {
       // ]
       // which is [[inst,patid],[studydes,studid],[modality,serdesc,serid],instid]
 
-      // TODO: make the scan list scrollable
-      //  http://bseth99.github.io/jquery-ui-scrollable/index.html
-
       var root = this;
       pendingUpdateRequest = $.couch.db("chronicle").view("instances/context", {
         reduce : true,
         group_level : 3,
         success: function(data) {
-          // add entries for each hit
+          // add tree entries for each hit
+          var treeData = [];
+          var patientUIDsByInstitution = {};
+          var patientIDsByUID = {};
+          var scanEntriesByPatientUID = {};
           $.each(data.rows, function(index,row) {
             var institution = row.key[0][0];
-            var institutionElementID = institution.split(' ').join('_'); // replace all
-            var institutionQuery = '#'+institutionElementID;
+            var patientUID = String(row.key[0]);
             var patientID = row.key[0][1];
-            var patientElementID = institutionElementID+"-"+patientID;
-            var patientQuery = "#"+patientElementID;
             var studyDescription = row.key[1][0];
             var modality = row.key[2][0];
             var seriesDescription = row.key[2][1];
             var seriesUID =row.key[2][2];
             var instanceCount = row.value;
 
-            if ($(institutionQuery).length == 0) {
-              // add institution entry if needed
-              $('#seriesList').append($(''
-                + "<li> <p class='institution' id='"+institutionElementID+"'>" + institution + "</p></li>"
-              ));
+            // keep track of all the institutions for the root of the tree
+            if (! patientUIDsByInstitution.hasOwnProperty(institution) ) {
+              patientUIDsByInstitution[institution] = [];
             }
 
-            if ($(patientQuery).length == 0) {
-              // add patient entry if needed
-              $(institutionQuery).append($(''
-                + "<li> <p class='patient' id='"+patientElementID+"'>" + patientID + "</p></li>"
-              ));
+            // keep track of patients to hook them into institutions
+            if (patientUIDsByInstitution[institution].indexOf(patientUID) == -1) {
+              patientUIDsByInstitution[institution].push(patientUID);
             }
+            patientIDsByUID[patientUID] = patientID;
 
-            var selectedClass = "";
-            if (seriesUID == root.options.seriesUID) {
-              selectedClass = " selected";
+            // for each scan, create a leaf node tracked by patientUID
+            var scanEntry = {};
+            scanEntry.id = seriesUID;
+            scanEntry.text = "%1 (%2) %3 (%4)"
+              .replace("%1", studyDescription)
+              .replace("%2", modality)
+              .replace("%3", seriesDescription)
+              .replace("%4", instanceCount);
+            scanEntry.data = seriesUID;
+            if (!scanEntriesByPatientUID.hasOwnProperty(patientUID)) {
+              scanEntriesByPatientUID[patientUID] = [];
             }
-              
-            // add study/series entry
-            $(patientQuery).append($(''
-                       + "<p class='series" + selectedClass + "'>" + studyDescription + ", " + modality
-                         + " " + seriesDescription
-                         + " ("+ instanceCount + ") "
-                         + "</p>"
-              )
-              .data({'seriesUID':seriesUID})
-              .click(function() {
-                chronicleUtil.setURLParameter("seriesUID",$(this).data('seriesUID'))
-              })
-            )
+            scanEntriesByPatientUID[patientUID].push(scanEntry);
          });
+
+         // make the nested tree structure
+         $.each(Object.keys(patientUIDsByInstitution), function(index,institution) {
+           var institutionNode = {};
+           institutionNode.text = institution;
+           institutionNode.state = {'opened' : true};
+           institutionPatients = [];
+           $.each(patientUIDsByInstitution[institution], function(index,patientUID) {
+console.log('looking at patient ' + patientUID);
+             var patientNode = {};
+             patientNode.text = patientIDsByUID[patientUID];
+             patientNode.children = scanEntriesByPatientUID[patientUID];
+             institutionPatients.push(patientNode);
+           });
+           institutionNode.children = institutionPatients;
+           treeData.push(institutionNode);
+         });
+         var tree = { 'core' : {} };
+         tree.core.data = treeData;
+         tree.plugins = [ "wholerow", "sort" ];
+console.log(tree);
+         $('#scanTree').jstree(tree);
+
+         $('#scanTree').on("changed.jstree", function(e,data) {
+            if ( data.node.children.length > 0 ) {
+              // selected a muscle, show the slices where it is defined
+              $('#scanTree').jstree('toggle_node', data.selected);
+            } else {
+              chronicleUtil.setURLParameter("seriesUID",data.node.data)
+            }
+         });
+
          // trigger a callback/event - updates parent
          root._trigger( "change" );
         },
