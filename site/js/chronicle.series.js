@@ -119,6 +119,18 @@ $(function() {
         + '</form>'
       ).appendTo( this.element );
 
+      $(''
+         + ' <div id="dialog-confirm" title="Copy points?">'
+         + '  <p>'
+         + '  <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;">'
+         + '  </span>'
+         + '  These items will be permanently deleted and cannot be recovered. Are you sure?'
+         + '  </p>'
+         + ' </div>'
+      ).appendTo( this.element );
+
+
+
       $( "<br>" ).appendTo( this.element );
 
       // listen for changes to the image index to show
@@ -209,6 +221,7 @@ $(function() {
             // Pseudo-HACK: sort instanceUIDs by last element of UID
             // since that is almost always slice number.
             // This way the slider will work as expected.
+            // TODO: use new chronicleDICOM.sortedUIDs
             lastUIDInt = function(uid) {return (eval(uid.split(".").pop())); };
             cmp = function(a,b) { return (a<b ? -1 : (b<a ? 1 : 0)); };
             sortF = function(a,b) { return (cmp(lastUIDInt(a),lastUIDInt(b))); }
@@ -224,7 +237,7 @@ $(function() {
             }
             $('#sliceSlider').val( imageInstanceIndex );
             series._imageInstanceIndex( imageInstanceIndex );
-            $('#sliceSlider').bind("change", function(event,ui) {
+            $('#sliceSlider').on("change", function(event,ui) {
                     var value = $('#sliceSlider').val();
                     series._imageInstanceIndex(value);
             });
@@ -315,12 +328,21 @@ $(function() {
       // draw the image
       if (this.imgSrc) {
         if ( $('image').length == 0 ) {
-          svg.image(null, 0, 0, 512, 512, this.imgSrc);
+          svg.image(null, 0, 0, 512, 512, this.imgSrc)
+          $('image').on('keydown', function(event){
+            // TODO: key press
+            console.log(event);
+          })
+          .on('mousedown', function(event){
+
+          });
         } else {
           $('image')[0].setAttribute('href', this.imgSrc);
         }
       }
+ 
 
+ 
       // draw the graphic overlay
       this._updateLines();
 
@@ -338,24 +360,39 @@ $(function() {
       var series = this;
       $('circle')
       .draggable()
-      .bind('mouseenter', function(event){
+      .on('mouseenter', function(event){
         // bring target to front
         $(event.target.parentElement).append( event.target );
         event.target.setAttribute('opacity', 1.0);
         event.target.setAttribute('stroke', 'green');
       })
-      .bind('mouseleave', function(event){
+      .on('mouseleave', function(event){
         event.target.setAttribute('opacity', 0.5);
         event.target.setAttribute('stroke', 'blue');
+
+            $( "#dialog-confirm" ).dialog({
+              resizable: true,
+              height:140,
+              modal: true,
+              buttons: {
+                "Delete all items": function() {
+                  $( this ).dialog( "close" );
+                },
+                Cancel: function() {
+                  $( this ).dialog( "close" );
+                }
+              }
+            });
+            
       })
-      .bind('mousedown', function(event){
+      .on('mousedown', function(event){
         // record start position offset from center of point
         var dx = event.target.getAttribute('cx') - event.offsetX;
         var dy = event.target.getAttribute('cy') - event.offsetY;
         event.target.setAttribute('dx', dx);
         event.target.setAttribute('dy', dy);
       })
-      .bind('drag', function(event, ui){
+      .on('drag', function(event, ui){
         // update circle coordinates
         series._dragEvent();
         var cx = event.offsetX - event.target.getAttribute('dx');
@@ -369,7 +406,7 @@ $(function() {
         // redraw the lines with new values
         series._updateLines();
       })
-      .bind('keydown', function(event){
+      .on('keydown', function(event){
         // TODO: key press
         console.log(event);
       });

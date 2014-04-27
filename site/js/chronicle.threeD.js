@@ -180,8 +180,6 @@ $(function() {
         });
       });
 
-      console.log(threeD.meshesByStructure);
-
       // re-position the camera to face the muscles
       // TODO: don't hard code this
       threeD.renderer.camera.position = [0, 400, 0];

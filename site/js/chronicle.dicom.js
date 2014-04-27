@@ -80,9 +80,7 @@ chronicleDICOM = {
     uidDistances.sort( function(a,b) {
       return ( (a[1] > b[1]) ? 1 : ( (a[1] < b[1]) ? -1 : 0 ) );
     });
-  console.log(uidDistances);
     var sortedUIDs = $.map(uidDistances, function(x) {return(x[0])});
-  console.log(sortedUIDs);
     return (sortedUIDs);
   },
 }

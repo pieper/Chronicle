@@ -8,23 +8,24 @@
 
   <script src="./jslib/json2.js"></script>
   <script src="./jslib/sha1.js"></script>
-  <script src="./jslib/jquery.js"></script>
+  <script src="./jslib/jquery-1.10.2.js"></script>
   <script src="./jslib/jquery.couch.js"></script>
   <script src="./jslib/jquery.dialog.js"></script>
   <script src="./jslib/jstree.min.js"></script>
-  <script src="./jslib/jquery-ui-1.10.3.js"></script>
+  <script src="./jslib/jquery-ui-1.10.4.custom.min.js"></script>
   <script src="./jslib/jquery.ui.touch-punch.min.js"></script>
   <script src="./jslib/jquery.svg.min.js"></script>
 
   <script src="./jslib/xtk.js"></script>
 
-  <link href="./css/jquery-ui-1.8.11.custom.css" rel="stylesheet" type="text/css" />
+  <link href="./css/smoothness/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
   <link href="./css/jquery.svg.css" rel="stylesheet" type="text/css" />
   <link href="./jslib/themes/default/style.min.css" rel="stylesheet" type="text/css" />
 
   <script src="./js/chronicle.util.js"></script>
   <script src="./js/chronicle.dicom.js"></script>
   <script src="./js/chronicle.root.js"></script>
+  <script src="./js/chronicle.settings.js"></script>
   <script src="./js/chronicle.series.js"></script>
   <script src="./js/chronicle.structures.js"></script>
   <script src="./js/chronicle.threeD.js"></script>
@@ -54,6 +55,12 @@ $(function() {
       },
     });
   }
+
+  var settings = $('#settingsView').settings({
+    change : function() {
+      $('#Navigation').accordion({heightStyle: "fill"});
+    }
+  });
 
   var structures = $('#structureView').structures({
     series : chronicleSeries,
