@@ -88,17 +88,16 @@ $(function() {
         var uids = Object.keys(controlPointDocument.instancePoints);
         $.each(uids, function(index,uid) {
           var points = controlPointDocument.instancePoints[uid];
+          var p = null;
           $.each(points, function(index,point) {
-            var p = chronicleDICOM.scoordToPatient(seriesGeometry, uid, point);
-console.log(p);
+            if (p == null) {
+              p = chronicleDICOM.scoordToPatient(seriesGeometry, uid, point);
+              var controlPoint = new X.sphere();
+              controlPoint.center = p;
+              threeD.renderer.add(controlPoint);
+            }
           });
         });
-        // create a new X.mesh
-        var skull = new X.mesh();
-    
-        // .. add the mesh
-        threeD.renderer.add(skull);
-
       });
 
     

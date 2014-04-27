@@ -186,8 +186,15 @@ $(function() {
               var instanceUID = row.value[1];
               if (series.imageClasses.indexOf(classUID) != -1) {
                 series.imageInstanceUIDs.push(instanceUID);
-                var position = row.doc.dataset[series.ImagePositionPatientTag];
-                var orientation = row.doc.dataset[series.ImageOrientationPatientTag];
+                // TODO: don't use 'eval' - looks like a bug in record.py - should be list not string with list inside
+                var position = $.map(
+                  eval(row.doc.dataset[series.ImagePositionPatientTag].Value), function(e) {
+                    return (Number(e));
+                });
+                var orientation = $.map(
+                  eval(row.doc.dataset[series.ImageOrientationPatientTag].Value), function(e) {
+                    return (Number(e));
+                });
                 series.seriesGeometry[instanceUID] = {
                   'position' : position,
                   'orientation' : orientation,

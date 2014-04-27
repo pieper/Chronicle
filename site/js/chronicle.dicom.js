@@ -21,9 +21,9 @@ chronicleDICOM = {
     var oRow = seriesGeometry[instanceUID].orientation.slice(0,3);
     var oCol = seriesGeometry[instanceUID].orientation.slice(3,6);
     return [
-      oRow[0]*scoord[0] + oCol[0]*scoord[1] + [position[0],
-      oRow[1]*scoord[0] + oCol[1]*scoord[1] + [position[1],
-      oRow[2]*scoord[0] + oCol[2]*scoord[1] + [position[2],
+      oRow[0]*scoord[0] + oCol[0]*scoord[1] + position[0],
+      oRow[1]*scoord[0] + oCol[1]*scoord[1] + position[1],
+      oRow[2]*scoord[0] + oCol[2]*scoord[1] + position[2],
     ];
   },
 }
