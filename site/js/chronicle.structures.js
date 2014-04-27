@@ -99,6 +99,7 @@ $(function() {
         var muscleEntry = {};
         var muscleLabel = controlPointDocument.label;
         muscleEntry.text = muscleLabel;
+        muscleEntry.data = muscleLabel;
         var name = structure.options.labelToName[muscleLabel];
         if (name) {
           muscleEntry.text = name;
@@ -136,6 +137,8 @@ $(function() {
           // selected a muscle, show the slices where it is defined
           $('#structureTree').jstree('close_all');
           $('#structureTree').jstree('open_node', data.selected);
+          $('body').data().selectedStructure = data.node.data;
+          $('body').trigger("selectedStructureChange");
         } else {
           // selected a slice, scroll to it
           $('body').data().imageInstanceUID = data.node.data;

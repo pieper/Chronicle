@@ -35,7 +35,7 @@ $(function() {
         .disableSelection();
 
       var threeD = this;
-      $(this.options.structures).bind('change', function(e) {
+      $(this.options.structures).on('change', function(e) {
         threeD._refresh();
       });
 
@@ -56,6 +56,9 @@ $(function() {
       $('body').on('controlPointChange', function(e) {
         threeD._refresh(threeD);
       });
+      $('body').on('selectedStructureChange', function(e) {
+        threeD._refresh(threeD);
+      });
     },
 
 
@@ -64,7 +67,7 @@ $(function() {
     _destroy: function() {
 
       // remove generated elements
-      this._clearResults();
+      this._clearResults(this);
 
       this.element
         .removeClass( "chronicle-threeD" )
@@ -133,12 +136,12 @@ $(function() {
     },
 
 
-    _clearResults: function() {
+    _clearResults: function(threeD) {
       // TODO: proper clearing
       $('div',this.element[0]).remove();
-      var uids = Object.keys(this.meshesByStructure);
+      var uids = Object.keys(threeD.meshesByStructure);
       $.each(uids, function(index,uid) {
-        this.renderer.remove(this.meshesByStructure[uid]);
+        threeD.renderer.remove(threeD.meshesByStructure[uid]);
       });
     },
 
@@ -146,20 +149,27 @@ $(function() {
     _refresh: function(threeD) {
 
       // clear previous results
-      threeD._clearResults();
+      threeD._clearResults(threeD);
 
       // BUG: adding these cubes breaks the left mouse button
       // but the other buttons work (pan, zoom but no rotate)
+      var selectedStructure = $('body').data().selectedStructure;
       var controlPointDocuments = $('body').data().controlPointDocuments;
       var seriesGeometry = $('body').data().seriesGeometry;
       $.each(controlPointDocuments, function(index,controlPointDocument) {
         id = controlPointDocument._id;
-        var color = [Math.random(), Math.random(), Math.random()];
+        var color = [Math.random()/2., Math.random()/2., Math.random()/2.];
+        var opacity = 0.4;
+        if (controlPointDocument.label == selectedStructure) {
+          color = [Math.random(), Math.random(), Math.random()];
+          opacity = 1.;
+        }
         var controlPoints = controlPointDocument.instancePoints;
         var patientPoints = chronicleDICOM.scoordsToPatient(seriesGeometry,controlPoints);
         var uids = chronicleDICOM.sortedUIDs(seriesGeometry, Object.keys(patientPoints));
         threeD.meshesByStructure[id] = threeD._pointMesh(patientPoints, uids);
         threeD.meshesByStructure[id].color = color;
+        threeD.meshesByStructure[id].opacity = opacity;
         threeD.renderer.add(threeD.meshesByStructure[id]);
         $.each(uids, function(index,uid) {
           var points = controlPointDocument.instancePoints[uid];
@@ -182,7 +192,7 @@ $(function() {
 
       // re-position the camera to face the muscles
       // TODO: don't hard code this
-      threeD.renderer.camera.position = [0, 400, 0];
+      //threeD.renderer.camera.position = [0, 400, 0];
 
       /* TODO: expose a toggle button for autospin mode
       threeD.renderer.onRender = function() {
