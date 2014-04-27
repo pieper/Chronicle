@@ -41,12 +41,18 @@ $(function() {
                 "1.2.840.10008.5.1.4.1.1.7.4", // SC Image - true color
       ];
 
+      this.ImagePositionPatientTag = "00200032";
+      this.ImageOrientationPatientTag = "00200037";
+
       // state variables
       this.pendingSeriesRequest = null;
       this.pendingControlPointsRequest = null;
 
       // the list of image class instance UIDs associated with this seriesUID
       this.imageInstanceUIDs = [];
+
+      // seriesGeometry is a map of instnaceUID to position, orientation vectors
+      this.seriesGeometry = {};
 
       // the list of control point class instance UIDs associated with this seriesUID
       this.controlPointInstanceUIDs = [];
@@ -92,6 +98,7 @@ $(function() {
         width: 512,
         height: 512
       }).keydown( function(event) {
+        // TODO
         console.log(event);
       });
 
@@ -179,6 +186,12 @@ $(function() {
               var instanceUID = row.value[1];
               if (series.imageClasses.indexOf(classUID) != -1) {
                 series.imageInstanceUIDs.push(instanceUID);
+                var position = row.doc.dataset[series.ImagePositionPatientTag];
+                var orientation = row.doc.dataset[series.ImageOrientationPatientTag];
+                series.seriesGeometry[instanceUID] = {
+                  'position' : position,
+                  'orientation' : orientation,
+                };
               } else {
                 // TODO: once we have a classUID for control points we can do better
                 // For now, assume any non-image is a control point list
@@ -212,9 +225,10 @@ $(function() {
             $('body').data().imageInstanceUIDs = series.imageInstanceUIDs;
             $('body').data().controlPointInstanceUIDs = series.controlPointInstanceUIDs;
             $('body').data().controlPointDocuments = series.controlPointDocuments;
-            // trigger a callback/event
+            $('body').data().seriesGeometry = series.seriesGeometry;
+            // trigger callback/event events for update
             $('#sliceView').trigger( "change" );
-console.log('triggered change');
+            $('body').trigger( "controlPointChange" );
           },
           error: function(status) {
             console.log(status);
@@ -347,10 +361,9 @@ console.log('triggered change');
         series.controlPoints[curveIndex][pointIndex] = [cx, cy];
         // redraw the lines with new values
         series._updateLines();
-        console.log(event);
       })
       .bind('keydown', function(event){
-        // key press
+        // TODO: key press
         console.log(event);
       });
     },

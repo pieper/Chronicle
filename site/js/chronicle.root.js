@@ -121,7 +121,6 @@ $(function() {
            institutionNode.state = {'opened' : true};
            institutionPatients = [];
            $.each(patientUIDsByInstitution[institution], function(index,patientUID) {
-console.log('looking at patient ' + patientUID);
              var patientNode = {};
              patientNode.text = patientIDsByUID[patientUID];
              patientNode.children = scanEntriesByPatientUID[patientUID];
@@ -133,7 +132,6 @@ console.log('looking at patient ' + patientUID);
          var tree = { 'core' : {} };
          tree.core.data = treeData;
          tree.plugins = [ "wholerow", "sort" ];
-console.log(tree);
          $('#scanTree').jstree(tree);
 
          $('#scanTree').on("changed.jstree", function(e,data) {
