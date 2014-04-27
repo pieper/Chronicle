@@ -58,6 +58,7 @@
   height: 100%;
   margin: 10px;
   float: left;
+  overflow: hidden;
 }
 
 .footer {

@@ -16,6 +16,12 @@ $(function() {
     options : {
       // the list of structures to display
       structures : [],
+
+      // show the control points as cubes
+      showPoints : false,
+
+      // show only the first point per-muscle as a cube
+      showFirstPoint : false,
     },
 
     // the constructor
@@ -65,30 +71,65 @@ $(function() {
         .enableSelection();
     },
 
-    // create a custom X object at the point
-    _Xobject: function() {
-      var object = new X.object();
+    _cross: function(a,b) {
+      return [a[1]*b[2] - a[2]*b[1],
+              a[2]*b[0] - a[0]*b[2],
+              a[0]*b[1] - a[1]*b[0]];
+    },
 
-      object._points = new X.triplets(2*9);
+    // create an X mesh object that connects the given points
+    // - points is a dictionary of point lists (one per 'row' of points, wraps)
+    // -- all points lists must have same number of points
+    // - keys is a list that defines the order (the 'columns', does not wrap)
+    _pointMesh: function(points,keys) {
+      var mesh = new X.object();
+      mesh.type = 'TRIANGLES';
 
-      object._points.add(0,0,0);
-      object._points.add(0,0,100);
-      object._points.add(0,100,100);
-      object._points.add(100,-100,100);
-      object._points.add(100,-100,-100);
-      object._points.add(-100,-100,-100);
+      var rows = keys.length;
+      var columns = points[keys[0]].length;
+      var triangles = (rows-1) * (columns-1) * 2;
+      var vertices = triangles * 3;
+      var coordinates = vertices * 3;
 
-      object._pointIndices = [];
-      object._pointIndices.push(0);
-      object._pointIndices.push(1);
-      object._pointIndices.push(2);
-      object._pointIndices.push(3);
-      object._pointIndices.push(4);
-      object._pointIndices.push(5);
+      mesh.points = new X.triplets(coordinates);
+      mesh.normals = new X.triplets(coordinates);
 
-      object._type = 'TRIANGLES';
+      var row, column;
+      for (row = 0; row < rows-1; row++) {
+        var rowPoints = points[keys[row]];
+        var nextRowPoints = points[keys[row+1]];
+        for (column = 0; column < columns; column++) {
+          // at each cell, create two triangles
+          var nextColumn = column + 1;
+          if (nextColumn == columns) {
+            nextColumn = 0;
+          }
+          // clockwise around cell - facet shading for now
+          var p0 = rowPoints[column];
+          var p1 = rowPoints[nextColumn];
+          var p2 = nextRowPoints[nextColumn];
+          var p3 = nextRowPoints[column];
+          var edge0 = [p1[0]-p0[0],p1[1]-p0[1],p1[2]-p0[2]];
+          var edge1 = [p3[0]-p0[0],p3[1]-p0[1],p3[2]-p0[2]];
+          var normal = this._cross(edge0,edge1);
+          // triangle 0
+          mesh.points.add(p0[0], p0[1], p0[2]);
+          mesh.normals.add(normal[0], normal[1], normal[2]);
+          mesh.points.add(p1[0], p1[1], p1[2]);
+          mesh.normals.add(normal[0], normal[1], normal[2]);
+          mesh.points.add(p2[0], p2[1], p2[2]);
+          mesh.normals.add(normal[0], normal[1], normal[2]);
+          // triangle 1
+          mesh.points.add(p0[0], p0[1], p0[2]);
+          mesh.normals.add(normal[0], normal[1], normal[2]);
+          mesh.points.add(p2[0], p2[1], p2[2]);
+          mesh.normals.add(normal[0], normal[1], normal[2]);
+          mesh.points.add(p3[0], p3[1], p3[2]);
+          mesh.normals.add(normal[0], normal[1], normal[2]);
 
-      return (object);
+        }
+      }
+      return (mesh);
     },
 
 
@@ -105,22 +146,7 @@ $(function() {
     _refresh: function(threeD) {
 
       // clear previous results
-      this._clearResults();
-
-      /*
-      // TODO: if I add this skull alone, left button rotate works
-      var skull = new X.mesh();
-      // .. and associate the .vtk file to it
-      skull.file = 'http://x.babymri.org/?skull.vtk';
-      // .. make it transparent
-      skull.opacity = 0.7;
-      // .. add the mesh
-      threeD.renderer.add(skull);
-      */
-
-      var object = threeD._Xobject();
-      threeD.renderer.add(object);
-      console.log(object);
+      threeD._clearResults();
 
       // BUG: adding these cubes breaks the left mouse button
       // but the other buttons work (pan, zoom but no rotate)
@@ -129,12 +155,18 @@ $(function() {
       $.each(controlPointDocuments, function(index,controlPointDocument) {
         id = controlPointDocument._id;
         var color = [Math.random(), Math.random(), Math.random()];
-        var uids = Object.keys(controlPointDocument.instancePoints);
+        var controlPoints = controlPointDocument.instancePoints;
+        var patientPoints = chronicleDICOM.scoordsToPatient(seriesGeometry,controlPoints);
+        var uids = chronicleDICOM.sortedUIDs(seriesGeometry, Object.keys(patientPoints));
+        threeD.meshesByStructure[id] = threeD._pointMesh(patientPoints, uids);
+        threeD.meshesByStructure[id].color = color;
+        threeD.renderer.add(threeD.meshesByStructure[id]);
         $.each(uids, function(index,uid) {
           var points = controlPointDocument.instancePoints[uid];
           var p = null;
           $.each(points, function(index,point) {
-            if (p == null) {
+            if (threeD.options.showPoints ||
+                 (threeD.options.showFirstPoint && p == null)) {
               p = chronicleDICOM.scoordToPatient(seriesGeometry, uid, point);
               var controlPoint = new X.cube();
               controlPoint.center = p;
@@ -148,19 +180,17 @@ $(function() {
         });
       });
 
-    
+      console.log(threeD.meshesByStructure);
+
       // re-position the camera to face the muscles
       // TODO: don't hard code this
       threeD.renderer.camera.position = [0, 400, 0];
 
-      var print = true;
+      /* TODO: expose a toggle button for autospin mode
       threeD.renderer.onRender = function() {
         threeD.renderer.camera.rotate([1,0]);
-        if (print) {
-    //console.log(skull);
-    print = false;
-        }
       };
+      */
       threeD.renderer.render();
     },
 
