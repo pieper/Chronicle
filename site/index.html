@@ -40,6 +40,10 @@ $(function() {
   var root = $('#rootView').root({
     change : function() {
       $('#Navigation').accordion({heightStyle: "fill"});
+      var username = $('body').data().settings.username || '';
+      if (username.length == 0) {
+        $('#Navigation').accordion('option', 'active', 2);
+      }
     }
   });
 
@@ -72,6 +76,7 @@ $(function() {
 
   var threeD = $('#threeDView').threeD({});
 
+
 });
 
   </script>
@@ -81,8 +86,6 @@ $(function() {
    <div class="header">
    <h1>Chronicle: a factual account of events.  MuscleTrial Prototype Edition</h1>
   </div>
-
-
 
   <div class="main">
     <div class="left">
