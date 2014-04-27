@@ -33,7 +33,7 @@
   background: #eee;
   position: absolute;
   margin-left: 20%;
-  width: 60%;
+  width: 50%;
   height: 100%;
   overflow: scroll;
 }
@@ -41,8 +41,8 @@
 .right {
   background: #eee;
   position: absolute;
-  margin-left: 80%;
-  width: 20%;
+  margin-left: 70%;
+  width: 30%;
   height: 100%;
   overflow: scroll;
 }
@@ -55,6 +55,7 @@
 
 .threeDView {
   width: 256px;
+  height: 256px;
   margin: 10px;
   float: left;
 }
