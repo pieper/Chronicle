@@ -24,6 +24,10 @@ $(function() {
       fill : 'red',
       stroke : 'yellow',
       opacity : 0.5,
+      // selected properties
+      selectedFill : 'green',
+      selectedStroke : 'yellow',
+      selectedOpacity : 0.8,
 
       // callbacks
       change: null,
@@ -63,6 +67,7 @@ $(function() {
       this.controlPointInstanceUIDs = [];
       // the list of control point documents in json
       this.controlPointDocuments = [];
+      this.controlPointDocumentsByLabel = {};
 
       // the image source to fetch from
       this.imgSrc = "";
@@ -200,6 +205,7 @@ $(function() {
             series.imageInstanceUIDs = [];
             series.controlPointInstanceUIDs = [];
             series.controlPointDocuments = [];
+            series.controlPointDocumentsByLabel = {};
             $.each(data.rows, function(index,row) {
               var classUID = row.value[0];
               var instanceUID = row.value[1];
@@ -223,6 +229,7 @@ $(function() {
                 // For now, assume any non-image is a control point list
                 series.controlPointInstanceUIDs.push(instanceUID);
                 series.controlPointDocuments.push(row.doc);
+                series.controlPointDocumentsByLabel[row.doc.label] = row.doc;
               }
             });
             // Pseudo-HACK: sort instanceUIDs by last element of UID
@@ -312,13 +319,14 @@ $(function() {
       // add lines
       var series = this;
       $.each(this.controlPoints, function(index, points) {
-        points.push(points[0]); // close the line
+        var polylinePoints = points.slice(0); // make a copy
+        polylinePoints.push(points[0]); // close the line
         var opacity = 0.5;
         var selectedStructure = $('body').data().selectedStructure || '';
         if (series.labels[index] == selectedStructure) {
           opacity = 1.;
         }
-        svg.polyline(points,
+        svg.polyline(polylinePoints,
                    {fill: 'none', stroke: 'yellow', strokeWidth: 1, opacity: 0.5});
       });
     },
@@ -326,8 +334,33 @@ $(function() {
 
     // handle a drag event on a control point
     //  -- take into account the current dragModeRadio state
-    _dragEvent: function() {
-        console.log($("#dragModeRadio :radio:checked + label").text());
+    _dragEvent: function(series,event) {
+        var dragMode = $("#dragModeRadio :radio:checked + label").text();
+
+        if (dragMode == 'Drag All') {
+          $('circle').each( function (index) {
+            var cx = event.offsetX - $(this).attr('dx');
+            var cy = event.offsetY - $(this).attr('dy');
+            $(this).attr('cx', cx);
+            $(this).attr('cy', cy);
+            // update curve in series object
+            var curveIndex = this.getAttribute('curveIndex');
+            var pointIndex = this.getAttribute('pointIndex');
+            series.controlPoints[curveIndex][pointIndex] = [cx, cy];
+          });
+        } else {
+          var cx = event.offsetX - event.target.getAttribute('dx');
+          var cy = event.offsetY - event.target.getAttribute('dy');
+          event.target.setAttribute('cx', cx);
+          event.target.setAttribute('cy', cy);
+          // update curve in series object
+          var curveIndex = event.target.getAttribute('curveIndex');
+          var pointIndex = event.target.getAttribute('pointIndex');
+          series.controlPoints[curveIndex][pointIndex] = [cx, cy];
+        }
+
+        // redraw the lines with new values
+        series._updateLines();
     },
 
     // updates the slice graphics to reflect current state
@@ -371,16 +404,16 @@ $(function() {
         var fill = series.options.fill;
         var selectedStructure = $('body').data().selectedStructure || '';
         if (series.labels[curveIndex] == selectedStructure) {
-          opacity = 0.8;
-          stroke = 'yellow';
-          fill = 'green';
+          opacity = series.options.selectedOpacity;
+          stroke = series.options.selectedStroke;
+          fill = series.options.selectedFill;
+          $.each(points, function(pointIndex, point) {
+            svg.circle(point[0], point[1], 5,
+                        {fill: fill, stroke: stroke, strokeWidth: 1, opacity: opacity,
+                         curveIndex: curveIndex, pointIndex: pointIndex
+                        })
+          });
         }
-        $.each(points, function(pointIndex, point) {
-          svg.circle(point[0], point[1], 5,
-                      {fill: fill, stroke: stroke, strokeWidth: 1, opacity: opacity,
-                       curveIndex: curveIndex, pointIndex: pointIndex
-                      })
-        });
       });
 
       $('circle')
@@ -392,8 +425,8 @@ $(function() {
         event.target.setAttribute('stroke', 'green');
       })
       .on('mouseleave', function(event){
-        event.target.setAttribute('opacity', series.options.opacity);
-        event.target.setAttribute('stroke', series.opacity.stroke);
+        event.target.setAttribute('opacity', series.options.selectedOpacity);
+        event.target.setAttribute('stroke', series.options.selectedStroke);
 
         /*
             $( "#dialog-confirm" ).dialog({
@@ -414,24 +447,33 @@ $(function() {
       })
       .on('mousedown', function(event){
         // record start position offset from center of point
-        var dx = event.target.getAttribute('cx') - event.offsetX;
-        var dy = event.target.getAttribute('cy') - event.offsetY;
-        event.target.setAttribute('dx', dx);
-        event.target.setAttribute('dy', dy);
+        $('circle').each( function (index) {
+          var dx = $(this).attr('cx') - event.offsetX;
+          var dy = $(this).attr('cy') - event.offsetY;
+          $(this).attr('dx', dx);
+          $(this).attr('dy', dy);
+        });
       })
       .on('drag', function(event, ui){
         // update circle coordinates
-        series._dragEvent();
-        var cx = event.offsetX - event.target.getAttribute('dx');
-        var cy = event.offsetY - event.target.getAttribute('dy');
-        event.target.setAttribute('cx', cx);
-        event.target.setAttribute('cy', cy);
-        // update curve in series object
-        var curveIndex = event.target.getAttribute('curveIndex');
-        var pointIndex = event.target.getAttribute('pointIndex');
-        series.controlPoints[curveIndex][pointIndex] = [cx, cy];
-        // redraw the lines with new values
-        series._updateLines();
+        series._dragEvent(series, event);
+      })
+      .on('mouseup', function(event, ui){
+        var selectedStructure = $('body').data().selectedStructure || '';
+        var controlPointDocument = series.controlPointDocumentsByLabel[selectedStructure] || false;
+        if (controlPointDocument) {
+          var index = series.labels.indexOf(selectedStructure);
+          if (index != -1) {
+            var instancePoints = controlPointDocument.instancePoints;
+            console.log(series);
+            console.log(instancePoints);
+            console.log(series.options.imageInstanceUID);
+            console.log(series.controlPoints);
+            instancePoints[series.options.imageInstanceUID] = series.controlPoints[index];
+            $('body').data().controlPointDocuments = series.controlPointDocuments;
+            $('body').trigger( "controlPointChange" );
+          }
+        }
       })
       .on('keydown', function(event){
         // TODO: key press
