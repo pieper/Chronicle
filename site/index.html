@@ -37,18 +37,24 @@
 
 $(function() {
 
+  var seriesUID = chronicleUtil.getURLParameter("seriesUID");
+
   var root = $('#rootView').root({
     change : function() {
       $('#Navigation').accordion({heightStyle: "fill"});
       var username = $('body').data().settings.username || '';
       if (username.length == 0) {
         $('#Navigation').accordion('option', 'active', 2);
+      } else {
+        console.log(seriesUID);
+        if (!seriesUID) {
+          $('#Navigation').accordion('option', 'active', 1);
+        }
       }
     }
   });
 
   var chronicleSeries;
-  var seriesUID = chronicleUtil.getURLParameter("seriesUID");
   if (seriesUID) {
     var jqSeriesUID = chronicleUtil.jqID(seriesUID);
     $('#sliceView').append("<div class='seriesView' id='" + seriesUID + "'></div>");
