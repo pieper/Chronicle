@@ -20,6 +20,11 @@ $(function() {
       // the currently selected imageInstanceUID to display
       imageInstanceUID : null,
 
+      // default point properties
+      fill : 'red',
+      stroke : 'yellow',
+      opacity : 0.5,
+
       // callbacks
       change: null,
     },
@@ -64,7 +69,9 @@ $(function() {
 
       // the control point lists for the current instance
       //  - will be a list of lists of points
+      //  - labels is a matching list of the labels (same indexing)
       this.controlPoints = [];
+      this.labels = [];
 
       // Set the class and disable click
       this.element
@@ -284,11 +291,13 @@ $(function() {
       this.imgSrc = '../' + this.options.imageInstanceUID + '/image512.png';
       // create a list of points for this image instance
       this.controlPoints = [];
+      this.labels = [];
       var series = this;
       $.each(this.controlPointDocuments, function(index, doc) {
         var points = doc.instancePoints[series.options.imageInstanceUID];
         if (points) {
           series.controlPoints.push(points);
+          series.labels.push(doc.label);
         }
       });
       this._drawGraphics();
@@ -301,8 +310,14 @@ $(function() {
       var svg = $('#sliceGraphics').svg('get');
       $('polyline').remove();
       // add lines
+      var series = this;
       $.each(this.controlPoints, function(index, points) {
         points.push(points[0]); // close the line
+        var opacity = 0.5;
+        var selectedStructure = $('body').data().selectedStructure || '';
+        if (series.labels[index] == selectedStructure) {
+          opacity = 1.;
+        }
         svg.polyline(points,
                    {fill: 'none', stroke: 'yellow', strokeWidth: 1, opacity: 0.5});
       });
@@ -346,18 +361,28 @@ $(function() {
       // draw the graphic overlay
       this._updateLines();
 
+      var series = this;
+
       // add control points
       // - pull them from the document dictionary for this instance
       $.each(this.controlPoints, function(curveIndex, points) {
+        var opacity = series.options.opacity;
+        var stroke = series.options.stroke;
+        var fill = series.options.fill;
+        var selectedStructure = $('body').data().selectedStructure || '';
+        if (series.labels[curveIndex] == selectedStructure) {
+          opacity = 0.8;
+          stroke = 'yellow';
+          fill = 'green';
+        }
         $.each(points, function(pointIndex, point) {
           svg.circle(point[0], point[1], 5,
-                      {fill: 'red', stroke: 'blue', strokeWidth: 1, opacity: 0.5,
+                      {fill: fill, stroke: stroke, strokeWidth: 1, opacity: opacity,
                        curveIndex: curveIndex, pointIndex: pointIndex
                       })
         });
       });
 
-      var series = this;
       $('circle')
       .draggable()
       .on('mouseenter', function(event){
@@ -367,9 +392,10 @@ $(function() {
         event.target.setAttribute('stroke', 'green');
       })
       .on('mouseleave', function(event){
-        event.target.setAttribute('opacity', 0.5);
-        event.target.setAttribute('stroke', 'blue');
+        event.target.setAttribute('opacity', series.options.opacity);
+        event.target.setAttribute('stroke', series.opacity.stroke);
 
+        /*
             $( "#dialog-confirm" ).dialog({
               resizable: true,
               height:140,
@@ -383,6 +409,7 @@ $(function() {
                 }
               }
             });
+            */
             
       })
       .on('mousedown', function(event){

@@ -135,6 +135,17 @@ $(function() {
       return (mesh);
     },
 
+    _brightColor: function() {
+       return ([ 1-Math.pow(Math.random(),2),
+                 1-Math.pow(Math.random(),2),
+                 1-Math.pow(Math.random(),2)]);
+    },
+
+    _mutedColor: function() {
+       return ([ Math.random()/2,
+                 Math.random()/2,
+                 Math.random()/2]);
+    },
 
     _clearResults: function(threeD) {
       // TODO: proper clearing
@@ -153,17 +164,27 @@ $(function() {
 
       // BUG: adding these cubes breaks the left mouse button
       // but the other buttons work (pan, zoom but no rotate)
-      var selectedStructure = $('body').data().selectedStructure;
+      var selectedStructure = $('body').data().selectedStructure || '';
       var controlPointDocuments = $('body').data().controlPointDocuments;
       var seriesGeometry = $('body').data().seriesGeometry;
       $.each(controlPointDocuments, function(index,controlPointDocument) {
         id = controlPointDocument._id;
-        var color = [Math.random()/2., Math.random()/2., Math.random()/2.];
-        var opacity = 0.4;
-        if (controlPointDocument.label == selectedStructure) {
-          color = [Math.random(), Math.random(), Math.random()];
-          opacity = 1.;
+        var color = threeD._brightColor();
+        var opacity = 1;
+        if (selectedStructure != '') {
+          color = threeD._mutedColor();
+          opacity = 0.4;
+          if (controlPointDocument.label == selectedStructure) {
+            color = threeD._brightColor();
+            opacity = 1.;
+          }
+        } else {
+          // re-position the camera to face the muscles
+          // TODO: don't hard code this
+          threeD.renderer.camera.position = [0, 600, 0];
         }
+
+          
         var controlPoints = controlPointDocument.instancePoints;
         var patientPoints = chronicleDICOM.scoordsToPatient(seriesGeometry,controlPoints);
         var uids = chronicleDICOM.sortedUIDs(seriesGeometry, Object.keys(patientPoints));
@@ -189,10 +210,6 @@ $(function() {
           });
         });
       });
-
-      // re-position the camera to face the muscles
-      // TODO: don't hard code this
-      //threeD.renderer.camera.position = [0, 400, 0];
 
       /* TODO: expose a toggle button for autospin mode
       threeD.renderer.onRender = function() {
