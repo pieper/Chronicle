@@ -38,17 +38,13 @@ Installation
 
 * Install a python environment with the prerequisites above (has been tested on mac and linux).
 * Install Apache couchdb
-* Clone the chronicle respository:
-  git clone git://github.com/pieper/chronicle
-* Get the couchSite utility
-  git clone git://github.com/pieper/couchSite
-* Install chronicle into couchdb:
-  cd chronicle
-  ../couchSite/couchSite.py . chronicle
+* Clone the chronicle respository: `git clone git://github.com/pieper/chronicle`
 
-At this point you should have an empty chonicle database and the web app.  The next step is to install some DICOM data into the database, which can be done as follows from the chronicle directory:
+* Get the couchSite utility: `git clone git://github.com/pieper/couchSite`
 
- ./bin/record.py <path to dicom data>
+* Install chronicle into couchdb: `cd chronicle; ../couchSite/couchSite.py . chronicle`
+
+At this point you should have an empty chonicle database and the web app.  The next step is to install some DICOM data into the database, which can be done as follows from the chronicle directory: `./bin/record.py <path to dicom data>`
 
 Note that only pixel formats (transfer syntaxes) supported by pydicom can be used, so some compressed images cannot be loaded currently.
 
