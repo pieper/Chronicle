@@ -36,9 +36,10 @@ class ChronicleRecord():
     """Performs the recording of DICOM objects
     """
 
-    def __init__(self, couchDB_URL='http://localhost:5984', databaseName='chronicle'):
+    def __init__(self, couchDB_URL='http://localhost:5984', databaseName='testchronicle', recordAttachments=True):
         self.couchDB_URL=couchDB_URL
         self.databaseName=databaseName
+        self.recordAttachments=recordAttachments
 
         # these will not be included in the json
         self.BINARY_VR_VALUES = ['OW', 'OB', 'OW/OB', 'OW or OB', 'OB or OW', 'US or SS']
@@ -198,24 +199,25 @@ class ChronicleRecord():
             print('...failed to save!!!')
             return
 
-        # attach png images to the object if possible
-        doc = self.db.get(doc_id)
-        images = self.imagesFromDataset(dataset)
-        for imageSize in images.keys():
-            print('...thumbnail %d...' % imageSize)
-            imageName = "image%d.png" % imageSize
-            imagePath = "/tmp/" + imageName
-            images[imageSize].save(imagePath) # TODO: generalize
-            fp = open(imagePath)
-            self.db.put_attachment(doc, fp, imageName)
-            fp.close()
-            os.remove(imagePath)
+        if self.recordAttachments:
+            # attach png images to the object if possible
+            doc = self.db.get(doc_id)
+            images = self.imagesFromDataset(dataset)
+            for imageSize in images.keys():
+                print('...thumbnail %d...' % imageSize)
+                imageName = "image%d.png" % imageSize
+                imagePath = "/tmp/" + imageName
+                images[imageSize].save(imagePath) # TODO: generalize
+                fp = open(imagePath)
+                self.db.put_attachment(doc, fp, imageName)
+                fp.close()
+                os.remove(imagePath)
 
-        # attach the original file
-        print('...attaching dicom object...')
-        fp = open(fileNamePath,'rb')
-        self.db.put_attachment(doc, fp, "object.dcm")
-        fp.close()
+            # attach the original file
+            print('...attaching dicom object...')
+            fp = open(fileNamePath,'rb')
+            self.db.put_attachment(doc, fp, "object.dcm")
+            fp.close()
 
         print ("...recorded %s" % dataset.SOPInstanceUID)
 
@@ -229,13 +231,21 @@ def usage():
     print (" DatabaseName default 'chronicle'")
 
 def main ():
-    if sys.argv[1] in ("-h", "--help"):
-        usage()
-        return
-    print(sys.argv)
-    directoryPath = sys.argv[1]
+    recordAttachments = True
+    remainingArgs = []
+    for arg in sys.argv:
+        if arg in ("-h", "--help"):
+            usage()
+            return
+        elif arg in ("-n", "--no-attachments"):
+            recordAttachments = False
+            print('not recording attachments')
+        else:
+            remainingArgs.append(arg)
+    directoryPath = remainingArgs[1]
+    print('recording: %s' %directoryPath)
     global recorder # for ipython debugging
-    recorder = ChronicleRecord()
+    recorder = ChronicleRecord(recordAttachments=recordAttachments)
     if len(sys.argv) > 2:
         recorder.couchDB_URL = sys.argv[2]
     if len(sys.argv) > 3:
