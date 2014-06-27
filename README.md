@@ -44,7 +44,7 @@ Installation
 
 * Install chronicle into couchdb: `cd Chronicle; ../couchSite/couchSite.py . chronicle`
 
-At this point you should have an empty chonicle database and the web app.  The next step is to install some DICOM data into the database, which can be done as follows from the chronicle directory: `./bin/record.py <path to dicom data>`
+At this point you should have an empty chronicle database and the web app.  The next step is to install some DICOM data into the database, which can be done as follows from the chronicle directory: `./bin/record.py <path to dicom data>`
 
 Note that only pixel formats (transfer syntaxes) supported by pydicom can be used, so some compressed images cannot be loaded currently.
 
