@@ -24,7 +24,7 @@ Prerequisites
 * For the python scripts
  * pydicom
  * couchdb
- * PIL
+ * pillow
  * numpy
 * For the server
  * Apache CouchDB
@@ -38,11 +38,11 @@ Installation
 
 * Install a python environment with the prerequisites above (has been tested on mac and linux).
 * Install Apache couchdb
-* Clone the chronicle respository: `git clone git://github.com/pieper/chronicle`
+* Clone the chronicle respository: `git clone git://github.com/pieper/Chronicle`
 
 * Get the couchSite utility: `git clone git://github.com/pieper/couchSite`
 
-* Install chronicle into couchdb: `cd chronicle; ../couchSite/couchSite.py . chronicle`
+* Install chronicle into couchdb: `cd Chronicle; ../couchSite/couchSite.py . chronicle`
 
 At this point you should have an empty chonicle database and the web app.  The next step is to install some DICOM data into the database, which can be done as follows from the chronicle directory: `./bin/record.py <path to dicom data>`
 
