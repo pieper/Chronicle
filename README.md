@@ -59,4 +59,4 @@ backward compatibility.
 Support
 =======
 
-This work is supported by NIH National Cancer Institute (NCI), award U24 CA180918 (QIICR: Quantitative Image Informatics for Cancer Research) and the National Institute of Biomedical Imaging and Bioengineering (NIBIB), award P41 EB015902 (NAC: Neuroimage Analysis Center).  Additional support provided by Novartis AG.
+This work is supported by NIH National Cancer Institute (NCI) through award U24 CA180918 (QIICR: Quantitative Image Informatics for Cancer Research) and the National Institute of Biomedical Imaging and Bioengineering (NIBIB) through awards P41 EB015902 (NAC: Neuroimage Analysis Center) and U54 EB005149 (NA-MIC: National Alliance for Medical Image Computing).  Additional support provided by Novartis AG.
