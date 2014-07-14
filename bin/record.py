@@ -62,7 +62,7 @@ class ChronicleRecord():
             for subelement in dataElement:
                 # recursive call to co-routine to format sequence contents
                 values.append(self.datasetToJSON(subelement))
-                value = values
+            value = values
         elif dataElement.VR == "DS":
             # switch to " from ' - why doesn't json do this?
             value = "%s" % dataElement.value
@@ -70,10 +70,15 @@ class ChronicleRecord():
             value = dataElement.value
             if isinstance(value, unicode):
                 value = value.encode('utf=8')
-        return {
-            "vr" : dataElement.VR,
-            "Value" : value
-        }
+        try:
+            json = {
+                "vr" : dataElement.VR,
+                "Value" : value
+            }
+        except UnboundLocalError:
+            print (dataElement)
+            exit()
+        return json
 
     def datasetToJSON(self,dataset):
         """
