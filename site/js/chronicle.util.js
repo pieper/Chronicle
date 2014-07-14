@@ -32,7 +32,6 @@ chronicleUtil = {
   // setURLParameter('test',2) becomes
   // http://hoot.ba?test=2
   "setURLParameter" : function(parameter,value) {
-console.log('settting ', parameter, ' to ', value)
       // from http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
       var pageURL = window.location.search.substring(1);
       var urlVariables = pageURL.split('&');
@@ -49,7 +48,7 @@ console.log('settting ', parameter, ' to ', value)
           newSearch += urlVariables[i];
       }
       if (!foundParameter) {
-	if (urlVariables.length > 0) {
+        if (urlVariables.length > 0) {
           newSearch = "&";
         }
       	newSearch += parameter+"="+value;

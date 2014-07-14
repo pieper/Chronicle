@@ -24,7 +24,7 @@ Prerequisites
 * For the python scripts
  * pydicom
  * couchdb
- * PIL
+ * pillow
  * numpy
 * For the server
  * Apache CouchDB
@@ -38,13 +38,13 @@ Installation
 
 * Install a python environment with the prerequisites above (has been tested on mac and linux).
 * Install Apache couchdb
-* Clone the chronicle respository: `git clone git://github.com/pieper/chronicle`
+* Clone the chronicle respository: `git clone git://github.com/pieper/Chronicle`
 
 * Get the couchSite utility: `git clone git://github.com/pieper/couchSite`
 
-* Install chronicle into couchdb: `cd chronicle; ../couchSite/couchSite.py . chronicle`
+* Install chronicle into couchdb: `cd Chronicle; ../couchSite/couchSite.py . chronicle`
 
-At this point you should have an empty chonicle database and the web app.  The next step is to install some DICOM data into the database, which can be done as follows from the chronicle directory: `./bin/record.py <path to dicom data>`
+At this point you should have an empty chronicle database and the web app.  The next step is to install some DICOM data into the database, which can be done as follows from the chronicle directory: `./bin/record.py <path to dicom data>`
 
 Note that only pixel formats (transfer syntaxes) supported by pydicom can be used, so some compressed images cannot be loaded currently.
 
@@ -59,4 +59,4 @@ backward compatibility.
 Support
 =======
 
-This work is supported by NIH National Cancer Institute (NCI), award U24 CA180918 (QIICR: Quantitative Image Informatics for Cancer Research) and the National Institute of Biomedical Imaging and Bioengineering (NIBIB), award P41 EB015902 (NAC: Neuroimage Analysis Center).  Additional support provided by Novartis AG.
+This work is supported by NIH National Cancer Institute (NCI) through award U24 CA180918 (QIICR: Quantitative Image Informatics for Cancer Research) and the National Institute of Biomedical Imaging and Bioengineering (NIBIB) through awards P41 EB015902 (NAC: Neuroimage Analysis Center) and U54 EB005149 (NA-MIC: National Alliance for Medical Image Computing).  Additional support provided by Novartis AG.
