@@ -76,8 +76,7 @@ class ChronicleRecord():
                 "Value" : value
             }
         except UnboundLocalError:
-            print (dataElement)
-            exit()
+            print ("UnboundLocalError: ", dataElement)
         return json
 
     def datasetToJSON(self,dataset):
@@ -93,8 +92,15 @@ class ChronicleRecord():
         jsonDictionary = {}
         for key in dataset.keys():
             jkey = "%04X%04X" % (key.group,key.element)
-            dataElement = dataset[key]
-            jsonDictionary[jkey] = self.dataElementToJSON(dataElement)
+            try:
+                dataElement = dataset[key]
+                jsonDictionary[jkey] = self.dataElementToJSON(dataElement)
+            except KeyError:
+                print("KeyError: ", key)
+            except ValueError:
+                print("ValueError: ", key)
+            except NotImplementedError:
+                print("NotImplementedError: ", key)
         return jsonDictionary
 
     def windowedData(self,data, window, level):
@@ -137,18 +143,33 @@ class ChronicleRecord():
             size = (dataset.Columns, dataset.Rows)
             # Recommended to specify all details by
             #  http://www.pythonware.com/library/pil/handbook/image.htm
-            image = Image.frombuffer(mode, size, dataset.PixelData, "raw", mode, 0, 1).convert('L')
+            try:
+                image = Image.frombuffer(mode, size, dataset.PixelData, "raw", mode, 0, 1).convert('L')
+            except ValueError:
+                print("ValueError getting image")
+                image = None
         else:
-            image = self.windowedData(
-                                dataset.pixel_array,
-                                dataset.WindowWidth, dataset.WindowCenter
-                                )
+            try:
+                image = self.windowedData(
+                                    dataset.pixel_array,
+                                    dataset.WindowWidth, dataset.WindowCenter
+                                    )
+            except NotImplementedError:
+                print("NotImplementedError: cannot get image data")
+                return None
+            except ValueError:
+                print("ValueError: cannot get image data")
+                return None
             # Convert mode to L since LUT has only 256 values:
             #  http://www.pythonware.com/library/pil/handbook/image.htm
             if image.dtype != 'int16':
                 print('Type is not int16, converting')
                 image = numpy.array(image, dtype='int16')
-            image = Image.fromarray(image).convert('L')
+            try:
+                image = Image.fromarray(image).convert('L')
+            except TypeError:
+                print('Type can not be converted')
+                return None
         return image
 
     def imagesFromDataset(self,dataset, sizes = (32,64,128,256,512)):
@@ -238,7 +259,7 @@ def main ():
         usage()
         return
     print(sys.argv)
-    directoryPath = sys.argv[1]
+    path = sys.argv[1]
     global recorder # for ipython debugging
     recorder = ChronicleRecord()
     if len(sys.argv) > 2:
@@ -246,7 +267,10 @@ def main ():
     if len(sys.argv) > 3:
         recorder.databaseName = sys.argv[3]
 
-    recorder.recordDirectory(directoryPath)
+    if os.path.isdir(path):
+      recorder.recordDirectory(path)
+    elif os.path.isfile(path):
+      recorder.recordFile(path)
 
 if __name__ == '__main__':
     try:
