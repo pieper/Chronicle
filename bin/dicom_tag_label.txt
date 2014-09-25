@@ -1,0 +1,1703 @@
+00080050,Accession Number
+300A00F9,Accessory Code
+00089209,Acquisition Contrast
+00080022,Acquisition Date
+0008002A,Acquisition Datetime
+00220015,Acquisition Device Type Code Sequence
+00189073,Acquisition Duration
+00181310,Acquisition Matrix
+00200012,Acquisition Number
+00180073,Acquisition Start Condition
+00180074,Acquisition Start Condition Data
+00180071,Acquisition Termination Condition
+00180071,Acquisition Termination Condition Data
+00080032,Acquisition Time
+00181800,Acquisition Time Synchronized
+00201004,Acquisitions in Study
+300A0218,Active Source Diameter
+300A021A,Active Source Length
+00404035,Actual Human Performers Sequence
+001021B0,Additional Patient History
+00540302,Administration Route Code Sequence
+00380010,Admission ID
+00380020,Admitting Date
+00081084,Admitting Diagnoses Code Sequence
+00081080,Admitting Diagnoses Description
+00380021,Admitting Time
+300A022C,Air Kerma Rate Reference Date
+300A022E,Air Kerma Rate Reference Time
+2200000F,Allow Lossy Compression
+22000007,Allow Media Splitting
+00083001,Alternate Representation Sequence
+00082220,Anatomic Region Modifier Sequence
+00082218,Anatomic Region Sequence
+00082208,Anatomic Structure
+00082229,Anatomic Structure Space or Region Sequence
+00700014,Anchor Point
+00700004,Anchor Point Annotation Units
+00700015,Anchor Point Visibility
+00180025,Angio Flag
+00200018,Angle Number
+00181141,Angular Position
+00181144,Angular Step
+00540090,Angular View Vector
+20000065,Annotation Flag
+0040A180,Annotation Group Number
+00181191,Anode Target Material
+00286102,Applicable Frame Range
+00189174,Applicable Safety Standard Agency
+00189175,Applicable Safety Standard Description
+30080116,Application Setup Check
+300A0238,Application Setup Manufacturer
+300A0236,Application Setup Name
+300A0234,Application Setup Number
+300A0230,Application Setup Sequence
+300A0232,Application Setup Type
+300A010A,Applicator Description
+300A0108,Applicator ID
+300A0107,Applicator Sequence
+300A0109,Applicator Type
+40000010,Arbitrary
+30060049,Attached Contours
+00541101,Attenuation Correction Method
+01000426,Authorization Equipment Certification Number
+00181154,Average Pulse Width
+00541200,Axial Acceptance
+00541201,Axial Mash
+50xx0030,Axis Units
+22000006,Barcode Symbology
+22000005,Barcode Value
+00189067,Baseline Correction
+20200111,Basic Color Image Sequence
+20200110,Basic Grayscale Image Sequence
+20200110,Basic Greyscale Image Sequence
+300A00C3,Beam Description
+300A0084,Beam Dose
+300A0082,Beam Dose Specification Point
+300A0120,Beam Limiting Device Angle
+300A0046,Beam Limiting Device Angle Tolerance
+300800A0,Beam Limiting Device Leaf Pairs Sequence
+300A011A,Beam Limiting Device Position Sequence
+300A004A,Beam Limiting Device Position Tolerance
+300A0121,Beam Limiting Device Rotation Direction
+300A00B6,Beam Limiting Device Sequence
+300A0048,Beam Limiting Device Tolerance Sequence
+300A0086,Beam Meterset
+300A00C2,Beam Name
+300A00C0,Beam Number
+300A00B0,Beam Sequence
+30080230,Beam Stopper Position
+300A00C4,Beam Type
+00181080,Beat Rejection Flag
+00285000,Bi-Plane Acquisition Sequence
+00280100,Bits Allocated
+00280101,Bits Stored
+300A0106,Block Data
+300A00FA,Block Divergence
+300A00FB,Block Mounting Position
+300A00FE,Block Name
+300A00FC,Block Number
+300A0104,Block Number of Points
+300A00F4,Block Sequence
+300A0100,Block Thickness
+300A0104,Block Transmission
+300A00F5,Block Tray ID
+300A00F8,Block Type
+00189022,Blood Signal Nulling
+00281203,Blue Palette Color Lookup Table Data
+00281103,Blue Palette Color Lookup Table Descriptor
+00180015,Body Part Examined
+001811A0,Body Part Thickness
+00185024,Bone Thermal Index
+00700003,Bounding Box Annotation Units
+00700011,Bounding Box Bottom Right Hand Corner
+00700012,Bounding Box Text Horizontal Justification
+00700010,Bounding Box Top Left Hand Corner
+300A0263,Brachy Accessory Device ID
+300A0266,Brachy Accessory Device Name
+300A026A,Brachy Accessory Device Nominal Thickness
+300A026C,Brachy Accessory Device Nominal Transmission
+300A0262,Brachy Accessory Device Number
+300A0260,Brachy Accessory Device Sequence
+300A0264,Brachy Accessory Device Type
+300A00A4,Brachy Application Setup Dose
+300A00A2,Brachy Application Setup Dose Specification Point
+30080160,Brachy Control Point Delivered Sequence
+300A02D0,Brachy Control Point Sequence
+300C0055,Brachy Referenced Dose Reference Sequence
+300A0200,Brachy Treatment Technique
+300A0202,Brachy Treatment Type
+00101081,Branch of Service
+00189166,Bulk Motion Status
+00280301,Burned In Annotation
+00540306,Calibration Data Sequence
+00500004,Calibration Image
+00189236,Cardiac Cycle Position
+00181090,Cardiac Number of Images
+00181710,Center of Circular Collimator
+00181145,Center of Rotation Offset
+003A0213,Channel Baseline
+003A0200,Channel Definition Sequence
+003A020C,Channel Derivation Description
+0022001A,Channel Description Code Sequence
+003A0203,Channel Label
+300A0284,Channel Length
+54000112,Channel Maximum Value
+54000110,Channel Minimum Value
+300A0282,Channel Number
+003A0218,Channel Offset
+003A0215,Channel Sample Skew
+003A0210,Channel Sensitivity
+003A0212,Channel Sensitivity Correction Factor
+003A0211,Channel Sensitivity Units Sequence
+300A0280,Channel Sequence
+300A02B3,Channel Shield ID
+300A02B4,Channel Shield Name
+300A02B8,Channel Shield Nominal Thickness
+300A02BA,Channel Shield Nominal Transmission
+300A02B2,Channel Shield Number
+300A02B0,Channel Shield Sequence
+003A0209,Channel Source Modifiers Sequence
+003A0205,Channel Status
+003A0214,Channel Time Skew
+300A0286,Channel Total Time
+00189053,Chemical Shift Reference
+00189084,Chemical Shift Sequence
+00080104,Code Meaning
+00080100,Code Value
+00080102,Coding Scheme Designator
+00080114,Coding Scheme External ID
+00080110,Coding Scheme Identification Sequence
+00080115,Coding Scheme Name
+00080112,Coding Scheme Registry
+0008010C,Coding Scheme UID
+00080103,Coding Scheme Version
+00541210,Coincidence Window Width
+20000063,Collation Flag
+00181702,Collimator Left Vertical Edge
+00181708,Collimator Lower Horizontal Edge
+00181704,Collimator Right Vertical Edge
+00181700,Collimator Shape
+00181181,Collimator Type
+00181706,Collimator Upper Horizontal Edge
+20000062,Color Image Printing Flag
+00181450,Column Angulation
+00280011,Columns
+00400310,Comments on Radiation Dose
+00400280,Comments on the Performed Procedure Step
+00400400,Comments on the Scheduled Procedure Step
+300A00E8,Compensator Columns
+300A02E0,Compensator Divergence
+300A00E5,Compensator ID
+300A02E1,Compensator Mounting Position
+300A00E4,Compensator Number
+300A00E9,Compensator Pixel Spacing
+300A00EA,Compensator Position
+300A00E7,Compensator Rows
+300A00E3,Compensator Sequence
+300A00EC,Compensator Thickness Data
+300A00EB,Compensator Transmission Data
+300400EE,Compensator Type
+0040A491,Completion Flag
+0040A492,Completion Flag Description
+00089208,Complex Image Component
+00280060,Compression Code
+001811A2,Compression Force
+00209228,Concatenation Frame Offset Number
+00209161,Concatenation UID
+00401008,Confidentiality Code
+00403001,Confidentiality Constraint on Patient Data Description
+20100152,Configuration Information Description
+300A0021,Constraint Weight
+00700084,Content Creators Name
+00080023,Content Date
+00700081,Content Description
+00400441,Content Item Modifier Sequence
+00700080,Content Label
+00189004,Content Qualification
+0040A730,Content Sequence
+0040A504,Content Template Sequence
+00080033,Content Time
+0008010B,Context Group Extension Creator UID
+00080108,Context Group Extension Flag
+00080107,Context Group Local Version
+00080106,Context Group Version
+0008010F,Context Identifier
+0040A050,Continuity Of Content
+30060050,Contour Data
+30060042,Contour Geometric Type
+30060016,Contour Image Sequence
+30060048,Contour Number
+30060045,Contour Offset Vector
+30060040,Contour Sequence
+30060044,Contour Slab Thickness
+00700312,Contour Uncertainty Radius
+00189340,Contrast Administration Profile Sequence
+00102110,Contrast Allergies
+00286112,Contrast Frame Averaging
+00189337,Contrast/Bolus Agent Number
+00189338,Contrast/Bolus Ingredient Code Sequence
+0018A001,Contributing Equipment Sequence
+0018A002,Contribution DateTime
+0018A003,Contribution Description
+300A02D4,Control Point 3D Position
+30080040,Control Point Delivery Sequence
+300A0112,Control Point Index
+300A02D2,Control Point Relative Position
+300A0111,Control Point Sequence
+00080064,Conversion Type
+004008DA,Coordinate System Axis Code Sequence
+00280051,Corrected Image
+00181243,Count Rate
+00102150,Country of Residence
+00180070,Counts Accumulated
+00541400,Counts Included
+00541002,Counts Source
+00189094,Coverage of k-Space
+00185026,Cranial Thermal Index
+21000040,Creation Date
+21000050,Creation Time
+00089123,Creator-Version UID
+00191009,CSA Image Header Version (Siemens)
+300A010C,Cumulative Dose Reference Coefficient
+30080052,Cumulative Dose to Dose Reference
+300A0134,Cumulative Meterset Weight
+300A02D6,Cumulative Time Weight
+30080022,Current Fraction Number
+00380300,Current Patient Location
+0040A375,Current Requested Procedure Evidence Sequence
+30080200,Current Treatment Status
+50xx1001,Curve Activation Layer
+50xx3000,Curve Data
+50xx0005,Curve Dimensions
+00220009,Cylinder Axis
+00220008,Cylinder Lens Power
+00181318,DB/dt
+00080050,DICOM Accession Number
+30040058,DVH Data
+30040052,DVH Dose Scaling
+30040072,DVH Maximum Dose
+30040074,DVH Mean Dose
+30040070,DVH Minimum Dose
+30040042,DVH Normalization Dose Value
+30040040,DVH Normalization Point
+30040056,DVH Number of Bins
+30040062,DVH ROI Contribution Type
+30040060,DVH Referenced ROI Sequence
+30040050,DVH Sequence
+30040001,DVH Type
+30040054,DVH Volume Units
+00540063,Data Information Sequence
+00289002,Data Point Columns
+00289001,Data Point Rows
+00289108,Data Representation
+00080041,Data Set Subtype
+00080040,Data Set Type
+00181200,Date of Last Calibration
+0018700C,Date of Last Detector Calibration
+00181012,Date of Secondary Capture
+0040A120,DateTime
+00189060,De-coupled Nucleus
+00189059,De-coupling
+00189063,De-coupling Chemical Shift Reference
+00189061,De-coupling Frequency
+00189062,De-coupling Method
+00541401,Dead Time Correction Flag
+00541324,Dead Time Factor
+00541102,Decay Correction
+00541321,Decay Factor
+202000A2,Decimate/Crop Result
+201000A6,Default Magnification Type
+20100054,Default Printer Resolution ID
+201000A8,Default Smoothing Type
+0022000E,Degree of Dilation
+30080134,Delivered Channel Total Time
+30080044,Delivered Meterset
+30080138,Delivered Number of Pulses
+30080036,Delivered Primary Meterset
+3008013C,Delivered Pulse Repetition Interval
+30080037,Delivered Secondary Meterset
+3008003B,Delivered Treatment Time
+300A0023,Delivery Maximum Dose
+300A0022,Delivery Warning Dose
+00185050,Depth of Scan Field
+00089215,Derivation Code Sequence
+00082111,Derivation Description
+21000140,Destination AE
+00187016,Detector Activation Offset From Exposure
+00187026,Detector Active Dimensions
+00187028,Detector Active Origin
+00187024,Detector Active Shape
+00187014,Detector Active Time
+0018701A,Detector Binning
+00187000,Detector Conditions Nominal Flag
+00187005,Detector Configuration
+00187006,Detector Description
+00187020,Detector Element Physical Size
+00541203,Detector Element Size
+00187022,Detector Element Spacing
+0018700A,Detector ID
+00540022,Detector Information Sequence
+00541104,Detector Lines of Response Used
+0018702A,Detector Manufacturer Name
+0018702B,Detector Manufacturers Model Name
+00187008,Detector Mode
+00181530,Detector Primary Angle
+00181531,Detector Secondary Angle
+00187001,Detector Temperature
+00187012,Detector Time Since Last Exposure
+00187004,Detector Type
+00540020,Detector Vector
+00181000,Device Serial Number
+30020034,Diaphragm Position
+00189147,Diffusion Anisotropy Type
+00189075,Diffusion Directionality
+00189076,Diffusion Gradient Direction Sequence
+00189089,Diffusion Gradient Orientation
+00189087,Diffusion b-value
+00181023,Digital Image Format Acquired
+00182020,Digitizing Device Transport Direction
+00209165,Dimension Index Pointer
+00209213,Dimension Index Private Creator
+00209222,Dimension Index Sequence
+00209157,Dimension Index Values
+00209221,Dimension Organization Sequence
+00209164,Dimension Organization UID
+00380030,Discharge Date
+00380044,Discharge Diagnosis Code Sequence
+00380040,Discharge Diagnosis Description
+00380032,Discharge Time
+00182006,Display Window Label Vector
+00700052,Displayed Area Top Left Hand Corner
+00181110,Distance Source to Detector
+00400306,Distance Source to Entrance
+00400307,Distance Source to Support
+4008011A,Distribution Address
+40080119,Distribution Name
+00186034,Doppler Correction Angle
+0018 603,Doppler Sample Volume X Position
+0018603B,Doppler Sample Volume Y Position
+00541322,Dose Calibration Factor
+30040006,Dose Comment
+3004000E,Dose Grid Scaling
+30080048,Dose Rate Delivered
+300A0115,Dose Rate Set
+300A0016,Dose Reference Description
+300A0012,Dose Reference Number
+300A0018,Dose Reference Point Coordinates
+300A0010,Dose Reference Sequence
+300A0014,Dose Reference Structure Type
+300A0020,Dose Reference Type
+300A0013,Dose Reference UID
+3004000A,Dose Summation Type
+30040004,Dose Type
+30040002,Dose Units
+30040012,Dose Value
+00185030,Dynamic Range
+00180086,Echo Number
+00189018,Echo Planar Pulse Sequence
+00189008,Echo Pulse Sequence
+00180081,Echo Time
+00180091,Echo Train Length
+00189082,Effective Echo Time
+0022000A,Emmetropic Magnification
+20100110,Empty Image Density
+04000500,Encrypted Attributes Sequence
+04000520,Encrypted Content
+04000510,Encrypted Content Transfer Syntax UID
+300C0009,End Cumulative Meterset Weight
+3008007A,End Meterset
+00180032,Energy Window Centerline
+00540012,Energy Window Information Sequence
+00540014,Energy Window Lower Limit
+00540018,Energy Window Name
+00540308,Energy Window Number
+00540013,Energy Window Range Sequence
+00180033,Energy Window Total Width
+00540015,Energy Window Upper Limit
+00540010,Energy Window Vector
+00400302,Entrance Dose
+00408302,Entrance Dose in mGy
+00181114,Estimated Radiographic Magnification Factor
+00102160,Ethnic Group
+00082130,Event Elapsed Times
+00082132,Event Timer Names
+21000020,Execution Status
+21000030,Execution Status Info
+00404011,Expected Completion Date and Time
+00400303,Exposed Area
+00187060,Exposure Control Mode
+00187062,Exposure Control Mode Description
+0040030E,Exposure Dose Sequence
+30020030,Exposure Sequence
+00187064,Exposure Status
+00181150,Exposure Time in ms
+00181150,Exposure Time in uS
+00187010,Exposures on Detector Since Last Calibration
+00187011,Exposures on Detector Since Manufactured
+00080058,Failed SOP Instance UID List
+00081198,Failed SOP Sequence
+2200000E,Failure Attributes
+00081197,Failure Reason
+0070030F,Fiducial Description
+00700310,Fiducial Identifier
+00700311,Fiducial Identifier Code Sequence
+0070031E,Fiducial Sequence
+0070031C,Fiducial Set Sequence
+0070031A,Fiducial UID
+00181149,Field of View Dimensions
+00187034,Field of View Horizontal Flip
+00187030,Field of View Origin
+00187032,Field of View Rotation
+00181147,Field of View Shape
+00402017,Filler Order Number / Imaging Service Request
+00401007,Filler Order Number / Procedure
+21300030,Film Box Content Sequence
+20000050,Film Session Label
+003A0221,Filter High Frequency
+003A0220,Filter Low Frequency
+00187050,Filter Material
+00181156,Filter Thickness Maximum
+00187052,Filter Thickness Minimum
+00181160,Filter Type
+300A010E,Final Cumulative Meterset Weight
+300A02C8,Final Cumulative Time Weight
+00189198,First Order Phase Correction
+56000010,First Order Phase Correction Angle
+30080054,First Treatment Date
+300A0196,Fixation Device Description
+300A0194,Fixation Device Label
+300A0198,Fixation Device Position
+300A0190,Fixation Device Sequence
+300A0192,Fixation Device Type
+00181314,Flip Angle
+00189010,Flow Compensation
+00189183,Flow Compensation Direction
+30020042,Fluence Data Scale
+30020041,Fluence Data Source
+30020040,Fluence Map Sequence
+00181182,Focal Distance
+00185012,Focus Depth
+300A0072,Fraction Group Description
+300A0071,Fraction Group Number
+300A0070,Fraction Group Sequence
+30080220,Fraction Group Summary Sequence
+30080224,Fraction Group Type
+30020029,Fraction Number
+300A007B,Fraction Pattern
+30080240,Fraction Status Summary Sequence
+00189074,Frame Acquisition Datetime
+00189220,Frame Acquisition Duration
+00209156,Frame Acquisition Number
+00209071,Frame Anatomy Sequence
+00209158,Frame Comments
+00209111,Frame Content Sequence
+0028000A,Frame Dimension Pointer
+00280009,Frame Increment Pointer
+00182002,Frame Label Vector
+00209072,Frame Laterality
+00286020,Frame Numbers of Interest -FOI-
+00286022,Frame Of Interest Description
+00182003,Frame Primary Angle Vector
+00189151,Frame Reference Datetime
+00541300,Frame Reference Time
+00182004,Frame Secondary Angle Vector
+00089007,Frame Type
+00289132,Frame VOI LUT Sequence
+00286023,Frame of Interest Type
+300600C0,Frame of Reference Relationship Sequence
+300600C8,Frame of Reference Transformation Comment
+300600C6,Frame of Reference Transformation Matrix
+0070030C,Frame of Reference Transformation Matrix Type
+300600C4,Frame of Reference Transformation Type
+00200052,Frame of Reference UID
+00181064,Framing Type
+00189101,Frequency Correction
+00209167,Functional Group Pointer
+00209238,Functional Group Private Creator
+300A011E,Gantry Angle
+300A0044,Gantry Angle Tolerance
+300A011F,Gantry Rotation Direction
+00181121,Gantry/Detector Slew
+00540062,Gated Information Sequence
+00404002,General Purpose Performed Procedure Step Status
+00404003,General Purpose Scheduled Procedure Step Priority
+00404001,General Purpose Scheduled Procedure Step Status
+00189032,Geometry of k-Space Traversal
+00189241,Gradient Echo Train Length
+00189182,Gradient Output
+00189180,Gradient Output Type
+00700001,Graphic Annotation Sequence
+00700005,Graphic Annotation Units
+00700318,Graphic Coordinates Data Sequence
+00700022,Graphic Data
+00700020,Graphic Dimensions
+00700024,Graphic Filled
+00700002,Graphic Layer
+00700068,Graphic Layer Description
+00700062,Graphic Layer Order
+00700066,Graphic Layer Recommended Display Grayscale Value
+00700067,Graphic Layer Recommended Display RGB Value
+00700060,Graphic Layer Sequence
+00700009,Graphic Object Sequence
+00700023,Graphic Type
+00281200,Gray Lookup Table Data
+00281100,Gray Lookup Table Descriptor
+00281080,Gray Scale
+00281202,Green Palette Color Lookup Table Data
+00281102,Green Palette Color Lookup Table Descriptor
+00181166,Grid
+00187040,Grid Absorbing Material
+00187046,Grid Aspect Ratio
+0018704C,Grid Focal Distance
+3004000C,Grid Frame Offset Vector
+00187048,Grid Period
+00187044,Grid Pitch
+00187041,Grid Spacing Material
+00187042,Grid Thickness
+00400314,Half Value Layer
+00181011,Hardcopy Creation Device
+0018101B,Hardcopy Device Manfuacturers Model Name
+00181017,Hardcopy Device Manufacturer
+0018101A,Hardcopy Device Software Version
+00181088,Heart Rate
+00280102,High Bit
+300A00C7,High-Dose Technique Type
+00603008,Histogram Bin Width
+00603020,Histogram Data
+00603010,Histogram Explanation
+00603004,Histogram First Bin Value
+00603006,Histogram Last Bin Value
+00603002,Histogram Number of Bins
+00603000,Histogram Sequence
+0022000C,Horizontal Field of View
+00404009,Human Performer Code Sequence
+00404037,Human Performers Name
+00404036,Human Performers Organization
+00183100,IVUS Acquisition
+00183102,IVUS Gated Rate
+00183101,IVUS Pullback Rate
+00183103,IVUS Pullback Start Frame Number
+00183104,IVUS Pullback Stop Frame Number
+00880200,Icon Image Sequence
+0040A525,Identical Documents Sequence
+2010015E,Illumination
+00220016,Illumination Type Code Sequence
+0018115E,Image Area Dose Product
+21300040,Image Box Content Sequence
+2000006A,Image Box Presentation LUT Flag
+0040071A,Image Center Point Coordinates Sequence
+00204000,Image Comments
+00280005,Image Dimensions
+00280040,Image Format
+60xx0051,Image Frame Origin
+00200070,Image Geometry Type
+00700041,Image Horizontal Flip
+00540400,Image ID
+00541330,Image Index
+00200062,Image Laterality
+00280200,Image Location
+00200035,Image Orientation
+00200037,Image Orientation (Patient)
+21300060,Image Overlay Box Content Sequence
+20000067,Image Overlay Flag
+00220004,Image Path Filter Pass Band
+00220003,Image Path Filter Pass-Through Wavelength
+00220018,Image Path Filter Type Stack Code Sequence
+30020011,Image Plane Pixel Spacing
+00200030,Image Position
+00200032,Image Position (Patient)
+00200032,Image Position–Patient
+00700042,Image Rotation
+00185210,Image Transformation Matrix
+00185212,Image Translation Vector
+00080008,Image Type
+00180085,Imaged Nucleus
+00201002,Images in Acquisition
+300A00CC,Imaging Device-Specific Acquisition Parameters
+00180084,Imaging Frequency
+00402400,Imaging Service Request Comments
+00281300,Implant Present
+40080300,Impressions
+00209162,In-concatenation Number
+00209163,In-concatenation Total Number
+00181312,In-plane Phase Encoding Direction
+00209057,In-stack Position Number
+22000009,Include Display Application
+22000008,Include Non-DICOM Objects
+00404020,Input Availability Flag
+00404021,Input InformationSequence
+00080056,Instance Availability
+00080012,Instance Creation Date
+00080013,Instance Creation Time
+00080014,Instance Creator UID
+00200013,Instance Number
+00080081,Institution Address
+00080082,Institution Code Sequence
+00080080,Institution Name
+00081040,Institutional Department Name
+00101050,Insurance Plan Identification
+00401011,Intended Recipients of Results Identification Sequence
+00181162,Intensifier Size
+40080112,Interpretation Approval Date
+40080113,Interpretation Approval Time
+40080111,Interpretation Approver Sequence
+4008010C,Interpretation Author
+40080117,Interpretation Diagnosis Code Sequence
+40080115,Interpretation Diagnosis Description
+40080200,Interpretation ID
+40080202,Interpretation ID Issuer
+40080100,Interpretation Recorded Date
+40080101,Interpretation Recorded Time
+40080102,Interpretation Recorder
+40080212,Interpretation Status ID
+4008010B,Interpretation Text
+4008010A,Interpretation Transcriber
+40080108,Interpretation Transcription Date
+40080109,Interpretation Transcription Time
+40080210,Interpretation Type ID
+00200016,Interval Number
+0018003A,Intervention Description
+00180029,Intervention Drug Code Sequence
+00180028,Intervention Drug Dose
+00180026,Intervention Drug Information Sequence
+00180034,Intervention Drug Name
+00180035,Intervention Drug Start Time
+00180027,Intervention Drug Stop Time
+00180036,Intervention Sequence
+00180038,Intervention Status
+0022000B,Intra Ocular Pressure
+00189009,Inversion Recovery
+00180082,Inversion Time
+00189079,Inversion Times
+300A012C,Isocenter Position
+00200014,Isotope Number
+00402004,Issue Date of Imaging Service Request
+00402005,Issue Time of Imaging Service Request
+00380011,Issuer of Admission ID
+00100021,Issuer of Patient ID
+FFFEE000,Item
+FFFEE00D,Item Delimitation
+00200019,Item Number
+00189064,K-space Filtering
+00180060,KVP
+00283006,LUT Data
+00283002,LUT Descriptor
+00283003,LUT Explanation
+00409210,LUT Label
+22000003,Label Style Selection
+22000002,Label Text
+22000001,Label Using Information Extracted From Instances
+00280107,Largest Image Pixel Value
+00280111,Largest Image Pixel Value in Plane
+00289099,Largest Monochrome Pixel Value
+00280109,Largest Pixel Value in Series
+00280105,Largest Valid Pixel Value
+001021D0,Last Menstrual Date
+00200060,Laterality
+300A00BE,Leaf Position Boundaries
+300A011C,Leaf/Jaw Positions
+00220021,Left Image Sequence
+00220019,Lenses Code Sequence
+00183105,Lesion Number
+00220002,Light Path Filter Pass Band
+00220001,Light Path Filter Pass-Through Wavelength
+00220017,Light Path Filter Type Stack Code Sequence
+00200050,Location
+00282110,Lossy Image Compression
+00282114,Lossy Image Compression Method
+00282112,Lossy Image Compression Ratio
+00189058,MR Acquisition Frequency Encoding Steps
+00189231,MR Acquisition Phase Encoding Steps in-plane
+00189232,MR Acquisition Phase Encoding Steps out-of-plane
+00180023,MR Acquisition Type
+00189119,MR Averages Sequence
+00189117,MR Diffusion Sequence
+00189114,MR Echo Sequence
+00189125,MR FOV/Geometry Sequence
+00189226,MR Image Frame Type Sequence
+00189006,MR Imaging Modifier Sequence
+00189152,MR Metabolite Map Sequence
+00189115,MR Modifier Sequence
+00189042,MR Receive Coil Sequence
+00189107,MR Spatial Saturation Sequence
+00189200,MR Spectroscopy Acquisition Type
+00189103,MR Spectroscopy FOV/Geometry Sequence
+00189227,MR Spectroscopy Frame Type Sequence
+00189112,MR Timing and Related Parameters Sequence
+00189049,MR Transmit Coil Sequence
+00189197,MR Velocity Encoding Sequence
+00180087,Magnetic Field Strength
+00189020,Magnetization Transfer
+00280050,Manipulated Image
+00080070,Manufacturer
+00081090,Manufacturers Model Name
+00080105,Mapping Resource
+00286110,Mask Frame Numbers
+00286101,Mask Operation
+00286190,Mask Operation Explanation
+00286030,Mask Pointers
+00286114,Mask Sub-pixel Shift
+00286100,Mask Subtraction Sequence
+00200080,Masking Image
+300A00E1,Material ID
+00700309,Matrix Registration Sequence
+0070030A,Matrix Sequence
+20100130,Max Density
+20100154,Maximum Collated Films
+20000061,Maximum Memory Allocation
+30080012,Measured Dose Description
+30080064,Measured Dose Reference Number
+30080010,Measured Dose Reference Sequence
+30080014,Measured Dose Type
+30080016,Measured Dose Value
+0040A300,Measured Value Sequence
+00185022,Mechanical Index
+22000004,Media Disposition
+200000A2,Media Installed Sequence
+00102000,Medical Alerts
+00101090,Medical Record Locator
+200000A0,Memory Bit Depth
+00189083,Metabolite Map Code Sequence
+00189080,Metabolite Map Description
+30020032,Meterset Exposure
+00189106,Mid Slab Position
+00101080,Military Rank
+00080061,Modalities in Study
+00080060,Modality
+00283000,Modality LUT Sequence
+00283004,Modality LUT Type
+04000550,Modified Attributes Sequence
+00203403,Modified Image Date
+00203406,Modified Image Description
+00203402,Modified Image ID
+00203405,Modified Image Time
+0040A195,Modifier Code Sequence
+00203401,Modifying Device ID
+00203404,Modifying Device Manufacturer
+30080056,Most Recent Treatment Date
+00189046,Multi-Coil Configuration
+00189045,Multi-Coil Definition Sequence
+00189047,Multi-Coil Element Name
+00189048,Multi-Coil Element Used
+00189012,Multi-planar Excitation
+00404006,Multiple Copies Flag
+00189011,Multiple Spin Echo
+003A0020,Multiplex Group Label
+00181068,Multiplex Group Time Offset
+0022001C,Mydriatic Agent Code Sequence
+00181803,NTP Source Address
+00081060,Name of Physicians Reading Study
+00401010,Names of Intended Recipients of Results
+00081000,Network ID
+300A0114,Nominal Beam Energy
+300A0015,Nominal Beam Energy Unit
+00181062,Nominal Interval
+300A001A,Nominal Prior Dose
+00182010,Nominal Scanned Pixel Spacing
+00404032,Non-DICOM Output Code Sequence
+30040008,Normalization Point
+003A0223,Notch Filter Bandwidth
+003A0222,Notch Filter Frequency
+00080042,Nuclear Medicine Series Type
+00180083,Number of Averages
+300A0080,Number of Beams
+300A00F0,Number of Blocks
+300A00ED,Number of Boli
+300A00A0,Number of Brachy Application Setups
+300A00E0,Number of Compensators
+30060046,Number of Contour Points
+300A0110,Number of Control Points
+00540021,Number of Detectors
+00540011,Number of Energy Windows
+00082129,Number of Event Timers
+300A0079,Number of Fraction Pattern Digits Per Day
+3008005A,Number of Fractions Delivered
+300A0078,Number of Fractions Planned
+00280008,Number of Frames
+60xx0015,Number of Frames in Overlay
+00540033,Number of Frames in Phase
+00540053,Number of Frames in Rotation
+00700021,Number of Graphic Points
+0019100A,Number of Images in Mosaic (Siemens)
+300A00BC,Number of Leaf/Jaw Pairs
+00201204,Number of Patient Related Instances
+00201206,Number of Patient Related Series
+00201200,Number of Patient Related Studies
+00180089,Number of Phase Encoding Steps
+00540031,Number of Phases
+300A028A,Number of Pulses
+00540061,Number of R-R Intervals
+00540051,Number of Rotations
+00201209,Number of Series Related Instances
+00540081,Number of Slices
+00082124,Number of Stages
+00201208,Number of Study Related Instances
+00201206,Number of Study Related Series
+00186050,Number of Table Break Points
+00186056,Number of Table Entries
+00200105,Number of Temporal Positions
+00540101,Number of Time Slices
+00540071,Number of Time Slots
+00181495,Number of Tomosynthesis Source Images
+00540211,Number of Triggers in Phase
+0008212A,Number of Views in Stage
+003A0005,Number of Waveform Channels
+003A0010,Number of Waveform Samples
+300A00D0,Number of Wedges
+00189066,Number of Zero fills
+00189093,Number of k-Space Trajectories
+0040A301,Numeric Value Qualifier Code Sequence
+0040A032,Observation Date Time
+30060082,Observation Number
+00102180,Occupation
+00189178,Operating Mode
+00189176,Operating Mode Sequence
+00189177,Operating Mode Type
+00081072,Operator Identification Sequence
+00081070,Operators Name
+00402010,Order Callback Phone Number
+00402008,Order Entered By
+00402009,Order Enterers Location
+00400316,Organ Dose
+00400318,Organ Exposed
+300A002A,Organ at Risk Full-volume Dose
+300A002B,Organ at Risk Limit Dose
+300A002C,Organ at Risk Maximum Dose
+300A002D,Organ at Risk Overdose Volume Fraction
+00205000,Original Image Identification
+00205002,Original Image Identification Nomenclature
+213000C0,Original Image Sequence
+0008001B,Original Specialized SOP Class UID
+21000070,Originator
+201000A7,Other Magnification Types Available
+200000A4,Other Media Available Sequence
+00101000,Other Patient IDs
+00101001,Other Patient Names
+201000A9,Other Smoothing Types Available
+00201070,Other Study Numbers
+00404033,Output Information Sequence
+00185000,Output Power
+60xx1001,Overlay Activation Layer
+60xx0102,Overlay Bit Position
+60xx0100,Overlay Bits Allocated
+60xx0011,Overlay Columns
+60xx3000,Overlay Data
+00080024,Overlay Date
+60xx0022,Overlay Description
+60xx1103,Overlay Descriptor - Blue
+60xx1100,Overlay Descriptor - Gray
+60xx1102,Overlay Descriptor - Green
+60xx1101,Overlay Descriptor - Red
+60xx0110,Overlay Format
+60xx1500,Overlay Label
+60xx0200,Overlay Location
+20400090,Overlay Mode
+00200022,Overlay Number
+60xx0050,Overlay Origin
+60xx0052,Overlay Plane Origin
+60xx0040,Overlay Planes
+60xx0010,Overlay Rows
+60xx0045,Overlay Subtype
+00080034,Overlay Time
+60xx0045,Overlay Type
+60xx1203,Overlays - Blue
+60xx1200,Overlays - Gray
+60xx1202,Overlays - Green
+60xx1201,Overlays - Red
+30080062,Override Parameter Pointer
+30080066,Override Reason
+30080060,Override Sequence
+00189029,Oversampling Phase
+00181085,PVC Rejection
+00182001,Page Number Vector
+00281199,Palette Color Lookup Table UID
+00189077,Parallel Acquisition
+00189078,Parallel Acquisition Technique
+00189069,Parallel Reduction Factor In-plane
+00189168,Parallel Reduction Factor Second In-plane
+00189155,Parallel Reduction Factor out-of-plane
+00189081,Partial Fourier
+00189036,Partial Fourier Direction
+00281350,Partial View
+00281351,Partial View Description
+300A0184,Patient Additional Position
+00104000,Patient Comments
+00220006,Patient Eye Movement Command Code Sequence
+00220005,Patient Eye Movement Commanded
+00540414,Patient Gantry Relationship Code Sequence
+00100020,Patient ID
+00200020,Patient Orientation
+00540410,Patient Orientation Code Sequence
+00540412,Patient Orientation Modifier Code Sequence
+00185100,Patient Position
+300A0182,Patient Setup Number
+300A0180,Patient Setup Sequence
+00380500,Patient State
+300A0122,Patient Support Angle
+300A004C,Patient Support Angle Tolerance
+300A0123,Patient Support Rotation Direction
+00401004,Patient Transport Arrangements
+00101040,Patients Address
+00101010,Patients Age
+00100030,Patients Birth Date
+00101005,Patients Birth Name
+00100032,Patients Birth Time
+00380400,Patients Institution Residence
+00100050,Patients Insurance Plan Code Sequence
+00101060,Patients Mothers Birth Name
+00100010,Patients Name
+00100102,Patients Primary Language Code Modifier Sequence
+00100101,Patients Primary Language Code Sequence
+001021F0,Patients Religious Preference
+00100040,Patients Sex
+00101020,Patients Size
+00102154,Patients Telephone Numbers
+00101030,Patients Weight
+00540038,Pause Between Frames
+52009230,Per-frame Functional Groups Sequence
+00180094,Percent Phase Field of View
+00180093,Percent Sampling
+00400243,Performed Location
+0040A372,Performed Procedure Code Sequence
+00400254,Performed Procedure Step Description
+00400281,Performed Procedure Step Discontinuation Reason Code Squence
+00400250,Performed Procedure Step End Date
+00400251,Performed Procedure Step End Time
+00400253,Performed Procedure Step ID
+00400244,Performed Procedure Step Start Date
+00400245,Performed Procedure Step Start Time
+00400252,Performed Procedure Step Status
+00400255,Performed Procedure Type Description
+00404007,Performed Processing Applications Code Sequence
+00081032,Performed Protocol Code Sequence
+00400340,Performed Series Sequence
+00400241,Performed Station AE Title
+00404029,Performed Station Class Code Sequence
+00404030,Performed Station Geographic Location Code Sequence
+00400242,Performed Station Name
+00404028,Performed Station Name Code Sequence
+00404019,Performed Workitem Code Sequence
+00081052,Performing Physician Identification Sequence
+00081050,Performing Physician's Name
+00401101,Person Identification Code Sequence
+00401102,Person's Address
+00401103,Person's Telephone Numbers
+0040A385,Pertinent Other Evidence Sequence
+00189014,Phase Contrast
+00540036,Phase Delay
+00540039,Phase Description
+00540032,Phase Information Sequence
+00200015,Phase Number
+00540030,Phase Vector
+00280004,Photometric Interpretation
+00187065,Phototimer Setting
+0018602C,Physical Delta X
+0018602E,Physical Delta Y
+00186024,Physical Units X Direction
+00186026,Physical Units Y Direction
+40080114,Physician Approving Interpretation
+00081062,Physicians Reading Study Identification Sequence
+00081048,Physicians of Record
+00081049,Physicians of Record Identification Sequence
+00280034,Pixel Aspect Ratio
+00180095,Pixel Bandwidth
+0018604E,Pixel Component Data Type
+00186046,Pixel Component Mask
+00186044,Pixel Component Organization
+0018604C,Pixel Component Physical Units
+00186048,Pixel Component Range Start
+0018604A,Pixel Component Range Stop
+7FE00010,Pixel Data
+00281040,Pixel Intensity Relationship
+00281041,Pixel Intensity Relationship Sign
+00289110,Pixel Measures Sequence
+00280120,Pixel Padding Value
+00280103,Pixel Representation
+00280030,Pixel Spacing
+004008D8,Pixel Spacing Sequence
+00289145,Pixel Value Transformation Sequence
+00402016,Placer Order Number / Imaging Service Request
+00401006,Placer Order Number / Procedure
+00280006,Planar Configuration
+00209116,Plane Orientation Sequence
+00209113,Plane Position Sequence
+00280012,Planes
+300A00CA,Planned Verification Image Sequence
+20200020,Polarity
+00201040,Position Reference Indicator
+00181500,Positioner Motion
+00181510,Positioner Primary Angle
+00181520,Positioner Primary Angle Increment
+00181511,Positioner Secondary Angle
+00181521,Positioner Secondary Angle Increment
+00181508,Positioner Type
+00185021,Postprocessing Function
+00400012,Pre-Medication
+0040A360,Predecessor Documents Sequence
+001021C0,Pregnancy Status
+300A000E,Prescription Description
+00700082,Presentation Creation Date
+00700083,Presentation Creation Time
+00080068,Presentation Intent Type
+21300080,Presentation LUT Content Sequence
+20000069,Presentation LUT Flag
+20500010,Presentation LUT Sequence
+20500020,Presentation LUT Shape
+00700102,Presentation Pixel Aspect Ratio
+00700103,Presentation Pixel Magnification Ratio
+00700101,Presentation Pixel Spacing
+00700100,Presentation Size Mode
+2200000A,Preserve Composite Instances After Media Creation
+00082230,Primary Anatomic Structure Modifier Sequence
+00082228,Primary Anatomic Structure Sequence
+300A00B3,Primary Dosimeter Unit
+00541310,Primary Prompts Counts Accumulated
+21200050,Print Job Description Sequence
+21000010,Print Job ID
+21300010,Print Management Capabilities Sequence
+21100099,Print Queue ID
+21300015,Printer Characteristics Sequence
+2000001E,Printer Configuration Sequence
+21100030,Printer Name
+20100376,Printer Pixel Spacing
+20100052,Printer Resolution ID
+21100010,Printer Status
+21100020,Printer Status Info
+200000A1,Printing Bit Depth
+00081032,Procedure Code Sequence
+00185020,Processing Function
+00185104,Projection Eponymous Name Code Sequence
+00400440,Protocol Context Sequence
+00181030,Protocol Name
+00186032,Pulse Repetition Frequency
+300A028C,Pulse Repetition Interval
+00189005,Pulse Sequence Name
+0022000D,Pupil Dilated
+0040A170,Purpose of Reference Code Sequence
+00189044,Quadrature Receive Coil
+00280300,Quality Control Image
+00080052,Query / Retrieve Level
+21200010,Queue Status
+00286040,R Wave Pointer
+00186060,R Wave Time Vector
+00540060,R-R Interval Vector
+00180091,RF Echo Train Length
+60xx1301,ROI Area
+30060039,ROI Contour Sequence
+30060028,ROI Description
+3006002A,ROI Display Color
+30060036,ROI Generation Algorithm
+30060038,ROI Generation Description
+300600A6,ROI Interpreter
+60xx1302,ROI Mean
+30060026,ROI Name
+30060026,ROI Number
+30060088,ROI Observation Description
+30060085,ROI Observation Label
+300600B0,ROI Physical Properties Sequence
+300600B2,ROI Physical Property
+300600B4,ROI Physical Property Value
+60xx1303,ROI Standard Deviation
+3006002C,ROI Volume
+300A00B8,RT Beam Limiting Device Type
+30040010,RT Dose ROI Sequence
+30020004,RT Image Description
+30020002,RT Image Label
+30020003,RT Image Name
+30020010,RT Image Orientation
+3002000C,RT Image Plane
+30020012,RT Image Position
+30020026,RT Image SID
+300A0006,RT Plan Date
+300A0004,RT Plan Description
+300A000C,RT Plan Geometry
+300A0002,RT Plan Label
+300A0003,RT Plan Name
+300A0055,RT Plan Relationship
+300A0007,RT Plan Time
+30060086,RT ROI Identification Code Sequence
+300600A4,RT ROI Interpreted Type
+30060080,RT ROI Observations Sequence
+30060033,RT ROI Relationship
+30060014,RT Referenced Series Sequence
+30060012,RT Referenced Study Sequence
+30060030,RT Related ROI Sequence
+00181142,Radial Position
+30020020,Radiation Machine Name
+30020022,Radiation Machine SAD
+30020024,Radiation Machine SSD
+0018115A,Radiation Mode
+00181155,Radiation Setting
+300A00C6,Radiation Type
+00180030,Radionuclide
+00540300,Radionuclide Code Sequence
+00181075,Radionuclide Half Life
+00181076,Radionuclide Positron Fraction
+00181074,Radionuclide Total Dose
+00180031,Radiopharmaceutical
+00540304,Radiopharmaceutical Code Sequence
+00540016,Radiopharmaceutical Information Sequence
+00181070,Radiopharmaceutical Route
+00181077,Radiopharmaceutical Specific Activity
+00181072,Radiopharmaceutical Start Time
+00181073,Radiopharmaceutical Stop Time
+00181071,Radiopharmaceutical Volume
+00181712,Radius of Circular Collimator
+00541100,Randoms Correction Method
+00409216,Real World Value First Value Mapped
+00409224,Real World Value Intercept
+00409212,Real World Value LUT Data
+00409211,Real World Value Last Value Mapped
+00409096,Real World Value Mapping Sequence
+00409225,Real World Value Slope
+0040100A,Reason for Requested Procedure Code Sequence
+00321030,Reason for Study
+00402001,Reason for the Imaging Service Request
+00401002,Reason for the Requested Procedure
+00189041,Receive Coil Manufacturer Name
+00181250,Receive Coil Name
+00181250,Receive Coil Type
+00080010,Recognition Code
+00281090,Recommended Viewing Mode
+00181100,Reconstruction Method
+300800D0,Recorded Block Sequence
+30080120,Recorded Brachy Accessory Device Sequence
+30080130,Recorded Channel Sequence
+30080150,Recorded Channel Shield Sequence
+300800C0,Recorded Compensator Sequence
+30080140,Recorded Source Applicator Sequence
+30080100,Recorded Source Sequence
+300800B0,Recorded Wedge Sequence
+00181156,Rectification Type
+00189034,Rectilinear Phase Encode Reordering
+00281201,Red Palette Color Lookup Table Data
+00281101,Red Palette Color Lookup Table Descriptor
+00201020,Reference
+300A022A,Reference Air Kerma Rate
+300A00C8,Reference Image Number
+00186028,Reference Pixel Physical Value X
+0018602A,Reference Pixel Physical Value Y
+00186020,Reference Pixel X0
+00186022,Reference Pixel Y0
+40080103,Reference to Recorded Sound
+300C0006,Referenced Beam Number
+300C0004,Referenced Beam Sequence
+300C00E0,Referenced Block Number
+300C00B0,Referenced Bolus Sequence
+30080122,Referenced Brachy Accessory Device Number
+300C000C,Referenced Brachy Application Setup Number
+300C000A,Referenced Brachy Application Setup Sequence
+30080092,Referenced Calculated Dose Reference Number
+30080090,Referenced Calculated Dose Reference Sequence
+300C00D0,Referenced Compensator Number
+0040DB73,Referenced Content Item Identifier
+300C00F0,Referenced Control Point Index
+00081145,Referenced Curve Sequence
+0040A13A,Referenced Datetime
+300C0051,Referenced Dose Reference Number
+300C0050,Referenced Dose Reference Sequence
+300C0080,Referenced Dose Sequence
+300C0022,Referenced Fraction Group Number
+300C0020,Referenced Fraction Group Sequence
+300C0022,Referenced Fraction Number
+00081160,Referenced Frame Number
+00081160,Referenced Frame Numbers
+30060010,Referenced Frame of Reference Sequence
+30060024,Referenced Frame of Reference UID
+00404016,Referenced General Purpose Scheduled Procedure Step Sequence
+00404023,Referenced General Purpose Scheduled Procedure step Sequence Transaction UID
+00089237,Referenced Grayscale Presentation State Sequence
+00089092,Referenced Image Evidence Sequence
+20200130,Referenced Image Overlay Box Sequence
+00081140,Referenced Image Sequence
+0008114A,Referenced Instance Sequence
+40080050,Referenced Interpretation Sequence
+30080082,Referenced Measured Dose Reference Number
+30080080,Referenced Measured Dose Reference Sequence
+00400220,Referenced Non-Image Composite SOP Instance
+20400011,Referenced Overlay Plane Groups
+20400010,Referenced Overlay Plane Sequence
+00081130,Referenced Overlay Sequence
+00380004,Referenced Patient Alias Sequence
+00081120,Referenced Patient Sequence
+300C006A,Referenced Patient Setup Number
+00081111,Referenced Performed Procedure Step Sequence
+20500500,Referenced Presentation LUT Sequence
+21200070,Referenced Print Job Sequence
+00400330,Referenced Procedure Step Sequence
+30060084,Referenced ROI Number
+300C0002,Referenced RT Plan Sequence
+00089121,Referenced Raw Data Sequence
+300C0007,Referenced Reference Image Number
+300C0042,Referenced Reference Image Sequence
+0040A370,Referenced Request Sequence
+00081100,Referenced Results Sequence
+00081150,Referenced SOP Class UID
+00081155,Referenced SOP Instance UID
+00081199,Referenced SOP Sequence
+0040A132,Referenced Sample Positions
+00081115,Referenced Series Sequence
+30080142,Referenced Source Applicator Number
+300C000E,Referenced Source Number
+2200000D,Referenced Storage Media Sequence
+20000510,Referenced Stored Print Sequence
+300C0060,Referenced Structure Set Sequence
+00081110,Referenced Study Sequence
+0040A138,Referenced Time Offsets
+300C00A0,Referenced Tolerance Table Number
+30080030,Referenced Treatment Record Sequence
+20200140,Referenced VOI LUT Box Sequence
+300C0040,Referenced Verification Image Sequence
+00081125,Referenced Visit Sequence
+0040A0B0,Referenced Waveform Channels
+0008113A,Referenced Waveform Sequence
+300C00C0,Referenced Wedge Number
+00080096,Referring Physician Identification Sequence
+00080092,Referring Physician's Address
+00080090,Referring Physician's Name
+00080094,Referring Physician's Telephone Numbers
+20100160,Reflected Ambient Light
+0022001B,Refractive State Sequence
+00186014,Region Data Type
+00186016,Region Flags
+0018601C,Region Location Max X1
+0018601E,Region Location Max Y1
+00186018,Region Location Min X0
+0018601A,Region Location Min Y0
+00186012,Region Spatial Format
+00102152,Region of Residence
+00700308,Registration Sequence
+0070030D,Registration Type Code Sequence
+300600C2,Related Frame of Reference UID
+0008001A,Related General SOP Class UID
+300600A0,Related RT ROI Observations Sequence
+00081250,Related Series Sequence
+0040A010,Relationship Type
+0022001D,Relative Image Position Code Sequence
+00404022,Relevant Information Sequence
+300A007A,Repeat Fraction Cycle Length
+00180080,Repetition Time
+3002000A,Reported Values Origin
+00401009,Reporting Priority
+00286010,Representative Frame Number
+00541004,Reprojection Method
+00400275,Request Attributes Sequence
+22000020,Request Priority
+00321070,Requested Contrast Agent
+20200040,Requested Decimate/Crop Behavior
+20200030,Requested Image Size
+202000A0,Requested Image Size Flag
+2200000C,Requested Media Application Profile
+00401400,Requested Procedure Comments
+00321060,Requested Procedure Description
+00401001,Requested Procedure ID
+00401005,Requested Procedure Location
+00401003,Requested Procedure Priority
+00404031,Requested Subsequent Workitem Code Sequence
+00321032,Requesting Physician
+00321031,Requesting Physician Identification Sequence
+00321033,Requesting Service
+00281052,Rescale Intercept
+00281053,Rescale Slope
+00281054,Rescale Type
+00540017,Residual Syringe Counts
+00189100,Resonant Nucleus
+00189214,Respiratory Cycle Position
+00189170,Respiratory Motion Compensation Technique
+00189171,Respiratory Signal Source
+00080116,Responsible Organization
+00404015,Resulting General Purpose Performed Procedure Steps Sequence
+40084000,Results Comments
+40080118,Results Distribution List Sequence
+40080040,Results ID
+40080042,Results ID Issuer
+00080054,Retrieve AE Title
+00220022,Right Image Sequence
+00540052,Rotation Information Sequence
+00181146,Rotation Offset
+00540050,Rotation Vector
+00182030,Rotation of Scanned Film
+00380016,Route of Admissions
+00280010,Rows
+00181316,SAR
+01000424,SOP Authorization Comment
+01000420,SOP Authorization Date and Time
+00080016,SOP Class UID
+0008115A,SOP Classes Supported
+00080062,SOP Classes in Study
+01000410,SOP Instance Status
+00080018,SOP Instance UID
+30080162,Safe Position Exit Date
+30080164,Safe Position Exit Time
+30080166,Safe Position Return Date
+30080168,Safe Position Return Time
+00280002,Samples per Pixel
+00280002,Samples per Pixel Used
+003A001A,Sampling Frequency
+00189024,Saturation Recovery
+00181143,Scan Arc
+00181302,Scan Length
+00181300,Scan Velocity
+00180020,Scanning Sequence
+00541105,Scatter Correction Method
+00541323,Scatter Fraction Factor
+0038001A,Scheduled Admission Date
+0038001B,Scheduled Admission Time
+0038001C,Scheduled Discharge Date
+0038001D,Scheduled Discharge Time
+00404034,Scheduled Human Performers Sequence
+0038001E,Scheduled Patient Institution Residence
+0040000B,Scheduled Performing Physician Identification Sequence
+00400006,Scheduled Performing Physicians Name
+00400007,Scheduled Procedure Step Description
+00400004,Scheduled Procedure Step End Date
+00400005,Scheduled Procedure Step End Time
+00400009,Scheduled Procedure Step ID
+00400011,Scheduled Procedure Step Location
+00404010,Scheduled Procedure Step Modification Date and Time
+00400100,Scheduled Procedure Step Sequence
+00400002,Scheduled Procedure Step Start Date
+00404005,Scheduled Procedure Step Start Date and Time
+00400003,Scheduled Procedure Step Start Time
+00400020,Scheduled Procedure Step Status
+00404004,Scheduled Processing Applications Code Sequence
+00400008,Scheduled Protocol Code Sequence
+00400001,Scheduled Station AE Title
+00404026,Scheduled Station Class Code Sequence
+00404027,Scheduled Station Geographic Location Code Sequence
+00400010,Scheduled Station Name
+00404025,Scheduled Station Name Code Sequence
+00400270,Scheduled Step Attributes Sequence
+00321021,Scheduled Study AE Title
+00321020,Scheduled Study Location
+00321021,Scheduled Study Location AE Title
+00321000,Scheduled Study Start Date
+00321001,Scheduled Study Start Time
+00321010,Scheduled Study Stop Date
+00321011,Scheduled Study Stop Time
+00404018,Scheduled Workitem Code Sequence
+00181010,Secondary Capture Device ID
+00181016,Secondary Capture Device Manufacturer
+00181018,Secondary Capture Device Manufacturers Model Name
+00181019,Secondary Capture Device Software Version
+00541311,Secondary Counts Accumulated
+00541220,Secondary Counts Type
+00281223,Segmented Blue Palette Color Lookup Table Data
+00281222,Segmented Green Palette Color Lookup Table Data
+00281221,Segmented Red Palette Color Lookup Table Data
+00189033,Segmented k-Space Traversal
+FFFEE0DD,Sequence Delimitation Item
+00180024,Sequence Name
+00180021,Sequence Variant
+00186011,Sequence of Ultrasound Regions
+00080021,Series Date
+0008103E,Series Description
+0020000E,Series Instance UID
+00200011,Series Number
+00080031,Series Time
+00541000,Series Type
+00201000,Series in Study
+300A01BA,Setup Device Description
+300A01B8,Setup Device Label
+300A01BC,Setup Device Parameter
+300A01B4,Setup Device Sequence
+300A01B6,Setup Device Type
+300A01D0,Setup Reference Description
+300A01B0,Setup Technique
+300A01B2,Setup Technique Description
+00700306,Shape Type
+52009229,Shared Functional Groups Sequence
+300A01A6,Shielding Device Description
+300A01A4,Shielding Device Label
+300A01A8,Shielding Device Position
+300A01A0,Shielding Device Sequence
+300A01A2,Shielding Device Type
+00289108,Signal Domain Columns
+00289235,Signal Domain Rows
+00181086,Skip Beats
+00189105,Slab Orientation
+00189104,Slab Thickness
+00201041,Slice Location
+00182005,Slice Location Vector
+00540500,Slice Progression Direction
+00541320,Slice Sensitivity Factor
+00180050,Slice Thickness
+00540080,Slice Vector
+004006FA,Slide Identifier
+00280106,Smallest Image Pixel Value
+00280110,Smallest Image Pixel Value in Plane
+00280108,Smallest Pixel Value in Series
+00280104,Smallest Valid Pixel Value
+001021A0,Smoking Status
+00185027,Soft Tissue Thermal Index
+00185028,Soft Tissue-focus Thermal Index
+00180029,Soft Tissue-surface Thermal Index
+00283110,Softcopy VOI LUT Sequence
+00181020,Software Versions
+300A0291,Source Applicator ID
+300A0296,Source Applicator Length
+300A0298,Source Applicator Manufacturer
+300A0294,Source Applicator Name
+300A0290,Source Applicator Number
+300A02A0,Source Applicator Step Size
+300A0292,Source Applicator Type
+300A029C,Source Applicator Wall Nominal Thickness
+300A029E,Source Applicator Wall Nominal Transmission
+300A0222,Source Encapsulation Nominal Thickness
+300A0224,Source Encapsulation Nominal Transmission
+00089154,Source Image Evidence Sequence
+00082112,Source Image Sequence
+300A0228,Source Isotope Half Life
+300A0226,Source Isotope Name
+300A0216,Source Manufacturer
+300A0288,Source Movement Type
+300A0212,Source Number
+300A0210,Source Sequence
+30080105,Source Serial Number
+300A0214,Source Type
+003A020A,Source Waveform Sequence
+300A00BA,Source to Beam Limiting Device Distance
+300A00F6,Source to Block Tray Distance
+300A02E2,Source to Compensator Distance
+300A00E6,Source to Compensator Tray Distance
+30020028,Source to Reference Object Distance
+300A0130,Source to Surface Distance
+300A00DA,Source to Wedge Tray Distance
+300A00B4,Source-Axis Distance
+00180088,Spacing Between Slices
+00189027,Spatial Pre-saturation
+00181050,Spatial Resolution
+00380050,Special Needs
+00189179,Specific Absorption Rate Definition
+00189239,Specific Absorption Rate Sequence
+00189181,Specific Absorption Rate Value
+00080005,Specific Character Set
+30080132,Specified Channel Total Time
+30080042,Specified Meterset
+30080136,Specified Number of Pulses
+30080032,Specified Primary Meterset
+3008013A,Specified Pulse Repetition Interval
+30080033,Specified Secondary Meterset
+3008003A,Specified Treatment Time
+0040050A,Specimen Accession Number
+00400551,Specimen Identifier
+00400550,Specimen Sequence
+0040059A,Specimen Type Code Sequence
+00189052,Spectral Width
+00189026,Spectrally Selected Excitation
+00189025,Spectrally Selected Suppression
+00189127,Spectroscopy Acquisition Data Columns
+00189159,Spectroscopy Acquisition Out-of-plane Phase Steps
+00189234,Spectroscopy Acquisition Phase Columns
+00189095,Spectroscopy Acquisition Phase Rows
+56000020,Spectroscopy Data
+00220007,Spherical Lens Power
+00189016,Spoiling
+00209056,Stack ID
+0040000A,Stage Code Sequence
+00082120,Stage Name
+00082122,Stage Number
+00540200,Start Angle
+300C0008,Start Cumulative Meterset Weight
+30080078,Start Meterset
+00081010,Station Name
+00189017,Steady State Pulse Sequence
+00186036,Steering Angle
+00220010,Stereo Baseline Angle
+00220011,Stereo Baseline Displacement
+00220012,Stereo Horizontal Pixel Offset
+00220020,Stereo Pairs Sequence
+00220014,Stereo Rotation
+00220013,Stereo Vertical Pixel Offset
+00880130,Storage Media File-set ID
+00880140,Storage Media File-set UID
+30060008,Structure Set Date
+30060006,Structure Set Description
+30060002,Structure Set Label
+30060004,Structure Set Name
+30060020,Structure Set ROI Sequence
+30060009,Structure Set Time
+00081200,Studies Containing Other Referenced Instances Sequence
+00321040,Study Arrival Date
+00321041,Study Arrival Time
+00324000,Study Comments
+00321050,Study Completion Date
+00321051,Study Completion Time
+00321055,Study Component Status ID
+00080020,Study Date
+00081030,Study Description
+00200010,Study ID
+00320012,Study ID Issuer
+00321064,Study Instance
+0020000D,Study Instance UID
+0032000C,Study Priority ID
+00320034,Study Read Date
+00320035,Study Read Time
+0032000A,Study Status ID
+00080030,Study Time
+00320032,Study Verified Date
+00320033,Study Verified Time
+200000A8,Supported Image Display Formats Sequence
+300A012E,Surface Entry Point
+0018106C,Synchronization Channel
+00200200,Synchronization Frame of Reference UID
+0018106A,Synchronization Trigger
+00181045,Syringe Counts
+00189021,T2 Preparation
+00286120,TID Offset
+0018603D,TM-Line Position X0
+00186041,TM-Line Position X1
+0018603F,TM-Line Position Y0
+00186043,TM-Line Position Y1
+00181138,Table Angle
+00181136,Table Lateral Increment
+00181137,Table Longitudinal Increment
+00181134,Table Motion
+300A0125,Table Top Eccentric Angle
+300A004E,Table Top Eccentric Angle Tolerance
+300A0124,Table Top Eccentric Axis Distance
+300A0126,Table Top Eccentric Rotation Direction
+300A012A,Table Top Lateral Position
+300A0053,Table Top Lateral Position Tolerance
+300A01D6,Table Top Lateral Setup Displacement
+300A0129,Table Top Longitudinal Position
+300A0052,Table Top Longitudinal Position Tolerance
+300A01D4,Table Top Longitudinal Setup Displacement
+300A0128,Table Top Vertical Position
+300A0051,Table Top Vertical Position Tolerance
+300A01D2,Table Top Vertical Setup Displacement
+00181131,Table Traverse
+00181138,Table Type
+00181135,Table Vertical Increment
+0018605A,Table of Parameter Values
+00186058,Table of Pixel Values
+00186052,Table of X Break Points
+00186054,Table of Y Break Points
+00189019,Tag Angle First Axis
+00189219,Tag Angle Second Axis
+00189030,Tag Spacing First Dimension
+00189218,Tag Spacing Second Dimension
+00189035,Tag Thickness
+00189028,Tagging
+00189184,Tagging Delay
+300A0027,Target Maximum Dose
+300A0025,Target Minimum Dose
+300A0026,Target Prescription Dose
+300A0028,Target Underdose Volume Fraction
+0040DB0D,Template Extension Creator UID
+0040DB0B,Template Extension Flag
+0040DB0C,Template Extension Organization UID
+0040DB00,Template Identifier
+0040DB07,Template Local Version
+300A0244,Template Name
+300A0240,Template Number
+300A0242,Template Type
+0040DB06,Template Version
+00200100,Temporal Position Identifier
+00209128,Temporal Position Index
+0040A130,Temporal Range Type
+00200110,Temporal Resolution
+00700008,Text Object Sequence
+00180039,Therapy Description
+00180037,Therapy Type
+20400100,Threshold Density
+00181802,Time Distribution Protocol
+00189065,Time Domain Filtering
+00540100,Time Slice Vector
+00540072,Time Slot Information Sequence
+00200017,Time Slot Number
+00540073,Time Slot Time
+00540070,Time Slot Vector
+00181801,Time Source
+00189015,Time of Flight Contrast
+00181201,Time of Last Calibration
+0018700E,Time of Last Detector Calibration
+00181014,Time of Secondary Capture
+00080201,Timezone Offset From UTC
+30040014,Tissue Heterogeneity Correction
+300A0043,Tolerance Table Label
+300A0042,Tolerance Table Number
+300A0040,Tolerance Table Sequence
+00181470,Tomo Angle
+00181491,Tomo Class
+00181460,Tomo Layer Height
+00181480,Tomo Time
+00181490,Tomo Type
+00880910,Topic Author
+00880912,Topic Key Words
+00880906,Topic Subject
+00880904,Topic Title
+300A00F2,Total Block Tray Factor
+300A00E2,Total Compensator Tray Factor
+00185040,Total Gain
+00400301,Total Number of Exposures
+2200000B,Total Number of Pieces of Media Created
+300A0250,Total Reference Air Kerma
+00400300,Total Time of Fluoroscopy
+00186030,Tranducer Frequency
+00081195,Transaction UID
+00185010,Transducer Data
+00082204,Transducer Orientation
+00082246,Transducer Orientation Modifier Sequence
+00082244,Transducer Orientation Sequence
+00082200,Transducer Position
+00082242,Transducer Position Modifier Sequence
+00082240,Transducer Position Sequence
+00186031,Transducer Type
+300A02A4,Transfer Tube Length
+300A02A2,Transfer Tube Number
+00189050,Transmit Coil Manufacturer Name
+00181251,Transmit Coil Name
+00189051,Transmit Coil Type
+00189098,Transmitter Frequency
+00541202,Transverse Mash
+30080024,Treatment Control Point Date
+30080025,Treatment Control Point Time
+00200013,Treatment Date
+300A00CE,Treatment Delivery Type
+300A000A,Treatment Intent
+300A00B2,Treatment Machine Name
+300A0206,Treatment Machine Sequence
+300A0009,Treatment Protocols
+30080110,Treatment Session Application Setup Sequence
+30080020,Treatment Session Beam Sequence
+300A000B,Treatment Sites
+30080202,Treatment Status Comment
+30080050,Treatment Summary Calculated Dose Reference Sequence
+300800E0,Treatment Summary Measured Dose Reference
+3008002B,Treatment Termination Code
+3008002A,Treatment Termination Status
+30080251,Treatment Time
+3008002C,Treatment Verification Status
+0018106E,Trigger Sample Position
+00181061,Trigger Source or Type
+00181060,Trigger Time
+00181069,Trigger Time Offset
+00540210,Trigger Vector
+00181094,Trigger Window
+20100140,Trim
+50xx0020,Type of Data
+00540202,Type of Detector Motion
+00181161,Type of Filters
+0040A124,UID
+00280014,Ultrasound Color Data Present
+00700006,Unformatted Text Value
+00541001,Units
+00181240,Upper/Lower Pixel Values
+00700314,Used Fiducials Sequence
+00283010,VOI LUT Sequence
+00181315,Variable Flip Angle Flag
+00189090,Velocity Encoding Direction
+00189217,Velocity Encoding Maximum Value
+00189091,Velocity Encoding Minimum Value
+0040A030,Verification DateTime
+0040A493,Verification Flag
+0040A088,Verifying Observer Identification Code Sequence
+0040A075,Verifying Observer Name
+0040A073,Verifying Observer Sequence
+0040A027,Verifying Organization
+00181720,Vertices of the Polygonal Collimator
+00181022,Video Image Format Acquired
+00540220,View Code Sequence
+00540222,View Modifier Co

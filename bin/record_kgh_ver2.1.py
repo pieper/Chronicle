@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/home/karl/anaconda/bin python
 """
 Record a directory containing dicom objects in
 the chronicle couch database.
@@ -12,6 +12,10 @@ so the image specific things should be factored out.
 since full object is available already as attachment)
 
 """
+# KGH ->
+# saved to new version record_kgh.py
+# I've changed the default python call from '#!/usr/bin/env python' to anaconda
+# changed print statesments from print("x") to print "x" since I'm using python 2.7
 
 import os
 import sys
@@ -43,15 +47,15 @@ class ChronicleRecord():
         # these will not be included in the json
         self.BINARY_VR_VALUES = ['OW', 'OB', 'OW/OB', 'OW or OB', 'OB or OW', 'US or SS']
 
-        print(self.couchDB_URL)
+        print self.couchDB_URL
         self.couch = couchdb.Server(self.couchDB_URL)
         try:
-            print(self.databaseName)
+            print self.databaseName 
             self.db = self.couch[self.databaseName]
         except couchdb.ResourceNotFound:
             self.db = self.couch.create(self.databaseName)
 
-    def dataElementToJSON(self,dataElement):
+    def dataElementToJSON(self,dataElement,tagLabel):
         """Returns a json dictionary which is either a single
         element or a dictionary of elements representing a sequnce.
         """
@@ -73,10 +77,11 @@ class ChronicleRecord():
         try:
             json = {
                 "vr" : dataElement.VR,
-                "Value" : value
+                "Value" : value,
+                "Label" : tagLabel.replace("\n","")
             }
         except UnboundLocalError:
-            print (dataElement)
+            print dataElement
             exit()
         return json
 
@@ -89,12 +94,32 @@ class ChronicleRecord():
         Note this is a co-routine with dataElementToJSON and they
         can call each other recursively since SQ (sequence) data elements
         are implemented as nested datasets.
+
+        KGH - I added the call to a file that contains the DICOM tag and the
+        corresponding label (name), one row for each tag.  The code reads the
+        tag ('jkey'), finds the corresponding label and then passes the label
+        to dataElementToJSON so it can be written along with the VR and value.
         """
+        import StringIO
         jsonDictionary = {}
+        dicomID = []
+        label = []
+        labelsList = open("/home/karl/Work/Chronicle/bin/dicom_tag_label.txt", "r")
+        for row in labelsList:
+            d,l = row.split(",")
+            dicomID.append(d)
+            label.append(l)
         for key in dataset.keys():
             jkey = "%04X%04X" % (key.group,key.element)
+            #KGH: find the label that is associated with tag=jkey
+            if jkey in dicomID:
+                # have to cut off newline character 
+                tagLabel = label[dicomID.index(jkey)].replace("\n","")
+            else:
+                tagLabel = "Unknown"
+
             dataElement = dataset[key]
-            jsonDictionary[jkey] = self.dataElementToJSON(dataElement)
+            jsonDictionary[jkey] = self.dataElementToJSON(dataElement,tagLabel)
         return jsonDictionary
 
     def windowedData(self,data, window, level):
@@ -116,10 +141,10 @@ class ChronicleRecord():
         """return an image from the dicom dataset using the Python Imaging Library (PIL)"""
         if ('PixelData' not in dataset):
             # DICOM dataset does not have pixel data
-            print('no pixels')
+            print 'no pixels'
             return None
         if ('WindowWidth' not in dataset) or ('WindowCenter' not in dataset):
-            print("No window width or center in the dataset")
+            print "No window width or center in the dataset"
             # no width/center, so use whole
             bits = dataset.BitsAllocated
             samples = dataset.SamplesperPixel
@@ -146,7 +171,7 @@ class ChronicleRecord():
             # Convert mode to L since LUT has only 256 values:
             #  http://www.pythonware.com/library/pil/handbook/image.htm
             if image.dtype != 'int16':
-                print('Type is not int16, converting')
+                print 'Type is not int16, converting'
                 image = numpy.array(image, dtype='int16')
             image = Image.fromarray(image).convert('L')
         return image
@@ -173,18 +198,18 @@ class ChronicleRecord():
                 self.recordFile(fileNamePath)
 
     def recordFile(self,fileNamePath):
-        print("Considering file: %s" % fileNamePath)
+        print "Considering file: %s" % fileNamePath 
 
         # create dataset, skip non-dicom
         try:
             dataset = dicom.read_file(fileNamePath)
         except:
-            print("...apparently not dicom")
+            print "...apparently not dicom" 
             return
 
         # check if instance is already in database
         if self.db.get(dataset.SOPInstanceUID):
-            print("... %s already in database" % dataset.SOPInstanceUID)
+            print "... %s already in database" % dataset.SOPInstanceUID 
             return
 
         # make a couchdb document that contains the dataset in json
@@ -197,17 +222,17 @@ class ChronicleRecord():
 
         # save the document
         try:
-            print('...saving...')
+            print '...saving...'
             doc_id, doc_rev = self.db.save(document)
         except:
-            print('...failed to save!!!')
+            print '...failed to save!!!'
             return
 
         # attach png images to the object if possible
         doc = self.db.get(doc_id)
         images = self.imagesFromDataset(dataset)
         for imageSize in images.keys():
-            print('...thumbnail %d...' % imageSize)
+            print '...thumbnail %d...' % imageSize
             imageName = "image%d.png" % imageSize
             imagePath = "/tmp/" + imageName
             images[imageSize].save(imagePath) # TODO: generalize
@@ -217,7 +242,7 @@ class ChronicleRecord():
             os.remove(imagePath)
 
         # attach the original file
-        print('...attaching dicom object...')
+        print '...attaching dicom object...'
         fp = open(fileNamePath,'rb')
         self.db.put_attachment(doc, fp, "object.dcm")
         fp.close()
@@ -229,15 +254,15 @@ class ChronicleRecord():
 # {{{ main, test, and arg parse
 
 def usage():
-    print ("record [directoryPath] <CouchDB_URL> <DatabaseName>")
-    print (" CouchDB_URL default http://localhost:5984")
-    print (" DatabaseName default 'chronicle'")
+    print "record [directoryPath] <CouchDB_URL> <DatabaseName>"
+    print " CouchDB_URL default http://localhost:5984"
+    print " DatabaseName default 'chronicle'"
 
 def main ():
     if sys.argv[1] in ("-h", "--help"):
         usage()
         return
-    print(sys.argv)
+    print sys.argv
     directoryPath = sys.argv[1]
     global recorder # for ipython debugging
     recorder = ChronicleRecord()
@@ -254,7 +279,7 @@ if __name__ == '__main__':
             raise BaseException('missing arguments')
         main()
     except Exception, e:
-        print ('ERROR, UNEXPECTED EXCEPTION')
+        print 'ERROR, UNEXPECTED EXCEPTION'
         print str(e)
         traceback.print_exc()
 
