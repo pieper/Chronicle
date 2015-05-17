@@ -43,6 +43,9 @@ class ChronicleRecord():
         # these will not be included in the json
         self.BINARY_VR_VALUES = ['OW', 'OB', 'OW/OB', 'OW or OB', 'OB or OW', 'US or SS']
 
+        # these don't get auto-quoted by json for some reason
+        self.VRs_TO_QUOTE = ['DS', 'AT']
+
         print(self.couchDB_URL)
         self.couch = couchdb.Server(self.couchDB_URL)
         try:
@@ -63,7 +66,7 @@ class ChronicleRecord():
                 # recursive call to co-routine to format sequence contents
                 values.append(self.datasetToJSON(subelement))
             value = values
-        elif dataElement.VR == "DS":
+        elif dataElement.VR in self.VRs_TO_QUOTE:
             # switch to " from ' - why doesn't json do this?
             value = "%s" % dataElement.value
         else:
@@ -137,6 +140,8 @@ class ChronicleRecord():
                 mode = "I;16" # from sample code: "not sure about this
                             # -- PIL source says is 'experimental' and no documentation.
                             # Also, should bytes swap depending on endian of file and system??"
+            elif bits == 1 and samples == 1:
+                mode = "1"
             else:
                 raise TypeError, "Don't know PIL mode for %d BitsAllocated and %d SamplesPerPixel" % (bits, samples)
             # PIL size = (width, height)
@@ -222,6 +227,7 @@ class ChronicleRecord():
             doc_id, doc_rev = self.db.save(document)
         except:
             print('...failed to save!!!')
+            print(couchdb.json.encode(document).encode('utf-8'))
             return
 
         # attach png images to the object if possible
