@@ -19,6 +19,7 @@ import traceback
 import json
 import dicom
 import couchdb
+import argparse
 
 try:
     import PIL
@@ -231,9 +232,10 @@ class ChronicleRecord():
             return
 
         # attach png images to the object if possible
-        doc = self.db.get(doc_id)
-        images = self.imagesFromDataset(dataset)
-        for imageSize in images.keys():
+        if self.attachImages:
+          doc = self.db.get(doc_id)
+          images = self.imagesFromDataset(dataset)
+          for imageSize in images.keys():
             print('...thumbnail %d...' % imageSize)
             imageName = "image%d.png" % imageSize
             imagePath = "/tmp/" + imageName
@@ -244,10 +246,11 @@ class ChronicleRecord():
             os.remove(imagePath)
 
         # attach the original file
-        print('...attaching dicom object...')
-        fp = open(fileNamePath,'rb')
-        self.db.put_attachment(doc, fp, "object.dcm")
-        fp.close()
+        if self.attachOriginals:
+          print('...attaching dicom object...')
+          fp = open(fileNamePath,'rb')
+          self.db.put_attachment(doc, fp, "object.dcm")
+          fp.close()
 
         print ("...recorded %s" % dataset.SOPInstanceUID)
 
@@ -261,18 +264,21 @@ def usage():
     print (" DatabaseName default 'chronicle'")
 
 def main ():
-    if sys.argv[1] in ("-h", "--help"):
-        usage()
-        return
-    print(sys.argv)
-    path = sys.argv[1]
-    global recorder # for ipython debugging
-    recorder = ChronicleRecord()
-    if len(sys.argv) > 2:
-        recorder.couchDB_URL = sys.argv[2]
-    if len(sys.argv) > 3:
-        recorder.databaseName = sys.argv[3]
 
+    parser = argparse.ArgumentParser(description="Record DICOM documents into Chronicle of CouchDB")
+    parser.add_argument("inputDirectory",help="Input path to search for files to record")
+    parser.add_argument("--url",dest="couchDB_URL",type=str,default="http://localhost:5984",help="CouchDB instance URL")
+    parser.add_argument("--dbName",dest="databaseName",type=str,default="chronicle",help="Name of the database")
+    parser.add_argument("--dontAttachImages",dest="dontAttachImages",action="store_true",default=False,help="Flag to generate and attach image thumbnails")
+    parser.add_argument("--dontAttachOriginals",dest="dontAttachOriginals",action="store_true",default=False,help="Flag to attach original DICOM files")
+    ns = parser.parse_args()
+
+    global recorder # for ipython debugging
+    recorder = ChronicleRecord(couchDB_URL=ns.couchDB_URL,databaseName=ns.databaseName)
+    recorder.attachImages = not ns.dontAttachImages
+    recorder.attachOriginals = not ns.dontAttachOriginals
+
+    path = ns.inputDirectory
     if os.path.isdir(path):
       recorder.recordDirectory(path)
     elif os.path.isfile(path):
@@ -280,8 +286,6 @@ def main ():
 
 if __name__ == '__main__':
     try:
-        if len(sys.argv) < 2:
-            raise BaseException('missing arguments')
         main()
     except Exception, e:
         print ('ERROR, UNEXPECTED EXCEPTION')
