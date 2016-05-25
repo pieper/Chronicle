@@ -227,8 +227,12 @@ class ChronicleRecord():
             print('...saving...')
             doc_id, doc_rev = self.db.save(document)
         except:
+            # TODO: keep track of failed documents and error conditions
             print('...failed to save!!!')
-            print(couchdb.json.encode(document).encode('utf-8'))
+            try:
+                print(couchdb.json.encode(document).encode('utf-8'))
+            except UnicodeDecodeError:
+                print('Document contains non-ascii value');
             return
 
         # attach png images to the object if possible
