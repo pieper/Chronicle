@@ -210,9 +210,14 @@ class ChronicleRecord():
             return
 
         # check if instance is already in database
-        if self.db.get(dataset.SOPInstanceUID):
-            print("... %s already in database" % dataset.SOPInstanceUID)
-            return
+        document = self.db.get(dataset.SOPInstanceUID)
+        if document:
+            if self.forceUpload:
+                print("... deleting existing %s from database" % dataset.SOPInstanceUID)
+                self.db.delete(document)
+            else:
+                print("... %s already in database" % dataset.SOPInstanceUID)
+                return
 
         # make a couchdb document that contains the dataset in json
         jsonDictionary = self.datasetToJSON(dataset)
@@ -222,6 +227,9 @@ class ChronicleRecord():
             'dataset': jsonDictionary
         }
 
+        print('...saving...')
+        doc_id, doc_rev = self.db.save(document)
+
         # save the document
         try:
             print('...saving...')
@@ -230,6 +238,7 @@ class ChronicleRecord():
             # TODO: keep track of failed documents and error conditions
             print('...failed to save!!!')
             try:
+                print(couchdb.json.encode(document))
                 print(couchdb.json.encode(document).encode('utf-8'))
             except UnicodeDecodeError:
                 print('Document contains non-ascii value');
@@ -262,25 +271,22 @@ class ChronicleRecord():
 
 # {{{ main, test, and arg parse
 
-def usage():
-    print ("record [directoryPath] <CouchDB_URL> <DatabaseName>")
-    print (" CouchDB_URL default http://localhost:5984")
-    print (" DatabaseName default 'chronicle'")
-
 def main ():
 
     parser = argparse.ArgumentParser(description="Record DICOM documents into Chronicle of CouchDB")
     parser.add_argument("inputDirectory",help="Input path to search for files to record")
-    parser.add_argument("--url",dest="couchDB_URL",type=str,default="http://localhost:5984",help="CouchDB instance URL")
-    parser.add_argument("--dbName",dest="databaseName",type=str,default="chronicle",help="Name of the database")
-    parser.add_argument("--dontAttachImages",dest="dontAttachImages",action="store_true",default=False,help="Flag to generate and attach image thumbnails")
-    parser.add_argument("--dontAttachOriginals",dest="dontAttachOriginals",action="store_true",default=False,help="Flag to attach original DICOM files")
+    parser.add_argument("--url",dest="couchDB_URL",type=str,default="http://localhost:5984",help="CouchDB instance URL (default http://localhost:5984)")
+    parser.add_argument("--dbName",dest="databaseName",type=str,default="chronicle",help="Name of the database (default chronicle)")
+    parser.add_argument("--dontAttachImages",dest="dontAttachImages",action="store_true",default=False,help="Flag to generate and attach image thumbnails (default false)")
+    parser.add_argument("--dontAttachOriginals",dest="dontAttachOriginals",action="store_true",default=False,help="Flag to attach original DICOM files (default false)")
+    parser.add_argument("--force",dest="forceUpload",action="store_true",default=False,help="Force re-upload of already in database (default false)")
     ns = parser.parse_args()
 
     global recorder # for ipython debugging
     recorder = ChronicleRecord(couchDB_URL=ns.couchDB_URL,databaseName=ns.databaseName)
     recorder.attachImages = not ns.dontAttachImages
     recorder.attachOriginals = not ns.dontAttachOriginals
+    recorder.forceUpload = ns.forceUpload
 
     path = ns.inputDirectory
     if os.path.isdir(path):
