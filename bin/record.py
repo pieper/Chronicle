@@ -75,6 +75,11 @@ class ChronicleRecord():
             if isinstance(value, unicode):
                 value = value.encode('utf=8')
         try:
+            try:
+                couchdb.json.encode(value).encode('utf-8')
+            except ValueError:
+                print('Skipping non-encodable value', value)
+                value = "Not encodable"
             json = {
                 "vr" : dataElement.VR,
                 "Value" : value
