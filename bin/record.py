@@ -13,13 +13,14 @@ since full object is available already as attachment)
 
 """
 
+import argparse
+import couchdb
+import dicom
+import json
 import os
 import sys
+import tempfile
 import traceback
-import json
-import dicom
-import couchdb
-import argparse
 
 try:
     import PIL
@@ -256,8 +257,9 @@ class ChronicleRecord():
           for imageSize in images.keys():
             print('...thumbnail %d...' % imageSize)
             imageName = "image%d.png" % imageSize
-            imagePath = "/tmp/" + imageName
-            images[imageSize].save(imagePath) # TODO: generalize
+            imageFD, imagePath = tempfile.mkstemp(suffix='.png')
+            os.fdopen(imageFD,'w').close()
+            images[imageSize].save(imagePath)
             fp = open(imagePath)
             self.db.put_attachment(doc, fp, imageName)
             fp.close()
