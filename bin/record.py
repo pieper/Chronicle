@@ -15,21 +15,25 @@ since full object is available already as attachment)
 
 import argparse
 import couchdb
-import dicom
+import pydicom
 import json
+import numpy
 import os
 import sys
 import tempfile
 import traceback
 
+haveImage = True
 try:
     import PIL
     import PIL.Image as Image
 except ImportError:
     # for some reason easy_install doesn't generate a PIL layer on mac
-    import Image
+    try:
+        import Image
+    except ImportError:
+        haveImage = False
 
-import numpy
 
 
 # {{{ ChronicleRecord
@@ -73,10 +77,17 @@ class ChronicleRecord():
             value = "%s" % dataElement.value
         else:
             value = dataElement.value
-            if isinstance(value, unicode):
-                value = value.encode('utf=8')
+            if isinstance(value, bytes):
+                value = value.encode('utf-8')
+            elif isinstance(value, pydicom.valuerep.PersonName3):
+                print(f"PersonName3: {value}")
+                if value.original_string:
+                  value = value.original_string.decode()
+                else:
+                  value = ""
         try:
             try:
+                print(f"serializing {value}, {dataElement.VR}")
                 couchdb.json.encode(value).encode('utf-8')
             except ValueError:
                 print('Skipping non-encodable value', value)
@@ -134,6 +145,9 @@ class ChronicleRecord():
             # DICOM dataset does not have pixel data
             print('no pixels')
             return None
+        if ('SamplesperPixel' not in dataset):
+            print('no samples')
+            return None
         if ('WindowWidth' not in dataset) or ('WindowCenter' not in dataset):
             print("No window width or center in the dataset")
             # no width/center, so use whole
@@ -150,7 +164,7 @@ class ChronicleRecord():
             elif bits == 1 and samples == 1:
                 mode = "1"
             else:
-                raise TypeError, "Don't know PIL mode for %d BitsAllocated and %d SamplesPerPixel" % (bits, samples)
+                raise TypeError("Don't know PIL mode for %d BitsAllocated and %d SamplesPerPixel" % (bits, samples))
             # PIL size = (width, height)
             size = (dataset.Columns, dataset.Rows)
             # Recommended to specify all details by
@@ -210,7 +224,7 @@ class ChronicleRecord():
 
         # create dataset, skip non-dicom
         try:
-            dataset = dicom.read_file(fileNamePath)
+            dataset = pydicom.read_file(fileNamePath)
         except:
             print("...apparently not dicom")
             return
@@ -304,9 +318,9 @@ def main ():
 if __name__ == '__main__':
     try:
         main()
-    except Exception, e:
+    except Exception as e:
         print ('ERROR, UNEXPECTED EXCEPTION')
-        print str(e)
+        print (str(e))
         traceback.print_exc()
 
 # }}}
