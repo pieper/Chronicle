@@ -22,7 +22,6 @@ import os
 import sys
 import tempfile
 import traceback
-import pdb
 
 haveImage = True
 try:
@@ -65,10 +64,6 @@ class ChronicleRecord():
         """Returns a json dictionary which is either a single
         element or a dictionary of elements representing a sequnce.
         """
-        # DELETE
-        # if dataElement.tag == pydicom.tag.BaseTag(0x00101001):
-        #     pdb.set_trace()
-        # DELETE
         if dataElement.VR in self.BINARY_VR_VALUES:
             value = "Binary Omitted"
         elif dataElement.VR == "SQ":
@@ -86,16 +81,13 @@ class ChronicleRecord():
                 value = value.encode('utf-8')
             elif isinstance(value, pydicom.valuerep.PersonName):
                 print(f"PersonName: {value}")
-                # pdb.set_trace()
                 if value.original_string:
                   value = value.original_string.decode()
                 else:
                   value = ""
-        # try:
         try:
             print(f"serializing {value}, {dataElement.VR}")
             if isinstance(value, pydicom.multival.MultiValue):
-                # pdb.set_trace()
                 value = [str(i) for i in value]
             else:
                 couchdb.json.encode(value).encode('utf-8')
@@ -106,8 +98,6 @@ class ChronicleRecord():
             "vr" : dataElement.VR,
             "Value" : value
         }
-        # except UnboundLocalError:
-        #     print ("UnboundLocalError: ", dataElement)
         return json
 
     def datasetToJSON(self,dataset):
@@ -125,7 +115,6 @@ class ChronicleRecord():
             jkey = "%04X%04X" % (key.group,key.element)
             try:
                 dataElement = dataset[key]
-                # pdb.set_trace()
                 jsonDictionary[jkey] = self.dataElementToJSON(dataElement)
             except KeyError:
                 print("KeyError: ", key)
@@ -226,7 +215,6 @@ class ChronicleRecord():
     def recordDirectory(self,directoryPath):
         """Perform the record"""
         for root, dirs, files in os.walk(directoryPath):
-            # pdb.set_trace()
             for fileName in files:
                 fileNamePath = os.path.join(root,fileName)
                 self.recordFile(fileNamePath)
@@ -258,34 +246,8 @@ class ChronicleRecord():
             'dataset': jsonDictionary
         }
 
-        print('...saving...')
-        for data_tag in document['dataset'].keys():
-            dt = data_tag
-            t = document['dataset'][data_tag]
-            if not isinstance(dt,str) or not isinstance(t,dict):
-                # pass
-                print("really though")
-                # pdb.set_trace()
-
-        # DELETE
-        # del document['dataset']['00101001']
-        # document['dataset']['00082112']
-        # document['dataset'] = document['dataset']['00082112']
-        # document['dataset']['00400007']
-        # fake_document = dict(document)
-        # for key in document['dataset'].keys():
-        #     print(key)
-        #     fake_document['dataset'] = {key: document['dataset'][key]}
-        #     # pdb.set_trace()
-        #     # if key == "00101001":
-        #     if key == "00080008":
-        #         print("###################")
-        #         pdb.set_trace()
-        #     doc_id, doc_rev = self.db.save(fake_document)
-        # DELETE
-        
+        print('...saving...')        
         doc_id, doc_rev = self.db.save(document)
-
         # save the document
         try:
             print('...saving...')
