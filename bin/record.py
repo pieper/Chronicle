@@ -79,25 +79,25 @@ class ChronicleRecord():
             value = dataElement.value
             if isinstance(value, bytes):
                 value = value.encode('utf-8')
-            elif isinstance(value, pydicom.valuerep.PersonName3):
-                print(f"PersonName3: {value}")
+            elif isinstance(value, pydicom.valuerep.PersonName):
+                print(f"PersonName: {value}")
                 if value.original_string:
                   value = value.original_string.decode()
                 else:
                   value = ""
         try:
-            try:
-                print(f"serializing {value}, {dataElement.VR}")
+            print(f"serializing {value}, {dataElement.VR}")
+            if isinstance(value, pydicom.multival.MultiValue):
+                value = [str(i) for i in value]
+            else:
                 couchdb.json.encode(value).encode('utf-8')
-            except ValueError:
-                print('Skipping non-encodable value', value)
-                value = "Not encodable"
-            json = {
-                "vr" : dataElement.VR,
-                "Value" : value
-            }
-        except UnboundLocalError:
-            print ("UnboundLocalError: ", dataElement)
+        except ValueError:
+            print('Skipping non-encodable value', value)
+            value = "Not encodable"
+        json = {
+            "vr" : dataElement.VR,
+            "Value" : value
+        }
         return json
 
     def datasetToJSON(self,dataset):
@@ -221,7 +221,6 @@ class ChronicleRecord():
 
     def recordFile(self,fileNamePath):
         print("Considering file: %s" % fileNamePath)
-
         # create dataset, skip non-dicom
         try:
             dataset = pydicom.read_file(fileNamePath)
@@ -247,9 +246,8 @@ class ChronicleRecord():
             'dataset': jsonDictionary
         }
 
-        print('...saving...')
+        print('...saving...')        
         doc_id, doc_rev = self.db.save(document)
-
         # save the document
         try:
             print('...saving...')
