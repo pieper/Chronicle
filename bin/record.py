@@ -269,16 +269,16 @@ class ChronicleRecord():
         if self.attachImages:
             doc = self.db.get(doc_id)
             images = self.imagesFromDataset(dataset)
-          for imageSize in [512]: #images.keys():
-              print('...thumbnail %d...' % imageSize)
-              imageName = "image%d.png" % imageSize
-              imageFD, imagePath = tempfile.mkstemp(suffix='.png')
-              os.fdopen(imageFD,'w').close()
-              images[imageSize].save(imagePath)
-              fp = open(imagePath, "rb")
-              self.db.put_attachment(doc, fp, imageName, content_type='image/png')
-              fp.close()
-              os.remove(imagePath)
+            for imageSize in images.keys():
+                print('...thumbnail %d...' % imageSize)
+                imageName = "image%d.png" % imageSize
+                imageFD, imagePath = tempfile.mkstemp(suffix='.png')
+                os.fdopen(imageFD,'w').close()
+                images[imageSize].save(imagePath)
+                fp = open(imagePath, "rb")
+                self.db.put_attachment(doc, fp, imageName, content_type='image/png')
+                fp.close()
+                os.remove(imagePath)
 
         # attach the original file
         if self.attachOriginals:
