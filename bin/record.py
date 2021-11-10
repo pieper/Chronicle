@@ -78,7 +78,10 @@ class ChronicleRecord():
         else:
             value = dataElement.value
             if isinstance(value, bytes):
-                value = value.encode('utf-8')
+                try:
+                    value = value.encode('utf-8')
+                except AttributeError:
+                    value = str(value) # Private tags have non-standard 
             elif isinstance(value, pydicom.valuerep.PersonName):
                 print(f"PersonName: {value}")
                 if value.original_string:
@@ -145,7 +148,7 @@ class ChronicleRecord():
             # DICOM dataset does not have pixel data
             print('no pixels')
             return None
-        if ('SamplesperPixel' not in dataset):
+        if ('SamplesPerPixel' not in dataset):
             print('no samples')
             return None
         if ('WindowWidth' not in dataset) or ('WindowCenter' not in dataset):
@@ -264,18 +267,18 @@ class ChronicleRecord():
 
         # attach png images to the object if possible
         if self.attachImages:
-          doc = self.db.get(doc_id)
-          images = self.imagesFromDataset(dataset)
-          for imageSize in images.keys():
-            print('...thumbnail %d...' % imageSize)
-            imageName = "image%d.png" % imageSize
-            imageFD, imagePath = tempfile.mkstemp(suffix='.png')
-            os.fdopen(imageFD,'w').close()
-            images[imageSize].save(imagePath)
-            fp = open(imagePath)
-            self.db.put_attachment(doc, fp, imageName)
-            fp.close()
-            os.remove(imagePath)
+            doc = self.db.get(doc_id)
+            images = self.imagesFromDataset(dataset)
+          for imageSize in [512]: #images.keys():
+              print('...thumbnail %d...' % imageSize)
+              imageName = "image%d.png" % imageSize
+              imageFD, imagePath = tempfile.mkstemp(suffix='.png')
+              os.fdopen(imageFD,'w').close()
+              images[imageSize].save(imagePath)
+              fp = open(imagePath, "rb")
+              self.db.put_attachment(doc, fp, imageName, content_type='image/png')
+              fp.close()
+              os.remove(imagePath)
 
         # attach the original file
         if self.attachOriginals:
