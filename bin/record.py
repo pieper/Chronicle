@@ -79,9 +79,9 @@ class ChronicleRecord():
             value = dataElement.value
             if isinstance(value, bytes):
                 try:
-                    value = value.encode('utf-8')
+                    value = value.decode('utf-8')
                 except AttributeError:
-                    value = str(value) # Private tags have non-standard 
+                    value = str(value) # Private tags have non-standard encoding and we don't know what it is necessarily
             elif isinstance(value, pydicom.valuerep.PersonName):
                 print(f"PersonName: {value}")
                 if value.original_string:
